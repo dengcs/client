@@ -61,7 +61,7 @@ package com.google.protobuf
 			if (arraybuffer != null)
 			{
 				var buffer:Uint8Array = super.getUint8Array(offset, length);
-				arraybuffer.writeArrayBuffer(buffer,0,length);
+				arraybuffer.writeArrayBuffer(buffer,0,buffer.length);
 			}			
 		}
 	}

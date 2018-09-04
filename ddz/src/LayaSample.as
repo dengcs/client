@@ -7,7 +7,20 @@
 	import laya.wx.mini.MiniAdpter;
 	import laya.utils.Handler;
 	import game.query_players;
+	import game.NetMessage;
+	import game.NetError;
+	import game.NetHeader;
+	import laya.events.Event;
+	import laya.net.Socket;
+	import laya.utils.Byte;
+	import com.google.protobuf.Message;
+	import com.google.protobuf.ByteArray;
+	import com.google.protobuf.Int64;
+	import com.google.protobuf.CodedInputStream;
+	import com.google.protobuf.CodedOutputStream;
 	public class LayaSample {
+		private var socket:Socket;
+		private var output:Byte;
 		
 		public function LayaSample() {
 			MiniAdpter.init();
@@ -32,7 +45,16 @@
 		}
 		
 		private function onLoaded():void {
+			socket = new Socket();
+			//socket.connect("echo.websocket.org", 80);
+			socket.connectByUrl("ws://192.168.188.83:51001");
 			
+			output = socket.output;
+			
+			socket.on(Event.OPEN, this, onSocketOpen);
+			socket.on(Event.CLOSE, this, onSocketClose);
+			socket.on(Event.MESSAGE, this, onMessageReveived);
+			socket.on(Event.ERROR, this, onConnectError);
 		}
 		
 
@@ -41,6 +63,51 @@
 			var urls:Array=[];
 
 			return urls;
-		}	
+		}
+
+		private function onSocketOpen(e:*=null):void
+		{
+			trace("Connected");
+
+			var ntError:NetError = new NetError();
+			var ntHeader:NetHeader = new NetHeader();
+			var ntMessage:NetMessage = new NetMessage();
+			var q_player:query_players = new query_players();
+
+			ntError.code = 1;
+			ntHeader.uid = "100001";
+			ntHeader.proto = "query_players";
+			ntMessage.error = ntError;
+			ntMessage.header = ntHeader;
+			//var sendMsg:ByteArray = Message.toByteArray(ntMessage);
+			//trace("length",sendMsg.length);
+			
+			//output.writeArrayBuffer(sendMsg, 0, sendMsg.length);
+
+			//socket.flush();
+
+			var bytes:ByteArray = new ByteArray();
+			ntHeader.writeTo(new CodedOutputStream(bytes));
+			trace(bytes.length)
+			var readheader:NetHeader = new NetHeader();
+			bytes.position = 0;
+			readheader.readFrom(new CodedInputStream(bytes, bytes.length));
+			trace(readheader);
+		}
+		
+		private function onSocketClose(e:*=null):void
+		{
+			trace("Socket closed");
+		}
+		
+		private function onMessageReveived(message:*=null):void
+		{
+			trace("Message from server:");
+		}
+
+		private function onConnectError(e:Event=null):void
+		{
+			trace("error");
+		}
 	}
 }

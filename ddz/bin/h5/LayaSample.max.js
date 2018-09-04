@@ -2064,6 +2064,8 @@ var GameConstants=(function(){
 //class LayaSample
 var LayaSample=(function(){
 	function LayaSample(){
+		this.socket=null;
+		this.output=null;
 		MiniAdpter.init();
 		Laya.init(1140,GameConstants.stageHeight,WebGL);
 		Laya.stage.alignH="center";
@@ -2080,10 +2082,51 @@ var LayaSample=(function(){
 		this.onLoaded();
 	}
 
-	__proto.onLoaded=function(){}
+	__proto.onLoaded=function(){
+		this.socket=new Socket();
+		this.socket.connectByUrl("ws://192.168.188.83:51001");
+		this.output=this.socket.output;
+		this.socket.on("open",this,this.onSocketOpen);
+		this.socket.on("close",this,this.onSocketClose);
+		this.socket.on("message",this,this.onMessageReveived);
+		this.socket.on("error",this,this.onConnectError);
+	}
+
 	__proto.atlasUrls=function(){
 		var urls=[];
 		return urls;
+	}
+
+	__proto.onSocketOpen=function(e){
+		console.log("Connected");
+		var ntError=new NetError();
+		var ntHeader=new NetHeader();
+		var ntMessage=new NetMessage();
+		var q_player=new query_players();
+		ntError.code=1;
+		ntHeader.uid="100001";
+		ntHeader.proto="query_players";
+		ntMessage.error=ntError;
+		ntMessage.header=ntHeader;
+		var bytes=new ByteArray();
+		ntHeader.writeTo(new CodedOutputStream(bytes));
+		console.log(bytes.length)
+		var readheader=new NetHeader();
+		bytes.position=0;
+		readheader.readFrom(new CodedInputStream(bytes,bytes.length));
+		console.log(readheader);
+	}
+
+	__proto.onSocketClose=function(e){
+		console.log("Socket closed");
+	}
+
+	__proto.onMessageReveived=function(message){
+		console.log("Message from server:");
+	}
+
+	__proto.onConnectError=function(e){
+		console.log("error");
 	}
 
 	return LayaSample;
@@ -16821,10 +16864,7 @@ var ByteArray=(function(_super){
 	__proto.readBytes=function(arraybuffer,offset,length){
 		(offset===void 0)&& (offset=0);
 		(length===void 0)&& (length=0);
-		if (arraybuffer !=null){
-			var buffer=this.getUint8Array(offset,length);
-			arraybuffer.writeArrayBuffer(buffer,0,length);
-		}
+		arraybuffer.writeArrayBuffer(this,offset,length);
 	}
 
 	__getset(0,__proto,'position',function(){
@@ -16835,6 +16875,191 @@ var ByteArray=(function(_super){
 
 	return ByteArray;
 })(Byte)
+
+
+//class game.NetError extends com.google.protobuf.Message
+var NetError=(function(_super){
+	function NetError(){
+		this._code=0;
+		NetError.__super.call(this);
+	}
+
+	__class(NetError,'game.NetError',_super);
+	var __proto=NetError.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._code==0)){
+			output.writeUInt32(1,this._code);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 8:{
+						this._code=input.readUInt32();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'code',function(){
+		return this._code;
+		},function(value){
+		this._code=value;
+	});
+
+	return NetError;
+})(Message)
+
+
+//class game.NetHeader extends com.google.protobuf.Message
+var NetHeader=(function(_super){
+	function NetHeader(){
+		this._uid="";
+		this._proto="";
+		NetHeader.__super.call(this);
+	}
+
+	__class(NetHeader,'game.NetHeader',_super);
+	var __proto=NetHeader.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._uid.length==0)){
+			output.writeString(1,this._uid);
+		}
+		if (!(this._proto.length==0)){
+			output.writeString(2,this._proto);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 10:{
+						this._uid=input.readString();
+						break ;
+					}
+				case 18:{
+						this._proto=input.readString();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'uid',function(){
+		return this._uid;
+		},function(value){
+		this._uid=value || "";
+	});
+
+	__getset(0,__proto,'proto',function(){
+		return this._proto;
+		},function(value){
+		this._proto=value || "";
+	});
+
+	return NetHeader;
+})(Message)
+
+
+//class game.NetMessage extends com.google.protobuf.Message
+var NetMessage=(function(_super){
+	function NetMessage(){
+		this._header=null;
+		this._error=null;
+		NetMessage.__super.call(this);
+		this._payload=new ByteArray();
+	}
+
+	__class(NetMessage,'game.NetMessage',_super);
+	var __proto=NetMessage.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._header==null)){
+			output.writeMessage(1,this._header);
+		}
+		if (!(this._error==null)){
+			output.writeMessage(2,this._error);
+		}
+		if (!(this._payload.length==0)){
+			output.writeBytes(3,this._payload);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 10:{
+						this._header=new game.NetHeader();
+						input.readMessage(this._header);
+						break ;
+					}
+				case 18:{
+						this._error=new game.NetError();
+						input.readMessage(this._error);
+						break ;
+					}
+				case 26:{
+						this._payload=input.readBytes();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'header',function(){
+		return this._header;
+		},function(value){
+		this._header=value;
+	});
+
+	__getset(0,__proto,'error',function(){
+		return this._error;
+		},function(value){
+		this._error=value;
+	});
+
+	__getset(0,__proto,'payload',function(){
+		return this._payload;
+		},function(value){
+		this._payload=value || new ByteArray();
+	});
+
+	return NetMessage;
+})(Message)
 
 
 //class game.query_players extends com.google.protobuf.Message
@@ -19391,6 +19616,262 @@ var Loader=(function(_super){
 	Loader._startIndex=0;
 	Loader.imgCache={};
 	return Loader;
+})(EventDispatcher)
+
+
+/**
+*<p> <code>Socket</code> 封装了 HTML5 WebSocket ，允许服务器端与客户端进行全双工（full-duplex）的实时通信，并且允许跨域通信。在建立连接后，服务器和 Browser/Client Agent 都能主动的向对方发送或接收文本和二进制数据。</p>
+*<p>要使用 <code>Socket</code> 类的方法，请先使用构造函数 <code>new Socket</code> 创建一个 <code>Socket</code> 对象。 <code>Socket</code> 以异步方式传输和接收数据。</p>
+*/
+//class laya.net.Socket extends laya.events.EventDispatcher
+var Socket=(function(_super){
+	function Socket(host,port,byteClass){
+		/**@private */
+		this._endian=null;
+		/**@private */
+		this._stamp=NaN;
+		/**@private */
+		this._socket=null;
+		/**@private */
+		this._connected=false;
+		/**@private */
+		this._addInputPosition=0;
+		/**@private */
+		this._input=null;
+		/**@private */
+		this._output=null;
+		/**
+		*@private
+		*表示建立连接时需等待的毫秒数。
+		*/
+		this.timeout=0;
+		/**
+		*@private
+		*在写入或读取对象时，控制所使用的 AMF 的版本。
+		*/
+		this.objectEncoding=0;
+		/**
+		*不再缓存服务端发来的数据。
+		*/
+		this.disableInput=false;
+		/**
+		*用来发送和接收数据的 <code>Byte</code> 类。
+		*/
+		this._byteClass=null;
+		/**
+		*<p>子协议名称。子协议名称字符串，或由多个子协议名称字符串构成的数组。必须在调用 connect 或者 connectByUrl 之前进行赋值，否则无效。</p>
+		*<p>指定后，只有当服务器选择了其中的某个子协议，连接才能建立成功，否则建立失败，派发 Event.ERROR 事件。</p>
+		*@see https://html.spec.whatwg.org/multipage/comms.html#dom-websocket
+		*/
+		this.protocols=[];
+		(port===void 0)&& (port=0);
+		Socket.__super.call(this);
+		this._byteClass=byteClass ? byteClass :Byte;
+		this.endian="bigEndian";
+		this.timeout=20000;
+		this._addInputPosition=0;
+		if (host && port > 0 && port < 65535)
+			this.connect(host,port);
+	}
+
+	__class(Socket,'laya.net.Socket',_super);
+	var __proto=Socket.prototype;
+	/**
+	*<p>连接到指定的主机和端口。</p>
+	*<p>连接成功派发 Event.OPEN 事件；连接失败派发 Event.ERROR 事件；连接被关闭派发 Event.CLOSE 事件；接收到数据派发 Event.MESSAGE 事件； 除了 Event.MESSAGE 事件参数为数据内容，其他事件参数都是原生的 HTML DOM Event 对象。</p>
+	*@param host 服务器地址。
+	*@param port 服务器端口。
+	*/
+	__proto.connect=function(host,port){
+		var url="ws://"+host+":"+port;
+		if (Browser.window.location.protocol=="https:"){
+			url="wss://"+host+":"+port;
+			}else {
+			url="ws://"+host+":"+port;
+		}
+		this.connectByUrl(url);
+	}
+
+	/**
+	*<p>连接到指定的服务端 WebSocket URL。 URL 类似 ws://yourdomain:port。</p>
+	*<p>连接成功派发 Event.OPEN 事件；连接失败派发 Event.ERROR 事件；连接被关闭派发 Event.CLOSE 事件；接收到数据派发 Event.MESSAGE 事件； 除了 Event.MESSAGE 事件参数为数据内容，其他事件参数都是原生的 HTML DOM Event 对象。</p>
+	*@param url 要连接的服务端 WebSocket URL。 URL 类似 ws://yourdomain:port。
+	*/
+	__proto.connectByUrl=function(url){
+		var _$this=this;
+		if (this._socket !=null)
+			this.close();
+		this._socket && this.cleanSocket();
+		if (!this.protocols || this.protocols.length==0){
+			this._socket=new Browser.window.WebSocket(url);
+			}else {
+			this._socket=new Browser.window.WebSocket(url,this.protocols);
+		}
+		this._socket.binaryType="arraybuffer";
+		this._output=new this._byteClass();
+		this._output.endian=this.endian;
+		this._input=new this._byteClass();
+		this._input.endian=this.endian;
+		this._addInputPosition=0;
+		this._socket.onopen=function (e){
+			_$this._onOpen(e);
+		};
+		this._socket.onmessage=function (msg){
+			_$this._onMessage(msg);
+		};
+		this._socket.onclose=function (e){
+			_$this._onClose(e);
+		};
+		this._socket.onerror=function (e){
+			_$this._onError(e);
+		};
+	}
+
+	/**
+	*清理socket。
+	*/
+	__proto.cleanSocket=function(){
+		try {
+			this._socket.close();
+		}catch (e){}
+		this._connected=false;
+		this._socket.onopen=null;
+		this._socket.onmessage=null;
+		this._socket.onclose=null;
+		this._socket.onerror=null;
+		this._socket=null;
+	}
+
+	/**
+	*关闭连接。
+	*/
+	__proto.close=function(){
+		if (this._socket !=null){
+			try {
+				this._socket.close();
+			}catch (e){}
+		}
+	}
+
+	/**
+	*@private
+	*连接建立成功 。
+	*/
+	__proto._onOpen=function(e){
+		this._connected=true;
+		this.event("open",e);
+	}
+
+	/**
+	*@private
+	*接收到数据处理方法。
+	*@param msg 数据。
+	*/
+	__proto._onMessage=function(msg){
+		if (!msg || !msg.data)return;
+		var data=msg.data;
+		if (this.disableInput && data){
+			this.event("message",data);
+			return;
+		}
+		if (this._input.length > 0 && this._input.bytesAvailable < 1){
+			this._input.clear();
+			this._addInputPosition=0;
+		};
+		var pre=this._input.pos;
+		!this._addInputPosition && (this._addInputPosition=0);
+		this._input.pos=this._addInputPosition;
+		if (data){
+			if ((typeof data=='string')){
+				this._input.writeUTFBytes(data);
+				}else {
+				this._input.writeArrayBuffer(data);
+			}
+			this._addInputPosition=this._input.pos;
+			this._input.pos=pre;
+		}
+		this.event("message",data);
+	}
+
+	/**
+	*@private
+	*连接被关闭处理方法。
+	*/
+	__proto._onClose=function(e){
+		this._connected=false;
+		this.event("close",e)
+	}
+
+	/**
+	*@private
+	*出现异常处理方法。
+	*/
+	__proto._onError=function(e){
+		this.event("error",e)
+	}
+
+	/**
+	*发送数据到服务器。
+	*@param data 需要发送的数据，可以是String或者ArrayBuffer。
+	*/
+	__proto.send=function(data){
+		this._socket.send(data);
+	}
+
+	/**
+	*发送缓冲区中的数据到服务器。
+	*/
+	__proto.flush=function(){
+		if (this._output && this._output.length > 0){
+			var evt;
+			try {
+				this._socket && this._socket.send(this._output.__getBuffer().slice(0,this._output.length));
+				}catch (e){
+				evt=e;
+			}
+			this._output.endian=this.endian;
+			this._output.clear();
+			if (evt)this.event("error",evt);
+		}
+	}
+
+	/**
+	*缓存的服务端发来的数据。
+	*/
+	__getset(0,__proto,'input',function(){
+		return this._input;
+	});
+
+	/**
+	*表示需要发送至服务端的缓冲区中的数据。
+	*/
+	__getset(0,__proto,'output',function(){
+		return this._output;
+	});
+
+	/**
+	*表示此 Socket 对象目前是否已连接。
+	*/
+	__getset(0,__proto,'connected',function(){
+		return this._connected;
+	});
+
+	/**
+	*<p>主机字节序，是 CPU 存放数据的两种不同顺序，包括小端字节序和大端字节序。</p>
+	*<p> LITTLE_ENDIAN ：小端字节序，地址低位存储值的低位，地址高位存储值的高位。</p>
+	*<p> BIG_ENDIAN ：大端字节序，地址低位存储值的高位，地址高位存储值的低位。</p>
+	*/
+	__getset(0,__proto,'endian',function(){
+		return this._endian;
+		},function(value){
+		this._endian=value;
+		if (this._input !=null)this._input.endian=value;
+		if (this._output !=null)this._output.endian=value;
+	});
+
+	Socket.LITTLE_ENDIAN="littleEndian";
+	Socket.BIG_ENDIAN="bigEndian";
+	return Socket;
 })(EventDispatcher)
 
 

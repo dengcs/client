@@ -22,7 +22,7 @@ package com.google.protobuf
 		
 		public function writeBytes(arraybuffer:*, offset:uint = 0, length:uint = 0):void
 		{
-			super.writeArrayBuffer(arraybuffer,offset,length);
+			super.writeArrayBuffer(arraybuffer, offset, length);
 		}
 		
 		public function writeFloat(value:Number):void
@@ -56,13 +56,9 @@ package com.google.protobuf
 			return super.getFloat64();
 		}
 		
-		public function readBytes(arraybuffer:ByteArray, offset:uint = 0, length:uint = 0):void
+		public function readBytes(arraybuffer:*, offset:uint = 0, length:uint = 0):void
 		{
-			if (arraybuffer != null)
-			{
-				var buffer:Uint8Array = super.getUint8Array(offset, length);
-				arraybuffer.writeArrayBuffer(buffer,0,buffer.length);
-			}			
+			arraybuffer.writeArrayBuffer(this, offset, length);
 		}
 	}
 

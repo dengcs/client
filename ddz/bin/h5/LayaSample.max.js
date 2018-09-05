@@ -2061,6 +2061,106 @@ var GameConstants=(function(){
 })()
 
 
+/**
+*...
+*@dengcs
+*/
+//class game.net.NetClient
+var NetClient=(function(){
+	function NetClient(){}
+	__class(NetClient,'game.net.NetClient');
+	NetClient.send=function(protoName,msg){
+		var ntHeader=new NetHeader();
+		var ntMessage=new NetMessage();
+		ntHeader.proto=protoName;
+		ntMessage.header=ntHeader;
+		var payload=Message.toByteArray(msg);
+		ntMessage.payload=payload;
+		var sendMsg=Message.toByteArray(ntMessage);
+		SocketSingleton.getInstance().sendAndFlush(sendMsg.getUint8Array(0,sendMsg.length));
+	}
+
+	return NetClient;
+})()
+
+
+/**
+*...
+*@dengcs
+*/
+//class game.net.SocketSingleton
+var SocketSingleton=(function(){
+	function SocketSingleton(){
+		this.socket=null;
+		if (SocketSingleton._instance !=null){
+			throw new Error("只能用getInstance()来获取实例!");
+			}else{
+			this.socket=new Socket();
+		}
+	}
+
+	__class(SocketSingleton,'game.net.SocketSingleton');
+	var __proto=SocketSingleton.prototype;
+	__proto.connectToServer=function(url){
+		if(this.socket==null){
+			this.socket=new Socket();
+		}
+		if(this.socket.connected){
+			this.socket.cleanSocket();
+		}
+		this.socket.connectByUrl(url);
+		this.socket.on("open",this,this.onSocketOpen);
+		this.socket.on("close",this,this.onSocketClose);
+		this.socket.on("message",this,this.onMessageReveived);
+		this.socket.on("error",this,this.onConnectError);
+	}
+
+	__proto.sendAndFlush=function(data){
+		if(this.socket.connected==false){
+			throw new Error("请调用connectToServer建立到服务器的连接!");
+			}else{
+			this.socket.send(data);
+			this.socket.flush();
+		}
+	}
+
+	__proto.onSocketOpen=function(e){
+		console.log("Connected");
+		var q_player=new query_players();
+		q_player.account="dcs1004";
+		NetClient.send("query_players",q_player);
+	}
+
+	__proto.onSocketClose=function(e){
+		console.log("closed");
+	}
+
+	__proto.onMessageReveived=function(message){
+		console.log("reveived");
+		var bytes=new ByteArray(message);
+		var ntMessage=new NetMessage();
+		ntMessage.readFrom(new CodedInputStream(bytes));
+		var resp_q=new query_players_resp();
+		resp_q.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_q)
+	}
+
+	__proto.onConnectError=function(e){
+		console.log("error");
+	}
+
+	SocketSingleton.getInstance=function(){
+		if (SocketSingleton._instance==null){
+			SocketSingleton._instance=new SocketSingleton();
+		}
+		return SocketSingleton._instance;
+	}
+
+	SocketSingleton._instance=null;
+	return SocketSingleton;
+})()
+
+
 //class LayaSample
 var LayaSample=(function(){
 	function LayaSample(){
@@ -2083,49 +2183,12 @@ var LayaSample=(function(){
 	}
 
 	__proto.onLoaded=function(){
-		this.socket=new Socket();
-		this.socket.connectByUrl("ws://192.168.188.83:51001");
-		this.output=this.socket.output;
-		this.socket.on("open",this,this.onSocketOpen);
-		this.socket.on("close",this,this.onSocketClose);
-		this.socket.on("message",this,this.onMessageReveived);
-		this.socket.on("error",this,this.onConnectError);
+		SocketSingleton.getInstance().connectToServer("ws://192.168.188.83:51001");
 	}
 
 	__proto.atlasUrls=function(){
 		var urls=[];
 		return urls;
-	}
-
-	__proto.onSocketOpen=function(e){
-		console.log("Connected");
-		var ntError=new NetError();
-		var ntHeader=new NetHeader();
-		var ntMessage=new NetMessage();
-		var q_player=new query_players();
-		ntHeader.uid="100001";
-		ntHeader.proto="query_players";
-		ntMessage.error=ntError;
-		ntMessage.header=ntHeader;
-		q_player.account="dcs1001";
-		var payload=Message.toByteArray(q_player);
-		ntMessage.payload=payload;
-		var sendMsg=Message.toByteArray(ntMessage);
-		this.output.writeArrayBuffer(sendMsg.getUint8Array(0,sendMsg.length),0,sendMsg.length);
-		this.socket.flush();
-	}
-
-	// trace(readheader);
-	__proto.onSocketClose=function(e){
-		console.log("Socket closed");
-	}
-
-	__proto.onMessageReveived=function(message){
-		console.log("Message from server:");
-	}
-
-	__proto.onConnectError=function(e){
-		console.log("error");
 	}
 
 	return LayaSample;
@@ -17109,6 +17172,53 @@ var query_players=(function(_super){
 })(Message)
 
 
+//class game.query_players_resp extends com.google.protobuf.Message
+var query_players_resp=(function(_super){
+	function query_players_resp(){
+		this._ret=0;
+		query_players_resp.__super.call(this);
+	}
+
+	__class(query_players_resp,'game.query_players_resp',_super);
+	var __proto=query_players_resp.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._ret==0)){
+			output.writeUInt32(1,this._ret);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 8:{
+						this._ret=input.readUInt32();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'ret',function(){
+		return this._ret;
+		},function(value){
+		this._ret=value;
+	});
+
+	return query_players_resp;
+})(Message)
+
+
 /**
 *@private
 *<code>Resource</code> 资源存取类。
@@ -23148,6 +23258,17 @@ var ShaderDefines2D=(function(_super){
 	ShaderDefines2D.__int2nameMap=[];
 	return ShaderDefines2D;
 })(ShaderDefines$1)
+
+
+//class laya.webgl.shapes.Ellipse extends laya.webgl.shapes.BasePoly
+var Ellipse=(function(_super){
+	function Ellipse(x,y,width,height,color,borderWidth,borderColor){
+		Ellipse.__super.call(this,x,y,width,height,40,color,borderWidth,borderColor);
+	}
+
+	__class(Ellipse,'laya.webgl.shapes.Ellipse',_super);
+	return Ellipse;
+})(BasePoly)
 
 
 //class laya.webgl.shapes.Line extends laya.webgl.shapes.BasePoly

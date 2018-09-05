@@ -18,6 +18,9 @@
 	import com.google.protobuf.Int64;
 	import com.google.protobuf.CodedInputStream;
 	import com.google.protobuf.CodedOutputStream;
+	import game.query_players_resp;
+	import game.net.NetClient;
+	import game.net.SocketSingleton;
 	public class LayaSample {
 		private var socket:Socket;
 		private var output:Byte;
@@ -45,16 +48,7 @@
 		}
 		
 		private function onLoaded():void {
-			socket = new Socket();
-			//socket.connect("echo.websocket.org", 80);
-			socket.connectByUrl("ws://192.168.188.83:51001");
-			
-			output = socket.output;
-			
-			socket.on(Event.OPEN, this, onSocketOpen);
-			socket.on(Event.CLOSE, this, onSocketClose);
-			socket.on(Event.MESSAGE, this, onMessageReveived);
-			socket.on(Event.ERROR, this, onConnectError);
+			SocketSingleton.getInstance().connectToServer("ws://192.168.188.83:51001");
 		}
 		
 
@@ -63,56 +57,6 @@
 			var urls:Array=[];
 
 			return urls;
-		}
-
-		private function onSocketOpen(e:*=null):void
-		{
-			trace("Connected");
-
-			var ntError:NetError = new NetError();
-			var ntHeader:NetHeader = new NetHeader();
-			var ntMessage:NetMessage = new NetMessage();
-			var q_player:query_players = new query_players();
-
-			ntHeader.uid = "100001";
-			ntHeader.proto = "query_players";
-			ntMessage.error = ntError;
-			ntMessage.header = ntHeader;
-
-			q_player.account = "dcs1001";
-			
-			var payload:ByteArray = Message.toByteArray(q_player);
-			ntMessage.payload = payload;
-
-			var sendMsg:ByteArray = Message.toByteArray(ntMessage);
-
-			
-			output.writeArrayBuffer(sendMsg.getUint8Array(0,sendMsg.length), 0, sendMsg.length);
-
-			socket.flush();
-
-			// var bytes:ByteArray = new ByteArray();
-			// ntHeader.writeTo(new CodedOutputStream(bytes));
-			// trace("begin",bytes.getUint8Array(0, bytes.length))
-			// var readheader:NetHeader = new NetHeader();
-			// bytes.position = 0;
-			// readheader.readFrom(new CodedInputStream(bytes));
-			// trace(readheader);
-		}
-		
-		private function onSocketClose(e:*=null):void
-		{
-			trace("Socket closed");
-		}
-		
-		private function onMessageReveived(message:*=null):void
-		{
-			trace("Message from server:");
-		}
-
-		private function onConnectError(e:Event=null):void
-		{
-			trace("error");
 		}
 	}
 }

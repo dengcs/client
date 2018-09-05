@@ -1,25 +1,19 @@
 package game.net
 {
 	import laya.net.Socket;
-	import laya.webgl.shapes.Ellipse;
 	import laya.events.Event;
-	import game.query_players;
-	import com.google.protobuf.ByteArray;
-	import game.NetMessage;
-	import com.google.protobuf.CodedInputStream;
-	import game.query_players_resp;
 
 	/**
 	 * ...
 	 * @dengcs
 	 */
-	public class SocketSingleton{
+	public class NetSocket{
 
-		private static  var _instance:SocketSingleton = null;
+		private static  var _instance:NetSocket = null;
 
 		private var socket:Socket = null;
 
-		public function SocketSingleton(){
+		public function NetSocket(){
 			if (_instance != null) {
                  throw new Error("只能用getInstance()来获取实例!");
              }else{
@@ -27,9 +21,9 @@ package game.net
 			 }
 		}
 
-		public static function getInstance():SocketSingleton {
+		public static function getInstance():NetSocket {
             if (_instance == null) {
-                _instance = new SocketSingleton();
+                _instance = new NetSocket();
             }
             return _instance;
         }
@@ -68,12 +62,8 @@ package game.net
 		private function onSocketOpen(e:*=null):void
 		{
 			trace("Connected");
-
-			var q_player:query_players = new query_players();
-
-			q_player.account = "dcs1004";
 			
-			NetClient.send("query_players", q_player);
+			NetClient.handshake();
 		}
 		
 		private function onSocketClose(e:*=null):void
@@ -85,12 +75,7 @@ package game.net
 		{
 			trace("reveived");
 
-			var bytes:ByteArray = new ByteArray(message);
-			var ntMessage:NetMessage = new NetMessage();
-			ntMessage.readFrom(new CodedInputStream(bytes));
-			var resp_q:query_players_resp = new query_players_resp();
-			resp_q.readFrom(new CodedInputStream(ntMessage.payload));
-			trace(resp_q)
+			NetHandler.getInstance().handlerMsg(message);
 		}
 
 		private function onConnectError(e:*=null):void

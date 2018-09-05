@@ -2077,7 +2077,13 @@ var NetClient=(function(){
 		var payload=Message.toByteArray(msg);
 		ntMessage.payload=payload;
 		var sendMsg=Message.toByteArray(ntMessage);
-		SocketSingleton.getInstance().sendAndFlush(sendMsg.getUint8Array(0,sendMsg.length));
+		NetSocket.getInstance().sendAndFlush(sendMsg.getUint8Array(0,sendMsg.length));
+	}
+
+	NetClient.handshake=function(){
+		var q_player=new query_players();
+		q_player.account="dcs1005";
+		NetClient.send("query_players",q_player);
 	}
 
 	return NetClient;
@@ -2086,21 +2092,58 @@ var NetClient=(function(){
 
 /**
 *...
+*@author
+*/
+//class game.net.NetHandler
+var NetHandler=(function(){
+	function NetHandler(){
+		if (NetHandler._instance !=null){
+			throw new Error("只能用getInstance()来获取实例!");
+		}
+	}
+
+	__class(NetHandler,'game.net.NetHandler');
+	var __proto=NetHandler.prototype;
+	__proto.handlerMsg=function(message){
+		if(message !=null){
+			var bytes=new ByteArray(message);
+			var ntMessage=new NetMessage();
+			ntMessage.readFrom(new CodedInputStream(bytes));
+			var resp_q=new query_players_resp();
+			resp_q.readFrom(new CodedInputStream(ntMessage.payload));
+			console.log(resp_q)
+		}
+	}
+
+	NetHandler.getInstance=function(){
+		if (NetHandler._instance==null){
+			NetHandler._instance=new NetHandler();
+		}
+		return NetHandler._instance;
+	}
+
+	NetHandler._instance=null;
+	return NetHandler;
+})()
+
+
+/**
+*...
 *@dengcs
 */
-//class game.net.SocketSingleton
-var SocketSingleton=(function(){
-	function SocketSingleton(){
+//class game.net.NetSocket
+var NetSocket=(function(){
+	function NetSocket(){
 		this.socket=null;
-		if (SocketSingleton._instance !=null){
+		if (NetSocket._instance !=null){
 			throw new Error("只能用getInstance()来获取实例!");
 			}else{
 			this.socket=new Socket();
 		}
 	}
 
-	__class(SocketSingleton,'game.net.SocketSingleton');
-	var __proto=SocketSingleton.prototype;
+	__class(NetSocket,'game.net.NetSocket');
+	var __proto=NetSocket.prototype;
 	__proto.connectToServer=function(url){
 		if(this.socket==null){
 			this.socket=new Socket();
@@ -2126,9 +2169,7 @@ var SocketSingleton=(function(){
 
 	__proto.onSocketOpen=function(e){
 		console.log("Connected");
-		var q_player=new query_players();
-		q_player.account="dcs1004";
-		NetClient.send("query_players",q_player);
+		NetClient.handshake();
 	}
 
 	__proto.onSocketClose=function(e){
@@ -2137,35 +2178,28 @@ var SocketSingleton=(function(){
 
 	__proto.onMessageReveived=function(message){
 		console.log("reveived");
-		var bytes=new ByteArray(message);
-		var ntMessage=new NetMessage();
-		ntMessage.readFrom(new CodedInputStream(bytes));
-		var resp_q=new query_players_resp();
-		resp_q.readFrom(new CodedInputStream(ntMessage.payload));
-		console.log(resp_q)
+		NetHandler.getInstance().handlerMsg(message);
 	}
 
 	__proto.onConnectError=function(e){
 		console.log("error");
 	}
 
-	SocketSingleton.getInstance=function(){
-		if (SocketSingleton._instance==null){
-			SocketSingleton._instance=new SocketSingleton();
+	NetSocket.getInstance=function(){
+		if (NetSocket._instance==null){
+			NetSocket._instance=new NetSocket();
 		}
-		return SocketSingleton._instance;
+		return NetSocket._instance;
 	}
 
-	SocketSingleton._instance=null;
-	return SocketSingleton;
+	NetSocket._instance=null;
+	return NetSocket;
 })()
 
 
 //class LayaSample
 var LayaSample=(function(){
 	function LayaSample(){
-		this.socket=null;
-		this.output=null;
 		MiniAdpter.init();
 		Laya.init(1140,GameConstants.stageHeight,WebGL);
 		Laya.stage.alignH="center";
@@ -2183,7 +2217,7 @@ var LayaSample=(function(){
 	}
 
 	__proto.onLoaded=function(){
-		SocketSingleton.getInstance().connectToServer("ws://192.168.188.83:51001");
+		NetSocket.getInstance().connectToServer("ws://192.168.188.83:51001");
 	}
 
 	__proto.atlasUrls=function(){
@@ -23260,17 +23294,6 @@ var ShaderDefines2D=(function(_super){
 })(ShaderDefines$1)
 
 
-//class laya.webgl.shapes.Ellipse extends laya.webgl.shapes.BasePoly
-var Ellipse=(function(_super){
-	function Ellipse(x,y,width,height,color,borderWidth,borderColor){
-		Ellipse.__super.call(this,x,y,width,height,40,color,borderWidth,borderColor);
-	}
-
-	__class(Ellipse,'laya.webgl.shapes.Ellipse',_super);
-	return Ellipse;
-})(BasePoly)
-
-
 //class laya.webgl.shapes.Line extends laya.webgl.shapes.BasePoly
 var Line=(function(_super){
 	function Line(x,y,points,borderWidth,color){
@@ -30591,7 +30614,7 @@ var WebGLImage=(function(_super){
 })(HTMLImage)
 
 
-	Laya.__init([LoaderManager,EventDispatcher,Render,Browser,WebGLContext2D,ShaderCompile,Timer,LocalStorage,AtlasGrid,DrawText]);
+	Laya.__init([EventDispatcher,LoaderManager,Render,Browser,WebGLContext2D,ShaderCompile,Timer,LocalStorage,AtlasGrid,DrawText]);
 	/**LayaGameStart**/
 	new LayaSample();
 

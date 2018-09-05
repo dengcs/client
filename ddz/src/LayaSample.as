@@ -6,25 +6,11 @@
 	import laya.webgl.WebGL;
 	import laya.wx.mini.MiniAdpter;
 	import laya.utils.Handler;
-	import game.query_players;
-	import game.NetMessage;
-	import game.NetError;
-	import game.NetHeader;
 	import laya.events.Event;
-	import laya.net.Socket;
-	import laya.utils.Byte;
-	import com.google.protobuf.Message;
-	import com.google.protobuf.ByteArray;
-	import com.google.protobuf.Int64;
-	import com.google.protobuf.CodedInputStream;
-	import com.google.protobuf.CodedOutputStream;
-	import game.query_players_resp;
-	import game.net.NetClient;
-	import game.net.SocketSingleton;
+	
+	import game.net.NetSocket;
 	public class LayaSample {
-		private var socket:Socket;
-		private var output:Byte;
-		
+
 		public function LayaSample() {
 			MiniAdpter.init();
 			//初始化引擎
@@ -48,7 +34,7 @@
 		}
 		
 		private function onLoaded():void {
-			SocketSingleton.getInstance().connectToServer("ws://192.168.188.83:51001");
+			NetSocket.getInstance().connectToServer("ws://192.168.188.83:51001");
 		}
 		
 

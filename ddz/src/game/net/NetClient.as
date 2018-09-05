@@ -6,7 +6,8 @@ package game.net
 	import game.NetMessage;
 	import com.google.protobuf.Message;
 	import com.google.protobuf.ByteArray;
-	import game.net.SocketSingleton;
+	import game.net.NetSocket;
+	import game.query_players;
 
 	/**
 	 * ...
@@ -27,8 +28,17 @@ package game.net
 
 			var sendMsg:ByteArray = Message.toByteArray(ntMessage);			
 
-			SocketSingleton.getInstance().sendAndFlush(sendMsg.getUint8Array(0,sendMsg.length));
+			NetSocket.getInstance().sendAndFlush(sendMsg.getUint8Array(0,sendMsg.length));
 		}
+
+		public static function handshake():void
+		{
+			var q_player:query_players = new query_players();
+
+			q_player.account = "dcs1005";
+			
+			send("query_players", q_player);
+		} 
 	}
 
 }

@@ -74,25 +74,30 @@
 			var ntMessage:NetMessage = new NetMessage();
 			var q_player:query_players = new query_players();
 
-			ntError.code = 1;
 			ntHeader.uid = "100001";
 			ntHeader.proto = "query_players";
 			ntMessage.error = ntError;
 			ntMessage.header = ntHeader;
-			//var sendMsg:ByteArray = Message.toByteArray(ntMessage);
-			//trace("length",sendMsg.length);
+
+			q_player.account = "dcs1001";
 			
-			//output.writeArrayBuffer(sendMsg, 0, sendMsg.length);
+			var payload:ByteArray = Message.toByteArray(q_player);
+			ntMessage.payload = payload;
 
-			//socket.flush();
+			var sendMsg:ByteArray = Message.toByteArray(ntMessage);
 
-			var bytes:ByteArray = new ByteArray();
-			ntHeader.writeTo(new CodedOutputStream(bytes));
-			trace(bytes.length)
-			var readheader:NetHeader = new NetHeader();
-			bytes.position = 0;
-			readheader.readFrom(new CodedInputStream(bytes, bytes.length));
-			trace(readheader);
+			
+			output.writeArrayBuffer(sendMsg.getUint8Array(0,sendMsg.length), 0, sendMsg.length);
+
+			socket.flush();
+
+			// var bytes:ByteArray = new ByteArray();
+			// ntHeader.writeTo(new CodedOutputStream(bytes));
+			// trace("begin",bytes.getUint8Array(0, bytes.length))
+			// var readheader:NetHeader = new NetHeader();
+			// bytes.position = 0;
+			// readheader.readFrom(new CodedInputStream(bytes));
+			// trace(readheader);
 		}
 		
 		private function onSocketClose(e:*=null):void

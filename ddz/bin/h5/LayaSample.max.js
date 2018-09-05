@@ -2103,20 +2103,19 @@ var LayaSample=(function(){
 		var ntHeader=new NetHeader();
 		var ntMessage=new NetMessage();
 		var q_player=new query_players();
-		ntError.code=1;
 		ntHeader.uid="100001";
 		ntHeader.proto="query_players";
 		ntMessage.error=ntError;
 		ntMessage.header=ntHeader;
-		var bytes=new ByteArray();
-		ntHeader.writeTo(new CodedOutputStream(bytes));
-		console.log(bytes.length)
-		var readheader=new NetHeader();
-		bytes.position=0;
-		readheader.readFrom(new CodedInputStream(bytes,bytes.length));
-		console.log(readheader);
+		q_player.account="dcs1001";
+		var payload=Message.toByteArray(q_player);
+		ntMessage.payload=payload;
+		var sendMsg=Message.toByteArray(ntMessage);
+		this.output.writeArrayBuffer(sendMsg.getUint8Array(0,sendMsg.length),0,sendMsg.length);
+		this.socket.flush();
 	}
 
+	// trace(readheader);
 	__proto.onSocketClose=function(e){
 		console.log("Socket closed");
 	}
@@ -16834,7 +16833,7 @@ var ByteArray=(function(_super){
 	__proto.writeBytes=function(arraybuffer,offset,length){
 		(offset===void 0)&& (offset=0);
 		(length===void 0)&& (length=0);
-		this.writeArrayBuffer(arraybuffer,offset,length);
+		this.writeArrayBuffer(arraybuffer.getUint8Array(offset,length),0,length);
 	}
 
 	__proto.writeFloat=function(value){
@@ -16864,7 +16863,8 @@ var ByteArray=(function(_super){
 	__proto.readBytes=function(arraybuffer,offset,length){
 		(offset===void 0)&& (offset=0);
 		(length===void 0)&& (length=0);
-		arraybuffer.writeArrayBuffer(this,offset,length);
+		arraybuffer.writeArrayBuffer(this.getUint8Array(this.position,length),offset,length);
+		arraybuffer.position=0;
 	}
 
 	__getset(0,__proto,'position',function(){

@@ -1,10 +1,10 @@
 package game.handler
 {
-	import game.NetMessage;
-	import game.query_players_resp;
 	import com.google.protobuf.CodedInputStream;
 	import game.manager.MessageManager;
 	import laya.utils.Handler;
+	import game.proto.NetMessage;
+	import game.proto.query_players_resp;
 
 	/**
 	 * ...

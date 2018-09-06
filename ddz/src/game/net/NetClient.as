@@ -1,14 +1,12 @@
 package game.net
 {
 	import laya.net.Socket;
-	import game.NetError;
-	import game.NetHeader;
-	import game.NetMessage;
 	import com.google.protobuf.Message;
 	import com.google.protobuf.ByteArray;
 	import game.net.NetSocket;
-	import game.query_players;
-
+	import game.proto.NetHeader;
+	import game.proto.NetMessage;
+	import game.proto.query_players;
 	/**
 	 * ...
 	 * @dengcs

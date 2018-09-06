@@ -1,9 +1,9 @@
 package game.manager
 {
-	import game.NetMessage;
 	import game.manager.MessageManager;
 	import laya.utils.Dictionary;
 	import game.handler.PlayerHandler;
+	import game.proto.NetMessage;
 
 	/**
 	 * ...

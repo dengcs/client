@@ -2063,7 +2063,7 @@ var GameConstants=(function(){
 
 /**
 *...
-*@author
+*@dengcs
 */
 //class game.handler.PlayerHandler
 var PlayerHandler=(function(){
@@ -17169,14 +17169,14 @@ var ByteArray=(function(_super){
 })(Byte)
 
 
-//class game.NetError extends com.google.protobuf.Message
+//class game.proto.NetError extends com.google.protobuf.Message
 var NetError=(function(_super){
 	function NetError(){
 		this._code=0;
 		NetError.__super.call(this);
 	}
 
-	__class(NetError,'game.NetError',_super);
+	__class(NetError,'game.proto.NetError',_super);
 	var __proto=NetError.prototype;
 	__proto.writeTo=function(output){
 		if (!(this._code==0)){
@@ -17216,7 +17216,7 @@ var NetError=(function(_super){
 })(Message)
 
 
-//class game.NetHeader extends com.google.protobuf.Message
+//class game.proto.NetHeader extends com.google.protobuf.Message
 var NetHeader=(function(_super){
 	function NetHeader(){
 		this._uid="";
@@ -17224,7 +17224,7 @@ var NetHeader=(function(_super){
 		NetHeader.__super.call(this);
 	}
 
-	__class(NetHeader,'game.NetHeader',_super);
+	__class(NetHeader,'game.proto.NetHeader',_super);
 	var __proto=NetHeader.prototype;
 	__proto.writeTo=function(output){
 		if (!(this._uid.length==0)){
@@ -17277,7 +17277,7 @@ var NetHeader=(function(_super){
 })(Message)
 
 
-//class game.NetMessage extends com.google.protobuf.Message
+//class game.proto.NetMessage extends com.google.protobuf.Message
 var NetMessage=(function(_super){
 	function NetMessage(){
 		this._header=null;
@@ -17286,7 +17286,7 @@ var NetMessage=(function(_super){
 		this._payload=new ByteArray();
 	}
 
-	__class(NetMessage,'game.NetMessage',_super);
+	__class(NetMessage,'game.proto.NetMessage',_super);
 	var __proto=NetMessage.prototype;
 	__proto.writeTo=function(output){
 		if (!(this._header==null)){
@@ -17315,12 +17315,12 @@ var NetMessage=(function(_super){
 						break ;
 					}
 				case 10:{
-						this._header=new game.NetHeader();
+						this._header=new game.proto.NetHeader();
 						input.readMessage(this._header);
 						break ;
 					}
 				case 18:{
-						this._error=new game.NetError();
+						this._error=new game.proto.NetError();
 						input.readMessage(this._error);
 						break ;
 					}
@@ -17354,14 +17354,14 @@ var NetMessage=(function(_super){
 })(Message)
 
 
-//class game.query_players extends com.google.protobuf.Message
+//class game.proto.query_players extends com.google.protobuf.Message
 var query_players=(function(_super){
 	function query_players(){
 		this._account="";
 		query_players.__super.call(this);
 	}
 
-	__class(query_players,'game.query_players',_super);
+	__class(query_players,'game.proto.query_players',_super);
 	var __proto=query_players.prototype;
 	__proto.writeTo=function(output){
 		if (!(this._account.length==0)){
@@ -17401,14 +17401,14 @@ var query_players=(function(_super){
 })(Message)
 
 
-//class game.query_players_resp extends com.google.protobuf.Message
+//class game.proto.query_players_resp extends com.google.protobuf.Message
 var query_players_resp=(function(_super){
 	function query_players_resp(){
 		this._ret=0;
 		query_players_resp.__super.call(this);
 	}
 
-	__class(query_players_resp,'game.query_players_resp',_super);
+	__class(query_players_resp,'game.proto.query_players_resp',_super);
 	var __proto=query_players_resp.prototype;
 	__proto.writeTo=function(output){
 		if (!(this._ret==0)){

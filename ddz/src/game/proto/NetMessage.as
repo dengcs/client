@@ -1,25 +1,25 @@
-package game {
+package game.proto {
 import com.google.protobuf.*;
-import game.NetError;
-import game.NetHeader;
+import game.proto.NetError;
+import game.proto.NetHeader;
 
 public class NetMessage extends Message {
     public function NetMessage() {
     }
 
-    private var _header:game.NetHeader = null;
-    public function get header():game.NetHeader {
+    private var _header:game.proto.NetHeader = null;
+    public function get header():game.proto.NetHeader {
         return _header;
     }
-    public function set header(value:game.NetHeader):void {
+    public function set header(value:game.proto.NetHeader):void {
         _header = value;
     }
 
-    private var _error:game.NetError = null;
-    public function get error():game.NetError {
+    private var _error:game.proto.NetError = null;
+    public function get error():game.proto.NetError {
         return _error;
     }
-    public function set error(value:game.NetError):void {
+    public function set error(value:game.proto.NetError):void {
         _error = value;
     }
 
@@ -59,12 +59,12 @@ public class NetMessage extends Message {
                     break;
                 }
                 case 10: {
-                    _header = new game.NetHeader();
+                    _header = new game.proto.NetHeader();
                     input.readMessage(_header);
                     break;
                 }
                 case 18: {
-                    _error = new game.NetError();
+                    _error = new game.proto.NetError();
                     input.readMessage(_error);
                     break;
                 }

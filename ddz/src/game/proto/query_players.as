@@ -1,21 +1,21 @@
-package game {
+package game.proto {
 import com.google.protobuf.*;
 
-public class create_player_resp extends Message {
-    public function create_player_resp() {
+public class query_players extends Message {
+    public function query_players() {
     }
 
-    private var _ret:int = 0;
-    public function get ret():int {
-        return _ret;
+    private var _account:String = "";
+    public function get account():String {
+        return _account;
     }
-    public function set ret(value:int):void {
-        _ret = value;
+    public function set account(value:String):void {
+        _account = value || "";
     }
 
     override public function writeTo(output:CodedOutputStream):void {
-        if (!(_ret == 0)) {
-            output.writeUInt32(1, _ret);
+        if (!(_account.length == 0)) {
+            output.writeString(1, _account);
         }
 
         super.writeTo(output);
@@ -34,8 +34,8 @@ public class create_player_resp extends Message {
                     }
                     break;
                 }
-                case 8: {
-                    _ret = input.readUInt32();
+                case 10: {
+                    _account = input.readString();
                     break;
                 }
             }

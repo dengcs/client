@@ -2,7 +2,7 @@ package game.manager
 {
 	import laya.utils.Dictionary;
 	import laya.utils.Handler;
-	import game.NetMessage;
+	import game.proto.NetMessage;
 
 	/**
 	 * ...

@@ -1,9 +1,9 @@
 package game.net
 {
 	import com.google.protobuf.ByteArray;
-	import game.NetMessage;
 	import com.google.protobuf.CodedInputStream;
 	import game.manager.DispatchManager;
+	import game.proto.NetMessage;
 
 	/**
 	 * ...

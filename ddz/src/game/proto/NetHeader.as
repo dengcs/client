@@ -1,4 +1,4 @@
-package game {
+package game.proto {
 import com.google.protobuf.*;
 
 public class NetHeader extends Message {

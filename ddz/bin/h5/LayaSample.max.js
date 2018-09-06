@@ -2076,12 +2076,36 @@ var PlayerHandler=(function(){
 	__proto.registerMessage=function(){
 		var msgManager=MessageManager.getInstance();
 		msgManager.registerMessage("query_players_resp",new Handler(this,this.handler_query_players_resp));
+		msgManager.registerMessage("create_player_resp",new Handler(this,this.handler_create_player_resp));
+		msgManager.registerMessage("player_login_resp",new Handler(this,this.handler_player_login_resp));
 	}
 
 	__proto.handler_query_players_resp=function(ntMessage){
-		var resp_q=new query_players_resp();
-		resp_q.readFrom(new CodedInputStream(ntMessage.payload));
-		console.log(resp_q)
+		var resp_data=new query_players_resp();
+		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_data)
+		if(resp_data.ret !=0){
+			var createMsg=new create_player();
+			createMsg.nickname="邓1";
+			createMsg.portrait="portrait";
+			createMsg.sex=1;
+			NetClient.send("create_player",createMsg);
+			}else{
+			var loginMsg=new player_login();
+			NetClient.send("player_login",loginMsg);
+		}
+	}
+
+	__proto.handler_create_player_resp=function(ntMessage){
+		var resp_data=new create_player_resp();
+		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_data)
+	}
+
+	__proto.handler_player_login_resp=function(ntMessage){
+		var resp_data=new player_login_resp();
+		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_data)
 	}
 
 	return PlayerHandler;
@@ -17169,6 +17193,128 @@ var ByteArray=(function(_super){
 })(Byte)
 
 
+//class game.proto.create_player extends com.google.protobuf.Message
+var create_player=(function(_super){
+	function create_player(){
+		this._nickname="";
+		this._sex=0;
+		this._portrait="";
+		create_player.__super.call(this);
+	}
+
+	__class(create_player,'game.proto.create_player',_super);
+	var __proto=create_player.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._nickname.length==0)){
+			output.writeString(1,this._nickname);
+		}
+		if (!(this._sex==0)){
+			output.writeUInt32(2,this._sex);
+		}
+		if (!(this._portrait.length==0)){
+			output.writeString(3,this._portrait);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 10:{
+						this._nickname=input.readString();
+						break ;
+					}
+				case 16:{
+						this._sex=input.readUInt32();
+						break ;
+					}
+				case 26:{
+						this._portrait=input.readString();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'nickname',function(){
+		return this._nickname;
+		},function(value){
+		this._nickname=value || "";
+	});
+
+	__getset(0,__proto,'sex',function(){
+		return this._sex;
+		},function(value){
+		this._sex=value;
+	});
+
+	__getset(0,__proto,'portrait',function(){
+		return this._portrait;
+		},function(value){
+		this._portrait=value || "";
+	});
+
+	return create_player;
+})(Message)
+
+
+//class game.proto.create_player_resp extends com.google.protobuf.Message
+var create_player_resp=(function(_super){
+	function create_player_resp(){
+		this._ret=0;
+		create_player_resp.__super.call(this);
+	}
+
+	__class(create_player_resp,'game.proto.create_player_resp',_super);
+	var __proto=create_player_resp.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._ret==0)){
+			output.writeUInt32(1,this._ret);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 8:{
+						this._ret=input.readUInt32();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'ret',function(){
+		return this._ret;
+		},function(value){
+		this._ret=value;
+	});
+
+	return create_player_resp;
+})(Message)
+
+
 //class game.proto.NetError extends com.google.protobuf.Message
 var NetError=(function(_super){
 	function NetError(){
@@ -17351,6 +17497,86 @@ var NetMessage=(function(_super){
 	});
 
 	return NetMessage;
+})(Message)
+
+
+//class game.proto.player_login extends com.google.protobuf.Message
+var player_login=(function(_super){
+	function player_login(){
+		player_login.__super.call(this);
+	}
+
+	__class(player_login,'game.proto.player_login',_super);
+	var __proto=player_login.prototype;
+	__proto.writeTo=function(output){
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				}
+		}
+	}
+
+	return player_login;
+})(Message)
+
+
+//class game.proto.player_login_resp extends com.google.protobuf.Message
+var player_login_resp=(function(_super){
+	function player_login_resp(){
+		this._ret=0;
+		player_login_resp.__super.call(this);
+	}
+
+	__class(player_login_resp,'game.proto.player_login_resp',_super);
+	var __proto=player_login_resp.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._ret==0)){
+			output.writeUInt32(1,this._ret);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 8:{
+						this._ret=input.readUInt32();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'ret',function(){
+		return this._ret;
+		},function(value){
+		this._ret=value;
+	});
+
+	return player_login_resp;
 })(Message)
 
 

@@ -13,7 +13,7 @@ Project configuration:f:\dcs\github\client\ddz/.actionScriptProperties.
 1,0.00,f:/dcs/github/client/ddz/libs/laya/src,0,Collect
 1,2.00,,0,read class message
 1,89.84,,0,Disable Flash3D f:/dcs/github/client/ddz/src/LayaSample.as
-12,89.84,f:/dcs/github/client/ddz/bin/h5/LayaSample.max.js,915197,
+12,89.84,f:/dcs/github/client/ddz/bin/h5/LayaSample.max.js,920239,
 11,89.84,f:/dcs/github/client/ddz/bin/h5/LayaSample.max.html,893,
 ******************************************************************************
 14,89.84,,0,

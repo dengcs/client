@@ -2063,6 +2063,113 @@ var GameConstants=(function(){
 
 /**
 *...
+*@author
+*/
+//class game.handler.PlayerHandler
+var PlayerHandler=(function(){
+	function PlayerHandler(){
+		this.registerMessage();
+	}
+
+	__class(PlayerHandler,'game.handler.PlayerHandler');
+	var __proto=PlayerHandler.prototype;
+	__proto.registerMessage=function(){
+		var msgManager=MessageManager.getInstance();
+		msgManager.registerMessage("query_players_resp",new Handler(this,this.handler_query_players_resp));
+	}
+
+	__proto.handler_query_players_resp=function(ntMessage){
+		var resp_q=new query_players_resp();
+		resp_q.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_q)
+	}
+
+	return PlayerHandler;
+})()
+
+
+/**
+*...
+*@dengcs
+*/
+//class game.manager.DispatchManager
+var DispatchManager=(function(){
+	function DispatchManager(){
+		this.handlerDic=new Dictionary();
+		if (DispatchManager._instance !=null){
+			throw new Error("只能用getInstance()来获取实例!");
+			}else{
+			this.registerHandler();
+		}
+	}
+
+	__class(DispatchManager,'game.manager.DispatchManager');
+	var __proto=DispatchManager.prototype;
+	__proto.registerHandler=function(){
+		this.handlerDic.set("PlayerHandler",new PlayerHandler());
+	}
+
+	__proto.messageDispatcher=function(ntMessage){
+		MessageManager.getInstance().processMessage(ntMessage);
+	}
+
+	DispatchManager.getInstance=function(){
+		if (DispatchManager._instance==null){
+			DispatchManager._instance=new DispatchManager();
+		}
+		return DispatchManager._instance;
+	}
+
+	DispatchManager._instance=null;
+	return DispatchManager;
+})()
+
+
+/**
+*...
+*@dengcs
+*/
+//class game.manager.MessageManager
+var MessageManager=(function(){
+	function MessageManager(){
+		this.messageDic=new Dictionary();
+		if (MessageManager._instance !=null){
+			throw new Error("只能用getInstance()来获取实例!");
+		}
+	}
+
+	__class(MessageManager,'game.manager.MessageManager');
+	var __proto=MessageManager.prototype;
+	__proto.registerMessage=function(protoName,hander){
+		this.messageDic.set(protoName,hander);
+	}
+
+	__proto.processMessage=function(message){
+		if(message !=null && message.header !=null){
+			var protoName=message.header.proto;
+			if(protoName !=null && protoName.length>0){
+				var hander=this.messageDic.get(protoName);
+				if(hander !=null){
+					hander.runWith(message);
+				}
+			}
+		}
+	}
+
+	MessageManager.getInstance=function(){
+		if (MessageManager._instance==null){
+			MessageManager._instance=new MessageManager();
+		}
+		return MessageManager._instance;
+	}
+
+	MessageManager._instance=null;
+	return MessageManager;
+})()
+
+
+/**
+*...
 *@dengcs
 */
 //class game.net.NetClient
@@ -2082,7 +2189,7 @@ var NetClient=(function(){
 
 	NetClient.handshake=function(){
 		var q_player=new query_players();
-		q_player.account="dcs1005";
+		q_player.account="dcs1006";
 		NetClient.send("query_players",q_player);
 	}
 
@@ -2109,9 +2216,7 @@ var NetHandler=(function(){
 			var bytes=new ByteArray(message);
 			var ntMessage=new NetMessage();
 			ntMessage.readFrom(new CodedInputStream(bytes));
-			var resp_q=new query_players_resp();
-			resp_q.readFrom(new CodedInputStream(ntMessage.payload));
-			console.log(resp_q)
+			DispatchManager.getInstance().messageDispatcher(ntMessage);
 		}
 	}
 
@@ -9356,6 +9461,96 @@ var Color$1=(function(){
 	Color._DEFAULT=Color._initDefault();
 	Color._COLODID=1;
 	return Color;
+})()
+
+
+/**
+*<code>Dictionary</code> 是一个字典型的数据存取类。
+*/
+//class laya.utils.Dictionary
+var Dictionary=(function(){
+	function Dictionary(){
+		this._values=[];
+		this._keys=[];
+	}
+
+	__class(Dictionary,'laya.utils.Dictionary');
+	var __proto=Dictionary.prototype;
+	/**
+	*给指定的键名设置值。
+	*@param key 键名。
+	*@param value 值。
+	*/
+	__proto.set=function(key,value){
+		var index=this.indexOf(key);
+		if (index >=0){
+			this._values[index]=value;
+			return;
+		}
+		this._keys.push(key);
+		this._values.push(value);
+	}
+
+	/**
+	*获取指定对象的键名索引。
+	*@param key 键名对象。
+	*@return 键名索引。
+	*/
+	__proto.indexOf=function(key){
+		var index=this._keys.indexOf(key);
+		if (index >=0)return index;
+		key=((typeof key=='string'))? Number(key):(((typeof key=='number'))? key.toString():key);
+		return this._keys.indexOf(key);
+	}
+
+	/**
+	*返回指定键名的值。
+	*@param key 键名对象。
+	*@return 指定键名的值。
+	*/
+	__proto.get=function(key){
+		var index=this.indexOf(key);
+		return index < 0 ? null :this._values[index];
+	}
+
+	/**
+	*移除指定键名的值。
+	*@param key 键名对象。
+	*@return 是否成功移除。
+	*/
+	__proto.remove=function(key){
+		var index=this.indexOf(key);
+		if (index >=0){
+			this._keys.splice(index,1);
+			this._values.splice(index,1);
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	*清除此对象的键名列表和键值列表。
+	*/
+	__proto.clear=function(){
+		this._values.length=0;
+		this._keys.length=0;
+	}
+
+	/**
+	*获取所有的子元素列表。
+	*/
+	__getset(0,__proto,'values',function(){
+		return this._values;
+	});
+
+	/**
+	*获取所有的子元素键名列表。
+	*/
+	__getset(0,__proto,'keys',function(){
+		return this._keys;
+	});
+
+	return Dictionary;
 })()
 
 
@@ -30614,7 +30809,7 @@ var WebGLImage=(function(_super){
 })(HTMLImage)
 
 
-	Laya.__init([EventDispatcher,LoaderManager,Render,Browser,WebGLContext2D,ShaderCompile,Timer,LocalStorage,AtlasGrid,DrawText]);
+	Laya.__init([LoaderManager,EventDispatcher,DrawText,Render,Browser,WebGLContext2D,ShaderCompile,Timer,LocalStorage,AtlasGrid]);
 	/**LayaGameStart**/
 	new LayaSample();
 

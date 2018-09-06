@@ -7,7 +7,7 @@ package game.net
 	 * ...
 	 * @dengcs
 	 */
-	public class NetSocket{
+	public final class NetSocket{
 
 		private static  var _instance:NetSocket = null;
 

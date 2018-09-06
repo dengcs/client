@@ -3,13 +3,13 @@ package game.net
 	import com.google.protobuf.ByteArray;
 	import game.NetMessage;
 	import com.google.protobuf.CodedInputStream;
-	import game.query_players_resp;
+	import game.manager.DispatchManager;
 
 	/**
 	 * ...
 	 * @author
 	 */
-	public class NetHandler{
+	public final class NetHandler{
 		private static  var _instance:NetHandler = null;
 
 		public function NetHandler(){
@@ -32,9 +32,8 @@ package game.net
 				var bytes:ByteArray = new ByteArray(message);
 				var ntMessage:NetMessage = new NetMessage();
 				ntMessage.readFrom(new CodedInputStream(bytes));
-				var resp_q:query_players_resp = new query_players_resp();
-				resp_q.readFrom(new CodedInputStream(ntMessage.payload));
-				trace(resp_q)
+
+				DispatchManager.getInstance().messageDispatcher(ntMessage);
 			}
 		}
 	}

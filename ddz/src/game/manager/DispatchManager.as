@@ -4,6 +4,7 @@ package game.manager
 	import laya.utils.Dictionary;
 	import game.handler.PlayerHandler;
 	import game.proto.NetMessage;
+	import game.handler.RoomHandler;
 
 	/**
 	 * ...
@@ -33,6 +34,7 @@ package game.manager
 		private function registerHandler():void
 		{
 			handlerDic.set("PlayerHandler", new PlayerHandler());
+			handlerDic.set("RoomHandler", new RoomHandler());
 		}
 
 		public function messageDispatcher(ntMessage:NetMessage):void

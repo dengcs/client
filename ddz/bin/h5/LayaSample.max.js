@@ -2116,6 +2116,47 @@ var PlayerHandler=(function(){
 *...
 *@dengcs
 */
+//class game.handler.RoomHandler
+var RoomHandler=(function(){
+	function RoomHandler(){
+		this.registerMessage();
+	}
+
+	__class(RoomHandler,'game.handler.RoomHandler');
+	var __proto=RoomHandler.prototype;
+	__proto.registerMessage=function(){
+		var msgManager=MessageManager.getInstance();
+		msgManager.registerMessage("room_create_resp",new Handler(this,this.handler_room_create));
+		msgManager.registerMessage("room_quit_resp",new Handler(this,this.handler_room_quit));
+		msgManager.registerMessage("room_invite_resp",new Handler(this,this.handler_room_invite));
+	}
+
+	__proto.handler_room_create=function(ntMessage){
+		var resp_data=new room_create_resp();
+		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_data)
+	}
+
+	__proto.handler_room_quit=function(ntMessage){
+		var resp_data=new room_quit_resp();
+		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_data)
+	}
+
+	__proto.handler_room_invite=function(ntMessage){
+		var resp_data=new room_invite_resp();
+		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_data)
+	}
+
+	return RoomHandler;
+})()
+
+
+/**
+*...
+*@dengcs
+*/
 //class game.manager.DispatchManager
 var DispatchManager=(function(){
 	function DispatchManager(){
@@ -2131,6 +2172,7 @@ var DispatchManager=(function(){
 	var __proto=DispatchManager.prototype;
 	__proto.registerHandler=function(){
 		this.handlerDic.set("PlayerHandler",new PlayerHandler());
+		this.handlerDic.set("RoomHandler",new RoomHandler());
 	}
 
 	__proto.messageDispatcher=function(ntMessage){
@@ -17674,6 +17716,147 @@ var query_players_resp=(function(_super){
 })(Message)
 
 
+//class game.proto.room_create_resp extends com.google.protobuf.Message
+var room_create_resp=(function(_super){
+	function room_create_resp(){
+		this._ret=0;
+		room_create_resp.__super.call(this);
+	}
+
+	__class(room_create_resp,'game.proto.room_create_resp',_super);
+	var __proto=room_create_resp.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._ret==0)){
+			output.writeUInt32(1,this._ret);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 8:{
+						this._ret=input.readUInt32();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'ret',function(){
+		return this._ret;
+		},function(value){
+		this._ret=value;
+	});
+
+	return room_create_resp;
+})(Message)
+
+
+//class game.proto.room_invite_resp extends com.google.protobuf.Message
+var room_invite_resp=(function(_super){
+	function room_invite_resp(){
+		this._ret=0;
+		room_invite_resp.__super.call(this);
+	}
+
+	__class(room_invite_resp,'game.proto.room_invite_resp',_super);
+	var __proto=room_invite_resp.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._ret==0)){
+			output.writeUInt32(1,this._ret);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 8:{
+						this._ret=input.readUInt32();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'ret',function(){
+		return this._ret;
+		},function(value){
+		this._ret=value;
+	});
+
+	return room_invite_resp;
+})(Message)
+
+
+//class game.proto.room_quit_resp extends com.google.protobuf.Message
+var room_quit_resp=(function(_super){
+	function room_quit_resp(){
+		this._ret=0;
+		room_quit_resp.__super.call(this);
+	}
+
+	__class(room_quit_resp,'game.proto.room_quit_resp',_super);
+	var __proto=room_quit_resp.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._ret==0)){
+			output.writeUInt32(1,this._ret);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 8:{
+						this._ret=input.readUInt32();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'ret',function(){
+		return this._ret;
+		},function(value){
+		this._ret=value;
+	});
+
+	return room_quit_resp;
+})(Message)
+
+
 /**
 *@private
 *<code>Resource</code> 资源存取类。
@@ -31035,7 +31218,7 @@ var WebGLImage=(function(_super){
 })(HTMLImage)
 
 
-	Laya.__init([LoaderManager,EventDispatcher,DrawText,Render,Browser,WebGLContext2D,ShaderCompile,Timer,LocalStorage,AtlasGrid]);
+	Laya.__init([LoaderManager,EventDispatcher,Render,DrawText,Browser,WebGLContext2D,ShaderCompile,Timer,LocalStorage,AtlasGrid]);
 	/**LayaGameStart**/
 	new LayaSample();
 

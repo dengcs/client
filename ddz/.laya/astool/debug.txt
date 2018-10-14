@@ -1,19 +1,19 @@
-1,0.00,,0,Project command:f:\dcs\github\client\ddz/.actionScriptProperties;iflash=false;windowshow=false;chromerun=false;quickcompile=true
-Project configuration:f:\dcs\github\client\ddz/.actionScriptProperties.
-1,0.00,,0,output path:f:/dcs/github/client/ddz/bin/h5/
-1,0.00,,0,Main Class:f:/dcs/github/client/ddz/src/LayaSample.as
+1,0.00,,0,Project command:d:\code\github\client\ddz/.actionScriptProperties;iflash=false;windowshow=false;chromerun=false;quickcompile=true
+Project configuration:d:\code\github\client\ddz/.actionScriptProperties.
+1,0.00,,0,output path:d:/code/github/client/ddz/bin/h5/
+1,0.00,,0,Main Class:d:/code/github/client/ddz/src/LayaSample.as
 1,0.00,,0,output file:LayaSample
-1,0.00,,0,compilerSourcePath f:/dcs/github/client/ddz/libs/laya/src/
+1,0.00,,0,compilerSourcePath d:/code/github/client/ddz/libs/laya/src/
 
-1,0.00,,0,Compile Path:f:/dcs/github/client/ddz/src/
+1,0.00,,0,Compile Path:d:/code/github/client/ddz/src/
 
-1,0.00,,0,Compile Path:f:/dcs/github/client/ddz/libs/laya/src/
+1,0.00,,0,Compile Path:d:/code/github/client/ddz/libs/laya/src/
 
-1,0.00,f:/dcs/github/client/ddz/src,0,Collect
-1,0.00,f:/dcs/github/client/ddz/libs/laya/src,0,Collect
+1,0.00,d:/code/github/client/ddz/src,0,Collect
+1,0.00,d:/code/github/client/ddz/libs/laya/src,0,Collect
 1,2.00,,0,read class message
-1,89.74,,0,Disable Flash3D f:/dcs/github/client/ddz/src/LayaSample.as
-12,89.74,f:/dcs/github/client/ddz/bin/h5/LayaSample.max.js,924331,
-11,89.74,f:/dcs/github/client/ddz/bin/h5/LayaSample.max.html,893,
+1,89.74,,0,Disable Flash3D d:/code/github/client/ddz/src/LayaSample.as
+12,89.74,d:/code/github/client/ddz/bin/h5/LayaSample.max.js,925399,
+11,89.74,d:/code/github/client/ddz/bin/h5/LayaSample.max.html,893,
 ******************************************************************************
 14,89.74,,0,

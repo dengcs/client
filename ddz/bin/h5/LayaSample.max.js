@@ -2106,6 +2106,11 @@ var PlayerHandler=(function(){
 		var resp_data=new player_login_resp();
 		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
 		console.log(resp_data)
+		if(resp_data.ret==0){
+			var roomMsg=new room_create();
+			roomMsg.channel=1
+			NetClient.send("room_create",roomMsg);
+		}
 	}
 
 	return PlayerHandler;
@@ -2388,7 +2393,7 @@ var LayaSample=(function(){
 	}
 
 	__proto.onLoaded=function(){
-		NetSocket.getInstance().connectToServer("ws://192.168.188.83:51001");
+		NetSocket.getInstance().connectToServer("ws://192.168.3.128:51001");
 	}
 
 	__proto.atlasUrls=function(){
@@ -17713,6 +17718,53 @@ var query_players_resp=(function(_super){
 	});
 
 	return query_players_resp;
+})(Message)
+
+
+//class game.proto.room_create extends com.google.protobuf.Message
+var room_create=(function(_super){
+	function room_create(){
+		this._channel=0;
+		room_create.__super.call(this);
+	}
+
+	__class(room_create,'game.proto.room_create',_super);
+	var __proto=room_create.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._channel==0)){
+			output.writeUInt32(1,this._channel);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 8:{
+						this._channel=input.readUInt32();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'channel',function(){
+		return this._channel;
+		},function(value){
+		this._channel=value;
+	});
+
+	return room_create;
 })(Message)
 
 

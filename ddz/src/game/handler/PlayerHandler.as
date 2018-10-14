@@ -8,6 +8,7 @@ package game.handler
 	import game.net.NetClient;
 	import game.proto.*;
 	import game.proto.player_login;
+	import game.proto.room_create;
 
 	/**
 	 * ...
@@ -60,6 +61,13 @@ package game.handler
 			var resp_data:player_login_resp = new player_login_resp();
 			resp_data.readFrom(new CodedInputStream(ntMessage.payload));
 			trace(resp_data)
+
+			if(resp_data.ret == 0)
+			{
+				var roomMsg:room_create = new room_create();
+				roomMsg.channel = 1
+				NetClient.send("room_create", roomMsg);
+			}
 		}
 	}
 

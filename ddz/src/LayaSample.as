@@ -34,7 +34,7 @@
 		}
 		
 		private function onLoaded():void {
-			NetSocket.getInstance().connectToServer("ws://192.168.188.83:51001");
+			NetSocket.getInstance().connectToServer("ws://192.168.3.128:51001");
 		}
 		
 

@@ -54,6 +54,13 @@ package game.handler
 			var resp_data:create_player_resp = new create_player_resp();
 			resp_data.readFrom(new CodedInputStream(ntMessage.payload));
 			trace(resp_data)
+
+			// 创建成功则登录
+			if(resp_data.ret == 0)
+			{
+				var loginMsg:player_login = new player_login();
+				NetClient.send("player_login", loginMsg);
+			}
 		}
 
 		private function handler_player_login_resp(ntMessage:NetMessage):void

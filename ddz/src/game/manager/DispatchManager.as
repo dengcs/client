@@ -5,6 +5,7 @@ package game.manager
 	import game.handler.PlayerHandler;
 	import game.proto.NetMessage;
 	import game.handler.RoomHandler;
+	import game.handler.GameHandler;
 
 	/**
 	 * ...
@@ -35,6 +36,7 @@ package game.manager
 		{
 			handlerDic.set("PlayerHandler", new PlayerHandler());
 			handlerDic.set("RoomHandler", new RoomHandler());
+			handlerDic.set("GameHandler", new GameHandler());
 		}
 
 		public function messageDispatcher(ntMessage:NetMessage):void

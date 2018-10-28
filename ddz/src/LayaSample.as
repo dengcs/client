@@ -9,6 +9,7 @@
 	import laya.events.Event;
 	
 	import game.net.NetSocket;
+	import view.main.Main;
 	public class LayaSample {
 
 		public function LayaSample() {
@@ -29,20 +30,24 @@
 
 		private function beginLoad():void {
 			//加载引擎需要的资源
-			//Laya.loader.load(atlasUrls(), Handler.create(this, onLoaded));
-			onLoaded();
+			Laya.loader.load(atlasUrls(), Handler.create(this, onLoaded));
 		}
 		
 		private function onLoaded():void {
+			var main:Main = new Main();
+			Laya.stage.addChild(main);
+
 			NetSocket.getInstance().connectToServer("ws://192.168.3.128:51001");
 		}
 		
 
 		private function atlasUrls():Array
 		{
-			var urls:Array=[];
+			var atlas:Array=[];
 
-			return urls;
+			atlas.push("res/atlas/main/button.atlas");
+
+			return atlas;
 		}
 	}
 }

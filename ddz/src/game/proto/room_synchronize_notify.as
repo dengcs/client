@@ -2,8 +2,8 @@ package game.proto {
 import com.google.protobuf.*;
 import game.proto.GameMember;
 
-public class game_start_notify extends Message {
-    public function game_start_notify() {
+public class room_synchronize_notify extends Message {
+    public function room_synchronize_notify() {
     }
 
     private var _teamid:int = 0;

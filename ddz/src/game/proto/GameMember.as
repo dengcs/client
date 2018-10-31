@@ -5,20 +5,20 @@ public class GameMember extends Message {
     public function GameMember() {
     }
 
-    private var _teamid:int = 0;
-    public function get teamid():int {
-        return _teamid;
-    }
-    public function set teamid(value:int):void {
-        _teamid = value;
-    }
-
     private var _uid:String = "";
     public function get uid():String {
         return _uid;
     }
     public function set uid(value:String):void {
         _uid = value || "";
+    }
+
+    private var _place:int = 0;
+    public function get place():int {
+        return _place;
+    }
+    public function set place(value:int):void {
+        _place = value;
     }
 
     private var _sex:int = 0;
@@ -78,32 +78,32 @@ public class GameMember extends Message {
     }
 
     override public function writeTo(output:CodedOutputStream):void {
-        if (!(_teamid == 0)) {
-            output.writeUInt32(1, _teamid);
-        }
         if (!(_uid.length == 0)) {
-            output.writeString(2, _uid);
+            output.writeString(1, _uid);
+        }
+        if (!(_place == 0)) {
+            output.writeUInt32(2, _place);
         }
         if (!(_sex == 0)) {
-            output.writeUInt32(4, _sex);
+            output.writeUInt32(3, _sex);
         }
         if (!(_nickname.length == 0)) {
-            output.writeString(5, _nickname);
+            output.writeString(4, _nickname);
         }
         if (!(_portrait.length == 0)) {
-            output.writeString(6, _portrait);
+            output.writeString(5, _portrait);
         }
         if (!(_portraitBoxId == 0)) {
-            output.writeUInt32(7, _portraitBoxId);
+            output.writeUInt32(6, _portraitBoxId);
         }
         if (!(_state == 0)) {
-            output.writeUInt32(8, _state);
+            output.writeUInt32(7, _state);
         }
         if (!(_ulevel == 0)) {
-            output.writeUInt32(9, _ulevel);
+            output.writeUInt32(8, _ulevel);
         }
         if (!(_vlevel == 0)) {
-            output.writeUInt32(10, _vlevel);
+            output.writeUInt32(9, _vlevel);
         }
 
         super.writeTo(output);
@@ -122,39 +122,39 @@ public class GameMember extends Message {
                     }
                     break;
                 }
-                case 8: {
-                    _teamid = input.readUInt32();
-                    break;
-                }
-                case 18: {
+                case 10: {
                     _uid = input.readString();
                     break;
                 }
-                case 32: {
+                case 16: {
+                    _place = input.readUInt32();
+                    break;
+                }
+                case 24: {
                     _sex = input.readUInt32();
                     break;
                 }
-                case 42: {
+                case 34: {
                     _nickname = input.readString();
                     break;
                 }
-                case 50: {
+                case 42: {
                     _portrait = input.readString();
                     break;
                 }
-                case 56: {
+                case 48: {
                     _portraitBoxId = input.readUInt32();
                     break;
                 }
-                case 64: {
+                case 56: {
                     _state = input.readUInt32();
                     break;
                 }
-                case 72: {
+                case 64: {
                     _ulevel = input.readUInt32();
                     break;
                 }
-                case 80: {
+                case 72: {
                     _vlevel = input.readUInt32();
                     break;
                 }

@@ -2065,6 +2065,50 @@ var GameConstants=(function(){
 *...
 *@dengcs
 */
+//class game.handler.GameHandler
+var GameHandler=(function(){
+	function GameHandler(){
+		this.registerMessage();
+	}
+
+	__class(GameHandler,'game.handler.GameHandler');
+	var __proto=GameHandler.prototype;
+	__proto.registerMessage=function(){
+		var msgManager=MessageManager.getInstance();
+		msgManager.registerMessage("game_leave_resp",new Handler(this,this.handler_game_leave));
+		msgManager.registerMessage("game_start_notify",new Handler(this,this.notify_game_start));
+		msgManager.registerMessage("game_update_notify",new Handler(this,this.notify_game_update));
+	}
+
+	__proto.handler_game_leave=function(ntMessage){
+		var resp_data=new game_leave_resp();
+		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_data)
+	}
+
+	__proto.notify_game_start=function(ntMessage){
+		var resp_data=new game_start_notify();
+		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_data)
+		var sendMsg=new game_update();
+		sendMsg.data="{\"op\":\"test\"}"
+		NetClient.send("game_update",sendMsg);
+	}
+
+	__proto.notify_game_update=function(ntMessage){
+		var resp_data=new game_update_notify();
+		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
+		console.log(resp_data)
+	}
+
+	return GameHandler;
+})()
+
+
+/**
+*...
+*@dengcs
+*/
 //class game.handler.PlayerHandler
 var PlayerHandler=(function(){
 	function PlayerHandler(){
@@ -2100,6 +2144,10 @@ var PlayerHandler=(function(){
 		var resp_data=new create_player_resp();
 		resp_data.readFrom(new CodedInputStream(ntMessage.payload));
 		console.log(resp_data)
+		if(resp_data.ret==0){
+			var loginMsg=new player_login();
+			NetClient.send("player_login",loginMsg);
+		}
 	}
 
 	__proto.handler_player_login_resp=function(ntMessage){
@@ -2178,6 +2226,7 @@ var DispatchManager=(function(){
 	__proto.registerHandler=function(){
 		this.handlerDic.set("PlayerHandler",new PlayerHandler());
 		this.handlerDic.set("RoomHandler",new RoomHandler());
+		this.handlerDic.set("GameHandler",new GameHandler());
 	}
 
 	__proto.messageDispatcher=function(ntMessage){
@@ -2393,7 +2442,7 @@ var LayaSample=(function(){
 	}
 
 	__proto.onLoaded=function(){
-		NetSocket.getInstance().connectToServer("ws://192.168.3.128:51001");
+		NetSocket.getInstance().connectToServer("ws://192.168.188.83:51001");
 	}
 
 	__proto.atlasUrls=function(){
@@ -17362,6 +17411,409 @@ var create_player_resp=(function(_super){
 })(Message)
 
 
+//class game.proto.GameMember extends com.google.protobuf.Message
+var GameMember=(function(_super){
+	function GameMember(){
+		this._uid="";
+		this._place=0;
+		this._sex=0;
+		this._nickname="";
+		this._portrait="";
+		this._portraitBoxId=0;
+		this._state=0;
+		this._ulevel=0;
+		this._vlevel=0;
+		GameMember.__super.call(this);
+	}
+
+	__class(GameMember,'game.proto.GameMember',_super);
+	var __proto=GameMember.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._uid.length==0)){
+			output.writeString(1,this._uid);
+		}
+		if (!(this._place==0)){
+			output.writeUInt32(2,this._place);
+		}
+		if (!(this._sex==0)){
+			output.writeUInt32(3,this._sex);
+		}
+		if (!(this._nickname.length==0)){
+			output.writeString(4,this._nickname);
+		}
+		if (!(this._portrait.length==0)){
+			output.writeString(5,this._portrait);
+		}
+		if (!(this._portraitBoxId==0)){
+			output.writeUInt32(6,this._portraitBoxId);
+		}
+		if (!(this._state==0)){
+			output.writeUInt32(7,this._state);
+		}
+		if (!(this._ulevel==0)){
+			output.writeUInt32(8,this._ulevel);
+		}
+		if (!(this._vlevel==0)){
+			output.writeUInt32(9,this._vlevel);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 10:{
+						this._uid=input.readString();
+						break ;
+					}
+				case 16:{
+						this._place=input.readUInt32();
+						break ;
+					}
+				case 24:{
+						this._sex=input.readUInt32();
+						break ;
+					}
+				case 34:{
+						this._nickname=input.readString();
+						break ;
+					}
+				case 42:{
+						this._portrait=input.readString();
+						break ;
+					}
+				case 48:{
+						this._portraitBoxId=input.readUInt32();
+						break ;
+					}
+				case 56:{
+						this._state=input.readUInt32();
+						break ;
+					}
+				case 64:{
+						this._ulevel=input.readUInt32();
+						break ;
+					}
+				case 72:{
+						this._vlevel=input.readUInt32();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'uid',function(){
+		return this._uid;
+		},function(value){
+		this._uid=value || "";
+	});
+
+	__getset(0,__proto,'nickname',function(){
+		return this._nickname;
+		},function(value){
+		this._nickname=value || "";
+	});
+
+	__getset(0,__proto,'place',function(){
+		return this._place;
+		},function(value){
+		this._place=value;
+	});
+
+	__getset(0,__proto,'sex',function(){
+		return this._sex;
+		},function(value){
+		this._sex=value;
+	});
+
+	__getset(0,__proto,'portraitBoxId',function(){
+		return this._portraitBoxId;
+		},function(value){
+		this._portraitBoxId=value;
+	});
+
+	__getset(0,__proto,'portrait',function(){
+		return this._portrait;
+		},function(value){
+		this._portrait=value || "";
+	});
+
+	__getset(0,__proto,'ulevel',function(){
+		return this._ulevel;
+		},function(value){
+		this._ulevel=value;
+	});
+
+	__getset(0,__proto,'state',function(){
+		return this._state;
+		},function(value){
+		this._state=value;
+	});
+
+	__getset(0,__proto,'vlevel',function(){
+		return this._vlevel;
+		},function(value){
+		this._vlevel=value;
+	});
+
+	return GameMember;
+})(Message)
+
+
+//class game.proto.game_leave_resp extends com.google.protobuf.Message
+var game_leave_resp=(function(_super){
+	function game_leave_resp(){
+		this._ret=0;
+		game_leave_resp.__super.call(this);
+	}
+
+	__class(game_leave_resp,'game.proto.game_leave_resp',_super);
+	var __proto=game_leave_resp.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._ret==0)){
+			output.writeUInt32(1,this._ret);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 8:{
+						this._ret=input.readUInt32();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'ret',function(){
+		return this._ret;
+		},function(value){
+		this._ret=value;
+	});
+
+	return game_leave_resp;
+})(Message)
+
+
+//class game.proto.game_start_notify extends com.google.protobuf.Message
+var game_start_notify=(function(_super){
+	function game_start_notify(){
+		this._teamid=0;
+		this._channel=0;
+		this._owner="";
+		this._state=0;
+		game_start_notify.__super.call(this);
+		this._members=[];
+	}
+
+	__class(game_start_notify,'game.proto.game_start_notify',_super);
+	var __proto=game_start_notify.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._teamid==0)){
+			output.writeUInt32(1,this._teamid);
+		}
+		if (!(this._channel==0)){
+			output.writeUInt32(2,this._channel);
+		}
+		if (!(this._owner.length==0)){
+			output.writeString(3,this._owner);
+		}
+		if (!(this._state==0)){
+			output.writeUInt32(4,this._state);
+		}
+		if (this._members.length > 0){
+			output.writeVector(this._members,5,16);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 8:{
+						this._teamid=input.readUInt32();
+						break ;
+					}
+				case 16:{
+						this._channel=input.readUInt32();
+						break ;
+					}
+				case 26:{
+						this._owner=input.readString();
+						break ;
+					}
+				case 32:{
+						this._state=input.readUInt32();
+						break ;
+					}
+				case 42:{
+						this._members.push(input.readMessage(new game.proto.GameMember()));
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'teamid',function(){
+		return this._teamid;
+		},function(value){
+		this._teamid=value;
+	});
+
+	__getset(0,__proto,'owner',function(){
+		return this._owner;
+		},function(value){
+		this._owner=value || "";
+	});
+
+	__getset(0,__proto,'channel',function(){
+		return this._channel;
+		},function(value){
+		this._channel=value;
+	});
+
+	__getset(0,__proto,'state',function(){
+		return this._state;
+		},function(value){
+		this._state=value;
+	});
+
+	__getset(0,__proto,'members',function(){
+		return this._members;
+		},function(value){
+		this._members=value || [];
+	});
+
+	return game_start_notify;
+})(Message)
+
+
+//class game.proto.game_update extends com.google.protobuf.Message
+var game_update=(function(_super){
+	function game_update(){
+		this._data="";
+		game_update.__super.call(this);
+	}
+
+	__class(game_update,'game.proto.game_update',_super);
+	var __proto=game_update.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._data.length==0)){
+			output.writeString(1,this._data);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 10:{
+						this._data=input.readString();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'data',function(){
+		return this._data;
+		},function(value){
+		this._data=value || "";
+	});
+
+	return game_update;
+})(Message)
+
+
+//class game.proto.game_update_notify extends com.google.protobuf.Message
+var game_update_notify=(function(_super){
+	function game_update_notify(){
+		this._data="";
+		game_update_notify.__super.call(this);
+	}
+
+	__class(game_update_notify,'game.proto.game_update_notify',_super);
+	var __proto=game_update_notify.prototype;
+	__proto.writeTo=function(output){
+		if (!(this._data.length==0)){
+			output.writeString(1,this._data);
+		}
+		_super.prototype.writeTo.call(this,output);
+	}
+
+	__proto.readFrom=function(input){
+		while(true){
+			var tag=input.readTag();
+			switch(tag){
+				case 0:{
+						return;
+					}
+				default :{
+						if (!input.skipField(tag)){
+							return;
+						}
+						break ;
+					}
+				case 10:{
+						this._data=input.readString();
+						break ;
+					}
+				}
+		}
+	}
+
+	__getset(0,__proto,'data',function(){
+		return this._data;
+		},function(value){
+		this._data=value || "";
+	});
+
+	return game_update_notify;
+})(Message)
+
+
 //class game.proto.NetError extends com.google.protobuf.Message
 var NetError=(function(_super){
 	function NetError(){
@@ -31270,7 +31722,7 @@ var WebGLImage=(function(_super){
 })(HTMLImage)
 
 
-	Laya.__init([LoaderManager,EventDispatcher,Render,DrawText,Browser,WebGLContext2D,ShaderCompile,Timer,LocalStorage,AtlasGrid]);
+	Laya.__init([EventDispatcher,LoaderManager,Render,DrawText,Browser,WebGLContext2D,ShaderCompile,Timer,LocalStorage,AtlasGrid]);
 	/**LayaGameStart**/
 	new LayaSample();
 

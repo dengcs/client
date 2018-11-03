@@ -7,6 +7,24 @@ package common
 	public class GameConstants{
 		public static const stageWidth:int = 1140;
 		public static const stageHeight:int = (1140 * 3) / 4;
+
+		public static const GLOBAL_POKER_MAX:int 		= 54 	// 扑克数量
+		public static const GLOBAL_PLAYER_NUM:int		= 3		// 玩家数量
+		public static const GLOBAL_POKER_NUM:int		= 17	// 玩家扑克数量
+
+		public static const POKER_TYPE_ONE:int 				= 1 // 单张
+		public static const POKER_TYPE_TWO:int 				= 2 // 对子
+		public static const POKER_TYPE_THREE:int 			= 3 // 3张
+		public static const POKER_TYPE_BOMB:int 			= 4	// 炸弹
+		public static const POKER_TYPE_KING:int				= 5	// 王炸
+		public static const POKER_TYPE_1STRAIGHT:int		= 11 // 顺子
+		public static const POKER_TYPE_2STRAIGHT:int		= 12 // 2连对
+		public static const POKER_TYPE_3STRAIGHT:int		= 13 // 3连对
+		public static const POKER_TYPE_3WITH1:int			= 14 // 3带1
+		public static const POKER_TYPE_3WITH2:int			= 15 // 3带2
+		public static const POKER_TYPE_4WITH1:int			= 16 // 4带1
+		public static const POKER_TYPE_4WITH21:int			= 17 // 4带2(两单张)
+		public static const POKER_TYPE_4WITH22:int			= 18 // 4带2(两对)
 	}
 
 }

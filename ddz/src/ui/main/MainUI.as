@@ -2,14 +2,17 @@
 package ui.main {
 	import laya.ui.*;
 	import laya.display.*; 
+	import common.ButtonRunTime;
 
 	public class MainUI extends View {
-		public var btn_cjc:Button;
-		public var btn_dsc:Button;
-		public var btn_gjc:Button;
+		public var btn_cjc:ButtonRunTime;
+		public var btn_gjc:ButtonRunTime;
+		public var btn_jyc:ButtonRunTime;
+		public var btn_dsc:ButtonRunTime;
 
-		public static var uiView:Object =/*[STATIC SAFE]*/{"type":"View","props":{"width":1140,"height":855},"child":[{"type":"Image","props":{"y":-2,"x":1,"skin":"main/bj/home_bg.jpg"}},{"type":"Button","props":{"y":220,"x":70,"width":280,"var":"btn_cjc","stateNum":1,"skin":"main/button/room_cc_cjc.png","label":"label","height":410}},{"type":"Button","props":{"y":220,"x":430,"var":"btn_dsc","stateNum":1,"skin":"main/button/room_cc_dsc.png","label":"label"}},{"type":"Button","props":{"y":220,"x":790,"var":"btn_gjc","stateNum":1,"skin":"main/button/room_cc_gjc.png","label":"label"}}]};
+		public static var uiView:Object =/*[STATIC SAFE]*/{"type":"View","props":{"width":1140,"height":855},"child":[{"type":"Image","props":{"y":-2,"x":1,"skin":"main/bj/home_bg.jpg"}},{"type":"Button","props":{"y":426,"x":155,"width":280,"var":"btn_cjc","stateNum":1,"skin":"main/button/room_cc_cjc.png","sizeGrid":"50,50,50,50","runtime":"common.ButtonRunTime","pivotY":205,"pivotX":140,"height":410}},{"type":"Button","props":{"y":427,"x":432,"var":"btn_gjc","stateNum":1,"skin":"main/button/room_cc_gjc.png","sizeGrid":"50,50,50,50","runtime":"common.ButtonRunTime","pivotY":205,"pivotX":140}},{"type":"Button","props":{"y":427,"x":708,"var":"btn_jyc","stateNum":1,"skin":"main/button/room_cc_jyc.png","sizeGrid":"50,50,50,50","runtime":"common.ButtonRunTime","pivotY":205,"pivotX":140}},{"type":"Button","props":{"y":427,"x":984,"var":"btn_dsc","stateNum":1,"skin":"main/button/room_cc_dsc.png","sizeGrid":"50,50,50,50","runtime":"common.ButtonRunTime","pivotY":205,"pivotX":140}}]};
 		override protected function createChildren():void {
+			View.regComponent("common.ButtonRunTime",ButtonRunTime);
 			super.createChildren();
 			createView(uiView);
 

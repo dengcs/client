@@ -1,0 +1,12 @@
+D .
+D main
+D main/bj
+R 64430C96 home_bg.jpg
+R C46888BC loading_bg.jpg
+D main/button
+P 5174630D room_cc_cjc.png
+P 47D2A221 room_cc_dsc.png
+P B78A3898 room_cc_gjc.png
+P 562E3E6F room_cc_jyc.png
+P 35F03E09 room_cc_zjc.png
+P 96227ED0 room_cc_zzc.png

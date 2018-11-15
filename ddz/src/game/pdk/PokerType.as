@@ -1,7 +1,6 @@
 package game.pdk
 {
 	import game.pdk.PokerType;
-	import laya.webgl.shapes.Ellipse;
 	import laya.utils.Dictionary;
 	import common.GameConstants;
 
@@ -545,7 +544,7 @@ package game.pdk
 			}
 
 			return 0;
-		}
+		}		
 	}
 
 }

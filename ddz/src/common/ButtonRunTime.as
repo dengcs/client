@@ -11,7 +11,7 @@ package common
 	public class ButtonRunTime extends Button{
 		public function ButtonRunTime(){
 			this.on(Event.MOUSE_DOWN, this, on_mousedown);
-			this.on(Event.MOUSE_UP, this, on_mouseup);
+			this.on(Event.MOUSE_OUT, this, on_mouseout);
 		}
 
 		private function on_mousedown():void
@@ -19,7 +19,7 @@ package common
 			Tween.to(this, {scaleX:1.1,scaleY:1.1}, 100);		
 		}
 
-		private function on_mouseup():void
+		private function on_mouseout():void
 		{
 			Tween.to(this, {scaleX:1,scaleY:1}, 100);
 		}

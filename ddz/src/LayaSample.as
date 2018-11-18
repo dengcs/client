@@ -9,7 +9,7 @@
 	import laya.events.Event;
 	
 	import game.net.NetSocket;
-	import view.main.Main;
+	import game.manager.ViewManager;
 	public class LayaSample {
 
 		public function LayaSample() {
@@ -34,8 +34,8 @@
 		}
 		
 		private function onLoaded():void {
-			var main:Main = new Main();
-			Laya.stage.addChild(main);
+			var viewMgr:ViewManager = new ViewManager();
+			Laya.stage.addChild(viewMgr);
 
 			NetSocket.getInstance().connectToServer("ws://192.168.3.128:51001");
 		}
@@ -46,6 +46,7 @@
 			var atlas:Array=[];
 
 			atlas.push("res/atlas/main/button.atlas");
+			atlas.push("res/atlas/game/poker.atlas");
 
 			return atlas;
 		}

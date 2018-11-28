@@ -63,7 +63,7 @@ package game.net
 		{
 			trace("Connected");
 			
-			NetClient.handshake();
+			Laya.timer.frameOnce(100, null, NetClient.handshake)
 		}
 		
 		private function onSocketClose(e:*=null):void

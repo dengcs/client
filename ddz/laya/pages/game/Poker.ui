@@ -84,19 +84,6 @@
                                 }]
                         }]
                 }]
-        },
-        {
-            "x":15,
-            "type":"Image",
-            "props":{"y":113,"x":569,"var":"bgImg","skin":"game/poker/poker_bg.png","anchorY":0.5,"anchorX":0.5},
-            "nodeParent":1,
-            "label":"Image(bgImg)",
-            "isDirectory":false,
-            "isAniNode":true,
-            "hasChild":false,
-            "compId":10,
-            "child":[
-                ]
         }],
     "animations":[
         {

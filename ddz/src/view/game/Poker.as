@@ -72,16 +72,46 @@ package view.game
 			bcolorImg.skin 	= item.bcolor;
 		}
 
-		public function onDealPoker(data:Array):void
+		public function onEvent(type:String, data:*=null):void
 		{
+			if(type == GameEvent.GAME_DEAL_POKER)
+			{
+				this.onDealPoker(data);
+			}else if(type == GameEvent.GAME_CARDS_POKER)
+			{
+				this.onCardsPoker(data.msg);
+			}else if(type == GameEvent.GAME_PLAY_POKER)
+			{
+
+			}
+		}
+
+		private function onDealPoker(data:Array):void
+		{			
+			this.data = [];
 			this.loadData(data);
+		}
+
+		private function onCardsPoker(data:Array):void
+		{
+			trace("onCardsPoker", data)
+			this.loadData(data);
+			this.update();
+		}
+
+		private function onPlayPoker():void
+		{
+			// var data:Object = new Object();
+			// data.cmd = GameConstants.PLAY_STATE_PLAY;
+
+			// notify_game_update(data);
+			var ev:Event = new Event();
+			ev.type = Event.MOUSE_OVER;
+			this.onListMouse(ev, 0);
 		}
 
 		private function loadData(data:Array):void
 		{
-			this.data = [];
-
-			var index:int = 0;
 			for each(var card:int in data)
 			{
 				var value:int = Math.ceil(card/4);
@@ -89,7 +119,6 @@ package view.game
 
 				var dataObj:Object = new Object();
 				dataObj.value = card;
-				dataObj.index = index++;
 
 				if(card == 53)
 				{

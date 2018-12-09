@@ -38,10 +38,7 @@ package view.game
 
 		public function onPokerEvent(type:String, data:*=null):void
 		{
-			if(type == GameEvent.GAME_DEAL_POKER)
-			{
-				this.minePoker.onDealPoker(data);
-			}
+			this.minePoker.onEvent(type, data);
 		}
 	}
 

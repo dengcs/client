@@ -51,7 +51,7 @@ package game.pdk.command
 
 		public function get_cards(msg:Object):void
 		{
-			
+			game.onPokerEvent(GameEvent.GAME_CARDS_POKER, msg);
 		}
 		
 		public function double(msg:Object):void
@@ -74,14 +74,12 @@ package game.pdk.command
 		{
 			if(msg == null)
 			{
-				// 命令处理
-				// var data:Object = new Object();
-				// data.cmd = GameConstants.PLAY_STATE_PLAY;
-
-				// notify_game_update(data);
+				// 命令处理				
+				game.onPokerEvent(GameEvent.GAME_PLAY_POKER);
 			}else
 			{
 				// 广播，表现效果
+				trace("play", msg)
 			}
 		}
 

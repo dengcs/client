@@ -34,10 +34,10 @@
 		}
 		
 		private function onLoaded():void {
-			var viewMgr:ViewManager = new ViewManager();
+			var viewMgr:ViewManager = ViewManager.getInstance();
 			Laya.stage.addChild(viewMgr);
 
-			NetSocket.getInstance().connectToServer("ws://192.168.3.128:51001");
+			NetSocket.getInstance().connectToServer("ws://192.168.3.129:50001");
 		}
 		
 

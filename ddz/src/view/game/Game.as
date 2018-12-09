@@ -4,6 +4,8 @@ package view.game
 	import ui.game.GameUI
 	import laya.events.Event;
 	import view.game.Poker;
+	import common.GameEvent;
+	import game.net.NetClient;
 
 	public class Game extends GameUI
 	{
@@ -11,14 +13,15 @@ package view.game
 		public function Game() 
 		{
 			this.visible = false;
+			this.minePoker = new Poker();
 			this.on(Event.ADDED, this, onAddedToStage);
 		}
 
 		private function onAddedToStage(event:Event):void
 		{
-			this.off(Event.ADDED, this, onAddedToStage);
-			this.minePoker = new Poker();
+			this.off(Event.ADDED, this, onAddedToStage);			
 			this.addChild(minePoker);
+			NetClient.handshake();
 		}
 
 		public function show():void
@@ -31,6 +34,14 @@ package view.game
 		{
 			this.visible = false;
 			this.minePoker.hide();
+		}
+
+		public function onPokerEvent(type:String, data:*=null):void
+		{
+			if(type == GameEvent.GAME_DEAL_POKER)
+			{
+				this.minePoker.onDealPoker(data);
+			}
 		}
 	}
 

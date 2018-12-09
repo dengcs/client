@@ -3,12 +3,23 @@ package game.pdk.command
 	import game.net.NetClient;
 	import game.proto.game_update;
 	import common.GameConstants;
+	import game.pdk.command.Actor;
+	import view.game.Game;
+	import game.manager.ViewManager;
+	import common.GameEvent;
 
 	/**
 	 * ...
 	 * @dengcs
 	 */
 	public class Actor{
+
+		private var game:Game = null;
+
+		public function Actor()
+		{
+			game = ViewManager.getInstance().game;
+		}
 
 		private function notify_game_update(data:Object):void
 		{
@@ -19,7 +30,7 @@ package game.pdk.command
 		
 		public function deal(msg:Object):void
 		{
-
+			game.onPokerEvent(GameEvent.GAME_DEAL_POKER, msg);
 		}
 
 		public function snatch(msg:Object):void
@@ -64,10 +75,10 @@ package game.pdk.command
 			if(msg == null)
 			{
 				// 命令处理
-				var data:Object = new Object();
-				data.cmd = GameConstants.PLAY_STATE_PLAY;
+				// var data:Object = new Object();
+				// data.cmd = GameConstants.PLAY_STATE_PLAY;
 
-				notify_game_update(data);
+				// notify_game_update(data);
 			}else
 			{
 				// 广播，表现效果

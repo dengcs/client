@@ -10,13 +10,27 @@ package game.manager
 	 * ...
 	 * @author
 	 */
-	public class ViewManager extends Sprite{
+	public final class ViewManager extends Sprite{
+		private static  var _instance:ViewManager = null;
+
 		private var mainView:Main;
 		private var gameView:Game;
 
 		public function ViewManager(){
-			super();
-			this.on(Event.ADDED, this, onAddedToStage);
+			if (_instance == null) {
+				super();
+				this.on(Event.ADDED, this, onAddedToStage);
+            }else{
+                 throw new Error("只能用getInstance()来获取实例!");
+			}
+		}
+
+		public static function getInstance():ViewManager
+		{
+			if (_instance == null) {
+                _instance = new ViewManager();
+            }
+            return _instance;
 		}
 
 		private function onAddedToStage(event:Event):void
@@ -51,6 +65,16 @@ package game.manager
 		{
 			mainView.show();
 			gameView.hide();
+		}
+
+		public function get main():Main
+		{
+			return mainView;
+		}
+
+		public function get game():Game
+		{
+			return gameView;
 		}
 	}
 

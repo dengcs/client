@@ -7,6 +7,7 @@ package game.net
 	import game.proto.NetHeader;
 	import game.proto.NetMessage;
 	import game.proto.query_players;
+	import game.net.NetClient;
 	/**
 	 * ...
 	 * @dengcs
@@ -29,13 +30,23 @@ package game.net
 			NetSocket.getInstance().sendAndFlush(sendMsg.getUint8Array(0,sendMsg.length));
 		}
 
-		public static function handshake():void
+		private static function login():void
 		{
 			var q_player:query_players = new query_players();
-			
+				
 			q_player.account = "dcs1006";
 			
 			send("query_players", q_player);
+		}
+
+		public static function handshake():void
+		{			
+			if(NetSocket.getInstance().isOpened() == false)
+			{
+				Laya.timer.once(100, null, NetClient.handshake);
+			}else{
+				login();
+			}
 		} 
 	}
 

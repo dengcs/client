@@ -1,9 +1,7 @@
 package game.pdk.command
 {
 	import common.GameConstants;
-	import game.pdk.command.DoubleCommand;
 	import game.pdk.command.PlayCommand;
-	import game.pdk.command.SnatchCommand;
 	import game.pdk.command.Actor;
 	import game.pdk.command.Command;
 
@@ -14,9 +12,7 @@ package game.pdk.command
 	public class CommandParse{
 		private static  var _instance:CommandParse = null;
 
-		private var doubleCommand:DoubleCommand = new DoubleCommand();
 		private var playCommand:PlayCommand = new PlayCommand();
-		private var snatchCommand:SnatchCommand = new SnatchCommand();
 
 		private var actor:Actor = new Actor();
 
@@ -47,20 +43,22 @@ package game.pdk.command
 			{
 				case GameConstants.PLAY_STATE_DEAL:
 				{
+					actor.deal(cmdObj.msg);
 					break;
 				}
 				case GameConstants.PLAY_STATE_SNATCH:
 				{
-					execute(snatchCommand, cmdObj.msg);
+					actor.snatch(cmdObj.msg);
 					break;
 				}
 				case GameConstants.PLAY_GET_CARDS:
-				{					
+				{
+					actor.get_cards(cmdObj.msg);					
 					break;
 				}
 				case GameConstants.PLAY_STATE_DOUBLE:
 				{
-					execute(doubleCommand, cmdObj.msg);
+					actor.double(cmdObj.msg);
 					break;
 				}
 				case GameConstants.PLAY_STATE_PLAY:
@@ -70,6 +68,7 @@ package game.pdk.command
 				}
 				case GameConstants.PLAY_STATE_OVER:
 				{
+					actor.over(cmdObj.msg);
 					break;
 				}				
 				default:

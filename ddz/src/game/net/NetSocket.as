@@ -12,6 +12,7 @@ package game.net
 		private static  var _instance:NetSocket = null;
 
 		private var socket:Socket = null;
+		private var nstate:int = 0;
 
 		public function NetSocket(){
 			if (_instance != null) {
@@ -62,18 +63,18 @@ package game.net
 		private function onSocketOpen(e:*=null):void
 		{
 			trace("Connected");
-			
-			Laya.timer.frameOnce(100, null, NetClient.handshake)
+			this.nstate = 1;
 		}
 		
 		private function onSocketClose(e:*=null):void
 		{
 			trace("closed");
+			this.nstate = 2;
 		}
 		
 		private function onMessageReveived(message:*=null):void
 		{
-			trace("reveived");
+			//trace("reveived");
 
 			NetHandler.getInstance().handlerMsg(message);
 		}
@@ -81,6 +82,11 @@ package game.net
 		private function onConnectError(e:*=null):void
 		{
 			trace("error");
+		}
+
+		public function isOpened():Boolean
+		{
+			return this.nstate == 1;
 		}
 	}
 

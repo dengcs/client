@@ -51,9 +51,9 @@ package game.pdk.command
 					actor.snatch(cmdObj.msg);
 					break;
 				}
-				case GameConstants.PLAY_GET_CARDS:
+				case GameConstants.PLAY_STATE_CARDS:
 				{
-					actor.get_cards(cmdObj.msg);					
+					actor.cards(cmdObj.msg);					
 					break;
 				}
 				case GameConstants.PLAY_STATE_DOUBLE:

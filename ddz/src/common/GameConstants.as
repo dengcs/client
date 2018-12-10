@@ -32,7 +32,7 @@ package common
 		public static const PLAY_STATE_DOUBLE:int			= 4 // 加倍
 		public static const PLAY_STATE_PLAY:int				= 5 // 游戏
 		public static const PLAY_STATE_OVER:int				= 6 // 结束
-		public static const PLAY_GET_CARDS:int				= 11 // 底牌
+		public static const PLAY_STATE_CARDS:int			= 11 // 底牌
 	}
 
 }

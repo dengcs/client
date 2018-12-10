@@ -49,9 +49,13 @@ package game.pdk.command
 			}
 		}
 
-		public function get_cards(msg:Object):void
+		public function cards(msg:Object):void
 		{
-			game.onPokerEvent(GameEvent.GAME_CARDS_POKER, msg);
+			if(msg == null)
+			{
+			}else{
+				game.onPokerEvent(GameEvent.GAME_CARDS_POKER, msg);
+			}
 		}
 		
 		public function double(msg:Object):void

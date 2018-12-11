@@ -74,10 +74,13 @@ package view.game
 				this.onDealPoker(data);
 			}else if(type == GameEvent.GAME_CARDS_POKER)
 			{
-				this.onCardsPoker(data.msg);
+				if(data != null)
+				{
+					this.onCardsPoker(data.msg);
+				}
 			}else if(type == GameEvent.GAME_PLAY_POKER)
 			{
-
+				this.onPlayPoker(data);
 			}
 		}
 
@@ -97,15 +100,9 @@ package view.game
 			this.sortAndUpdate();
 		}
 
-		private function onPlayPoker():void
+		private function onPlayPoker(data:int):void
 		{
-			// var data:Object = new Object();
-			// data.cmd = GameConstants.PLAY_STATE_PLAY;
-
-			// notify_game_update(data);
-			var ev:Event = new Event();
-			ev.type = Event.MOUSE_OVER;
-			this.onListMouse(ev, 0);
+			
 		}
 
 		private function loadData(data:Array):void
@@ -314,7 +311,7 @@ package view.game
 
 		private function tweenRoundComplete():void
 		{
-
+			this.event(GameEvent.GAME_DEAL_TABLE);
 		}
 	}
 

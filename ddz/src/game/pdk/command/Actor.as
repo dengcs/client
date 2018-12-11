@@ -1,9 +1,5 @@
 package game.pdk.command
 {
-	import game.net.NetClient;
-	import game.proto.game_update;
-	import common.GameConstants;
-	import game.pdk.command.Actor;
 	import view.game.Game;
 	import game.manager.ViewManager;
 	import common.GameEvent;
@@ -20,13 +16,6 @@ package game.pdk.command
 		{
 			game = ViewManager.getInstance().game;
 		}
-
-		private function notify_game_update(data:Object):void
-		{
-			var sendMsg:game_update = new game_update();
-			sendMsg.data = JSON.stringify(data);
-			NetClient.send("game_update", sendMsg);
-		}
 		
 		public function deal(msg:Object):void
 		{
@@ -37,12 +26,7 @@ package game.pdk.command
 		{
 			if(msg == null)
 			{
-				// 命令处理
-				var data:Object = new Object();
-				data.cmd = GameConstants.PLAY_STATE_SNATCH;
-				data.msg = Math.ceil(Math.random() * 2);
-
-				notify_game_update(data);
+				game.onTableEvent(GameEvent.GAME_SNATCH_TABLE);				
 			}else
 			{
 				// 广播，表现效果
@@ -53,6 +37,7 @@ package game.pdk.command
 		{
 			if(msg == null)
 			{
+				game.onTableEvent(GameEvent.GAME_CARDS_TABLE);
 			}else{
 				game.onPokerEvent(GameEvent.GAME_CARDS_POKER, msg);
 			}
@@ -62,12 +47,7 @@ package game.pdk.command
 		{
 			if(msg == null)
 			{
-				// 命令处理
-				var data:Object = new Object();
-				data.cmd = GameConstants.PLAY_STATE_DOUBLE;
-				data.msg = Math.ceil(Math.random() * 2);
-
-				notify_game_update(data);
+				game.onTableEvent(GameEvent.GAME_DOUBLE_TABLE);	
 			}else
 			{
 				// 广播，表现效果
@@ -79,7 +59,7 @@ package game.pdk.command
 			if(msg == null)
 			{
 				// 命令处理				
-				game.onPokerEvent(GameEvent.GAME_PLAY_POKER);
+				game.onTableEvent(GameEvent.GAME_PLAY_TABLE);
 			}else
 			{
 				// 广播，表现效果

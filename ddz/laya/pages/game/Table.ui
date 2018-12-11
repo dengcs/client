@@ -2,17 +2,93 @@
     "x":0,
     "type":"View",
     "selectedBox":1,
-    "selecteID":3,
+    "selecteID":5,
     "props":{"width":1140,"sceneColor":"#000000","height":855},
     "nodeParent":-1,
     "label":"View",
     "isOpen":true,
-    "isDirectory":false,
+    "isDirectory":true,
     "isAniNode":true,
-    "hasChild":false,
+    "hasChild":true,
     "compId":1,
     "child":[
-        ],
+        {
+            "x":15,
+            "type":"Panel",
+            "props":{"y":277,"x":370,"width":400,"var":"pnlSnatch","height":300},
+            "nodeParent":1,
+            "label":"Panel(pnlSnatch)",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":2,
+            "child":[
+                {
+                    "type":"Button",
+                    "props":{"y":240,"x":244,"var":"btnSnatchYes","stateNum":"1","skin":"game/button/btn_bg_green.png","pivotY":0.5,"pivotX":0.5},
+                    "nodeParent":2,
+                    "label":"Button(btnSnatchYes)",
+                    "isOpen":false,
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":3,
+                    "child":[
+                        ]
+                },
+                {
+                    "type":"Button",
+                    "props":{"y":240,"x":0,"var":"btnSnatchNo","stateNum":"1","skin":"game/button/btn_bg_red.png","pivotY":0.5,"pivotX":0.5},
+                    "nodeParent":2,
+                    "label":"Button(btnSnatchNo)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":4,
+                    "child":[
+                        ]
+                }]
+        },
+        {
+            "x":15,
+            "type":"Panel",
+            "props":{"y":277,"x":370,"width":400,"var":"pnlDouble","height":300},
+            "nodeParent":1,
+            "label":"Panel(pnlDouble)",
+            "isOpen":false,
+            "isDirectory":true,
+            "isAniNode":true,
+            "hasChild":true,
+            "compId":5,
+            "child":[
+                {
+                    "x":30,
+                    "type":"Button",
+                    "props":{"y":240,"x":0,"var":"btnDoubleYes","stateNum":"1","skin":"game/button/btn_bg_green.png"},
+                    "nodeParent":5,
+                    "label":"Button(btnDoubleYes)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":6,
+                    "child":[
+                        ]
+                },
+                {
+                    "x":30,
+                    "type":"Button",
+                    "props":{"y":240,"x":244,"var":"btnDoubleNo","stateNum":"1","skin":"game/button/btn_bg_red.png"},
+                    "nodeParent":5,
+                    "label":"Button(btnDoubleNo)",
+                    "isDirectory":false,
+                    "isAniNode":true,
+                    "hasChild":false,
+                    "compId":7,
+                    "child":[
+                        ]
+                }]
+        }],
     "animations":[
         {
             "nodes":[

@@ -18,7 +18,6 @@ package game.manager
 
 		public function ViewManager(){
 			if (_instance == null) {
-				super();
 				this.on(Event.ADDED, this, onAddedToStage);
             }else{
                  throw new Error("只能用getInstance()来获取实例!");

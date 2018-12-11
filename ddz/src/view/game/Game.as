@@ -35,12 +35,14 @@ package view.game
 		{
 			this.visible = true;
 			this.minePoker.show();
+			this.mineTable.show();
 		}
 
 		public function hide():void
 		{
 			this.visible = false;
 			this.minePoker.hide();
+			this.mineTable.hide();
 		}
 
 		public function onPokerEvent(type:String, data:*=null):void

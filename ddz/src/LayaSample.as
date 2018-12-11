@@ -34,10 +34,10 @@
 		}
 		
 		private function onLoaded():void {
+			NetSocket.getInstance().connectToServer("ws://192.168.3.129:50001");
+			
 			var viewMgr:ViewManager = ViewManager.getInstance();
 			Laya.stage.addChild(viewMgr);
-
-			NetSocket.getInstance().connectToServer("ws://192.168.3.129:50001");
 		}
 		
 
@@ -47,6 +47,7 @@
 
 			atlas.push("res/atlas/main/button.atlas");
 			atlas.push("res/atlas/game/poker.atlas");
+			atlas.push("res/atlas/game/button.atlas");
 
 			return atlas;
 		}

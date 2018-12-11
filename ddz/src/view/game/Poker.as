@@ -21,7 +21,6 @@ package view.game
 		private var num:int = 20; // 当前
 		private var place:int = 0;
 		private var data:Array = [];
-		private var hidePoker:Boolean = true;
 		
 		public function Poker() 
 		{
@@ -53,10 +52,6 @@ package view.game
 			var item:Object = this.data[index];
 
 			var parent:Sprite = cell.getChildAt(0) as Sprite;
-			if(this.hidePoker)
-			{
-				parent.visible = false;
-			}
 
 			var literalImg:Image = parent.getChildByName("literal") as Image;
 			var scolorImg:Image = literalImg.getChildByName("scolor") as Image;
@@ -86,10 +81,17 @@ package view.game
 
 		private function onDealPoker(data:Array):void
 		{
-			this.hidePoker = true;
-			this.data = [];
 			this.loadData(data);
 			this.update();
+			for(var index:int in this.data)
+			{
+				var cell:Box = this.list.getCell(index);
+				if(cell != null)
+				{
+					var parent:Sprite = cell.getChildAt(0) as Sprite;
+					parent.visible = false;
+				}
+			}
 			
 			this.dealAction(0);
 		}
@@ -134,7 +136,6 @@ package view.game
 					dataObj.literal = "game/poker/" + colorStr + "_" + value + ".png";
 					dataObj.scolor = dataObj.bcolor = "game/poker/big_" + color + ".png";
 				}
-				trace(dataObj)
 				this.data.push(dataObj);
 			}
 		}
@@ -268,8 +269,7 @@ package view.game
 		}
 
 		private function update():void
-		{			
-			this.hidePoker = false;	
+		{
 			this.num = this.list.length;
 
 			if(this.num == 20)
@@ -311,7 +311,7 @@ package view.game
 
 		private function tweenRoundComplete():void
 		{
-			this.event(GameEvent.GAME_DEAL_TABLE);
+			this.event(GameEvent.GAME_DEAL_POKER);
 		}
 	}
 

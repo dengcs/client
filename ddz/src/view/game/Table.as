@@ -6,6 +6,7 @@ package view.game
 	import game.proto.game_update;
 	import game.net.NetClient;
 	import common.GameConstants;
+	import laya.events.Event;
 
 	public class Table extends TableUI
 	{
@@ -14,6 +15,12 @@ package view.game
 		public function Table() 
 		{
 			this.visible = false;
+			this.pnlSnatch.visible = false;
+			this.pnlDouble.visible = false;
+			this.btnSnatchYes.on(Event.CLICK, this, onBtnSnatch);
+			this.btnSnatchNo.on(Event.CLICK, this, onBtnNotSnatch);
+			this.btnDoubleYes.on(Event.CLICK, this, onBtnDouble);
+			this.btnDoubleNo.on(Event.CLICK, this, onBtnNotDouble);
 		}
 
 		public function show():void
@@ -49,23 +56,23 @@ package view.game
 
 		private function onDealComplete():void
 		{
-			if((this.snatch++) == 2)
+			if((++this.snatch) >= 2)
 			{
-
+				this.pnlSnatch.visible = true;
 			}
 		}
 
 		private function onShowSnatch():void
 		{
-			if((this.snatch++) == 2)
+			if((++this.snatch) >= 2)
 			{
-
+				this.pnlSnatch.visible = true;
 			}
 		}
 
 		private function onShowDouble():void
 		{
-
+			this.pnlDouble.visible = true;
 		}
 
 		private function onShowCards():void
@@ -87,6 +94,8 @@ package view.game
 
 		private function onBtnSnatch():void
 		{
+			this.pnlSnatch.visible = false;
+
 			var data:Object = new Object();
 			data.cmd = GameConstants.PLAY_STATE_SNATCH;
 			data.msg = 1;
@@ -96,6 +105,8 @@ package view.game
 
 		private function onBtnNotSnatch():void
 		{
+			this.pnlSnatch.visible = false;
+
 			var data:Object = new Object();
 			data.cmd = GameConstants.PLAY_STATE_SNATCH;
 			data.msg = 0;
@@ -105,6 +116,8 @@ package view.game
 
 		private function onBtnDouble():void
 		{
+			this.pnlDouble.visible = false;
+
 			var data:Object = new Object();
 			data.cmd = GameConstants.PLAY_STATE_DOUBLE;
 			data.msg = 1;
@@ -114,6 +127,8 @@ package view.game
 
 		private function onBtnNotDouble():void
 		{
+			this.pnlDouble.visible = false;
+
 			var data:Object = new Object();
 			data.cmd = GameConstants.PLAY_STATE_DOUBLE;
 			data.msg = 0;

@@ -21,11 +21,10 @@ package view.game
 		private var num:int = 20; // 当前
 		private var place:int = 0;
 		private var data:Array = [];
-		private var nstate:int = 0;
+		private var hidePoker:Boolean = true;
 		
 		public function Poker() 
 		{
-			super();
 			this.visible = false;
 			this.on(Event.ADDED, this, onAddedToStage);
 		}
@@ -40,12 +39,8 @@ package view.game
 
 		public function show():void
 		{
-			this.nstate = 1;
 			this.visible = true;			
 			this.list.array = this.data;
-			this.update();
-
-			Laya.timer.once(1000,this,dealAction,[0]);
 		}
 
 		public function hide():void
@@ -58,7 +53,7 @@ package view.game
 			var item:Object = this.data[index];
 
 			var parent:Sprite = cell.getChildAt(0) as Sprite;
-			if(this.nstate == 1)
+			if(this.hidePoker)
 			{
 				parent.visible = false;
 			}
@@ -87,16 +82,19 @@ package view.game
 		}
 
 		private function onDealPoker(data:Array):void
-		{			
+		{
+			this.hidePoker = true;
 			this.data = [];
 			this.loadData(data);
+			this.update();
+			
+			this.dealAction(0);
 		}
 
 		private function onCardsPoker(data:Array):void
 		{
-			trace("onCardsPoker", data)
 			this.loadData(data);
-			this.update();
+			this.sortAndUpdate();
 		}
 
 		private function onPlayPoker():void
@@ -240,7 +238,7 @@ package view.game
 
 			if((index + 1) == this.list.length && place == 2)
 			{				
-				this.tweenRoundStart();
+				this.tweenRoundBegin();
 			}
 		}
 
@@ -273,7 +271,8 @@ package view.game
 		}
 
 		private function update():void
-		{
+		{			
+			this.hidePoker = false;	
 			this.num = this.list.length;
 
 			if(this.num == 20)
@@ -287,6 +286,12 @@ package view.game
 			this.list.refresh();
 		}
 
+		private function sortAndUpdate():void
+		{
+			this.data.sort(Poker.compare);
+			this.update();
+		}
+
 		public static function compare(a:Object, b:Object):Number
 		{
 			if(a.value < b.value)
@@ -296,17 +301,20 @@ package view.game
 			return -1;
 		}
 
-		private function tweenRoundStart():void
+		private function tweenRoundBegin():void
 		{
-			Tween.to(this.list,{scaleX:0,scaleY:0,skewY:-15},300,Ease.quartIn,Handler.create(this,tweenRoundStop));
+			Tween.to(this.list,{scaleX:0,scaleY:0,skewY:-15},300,Ease.quartIn,Handler.create(this,tweenRoundEnd));
 		}
 
-		private function tweenRoundStop():void
+		private function tweenRoundEnd():void
 		{
-			this.nstate = 2;			
-			this.data.sort(Poker.compare);
-			this.update();
-			Tween.to(this.list,{scaleX:1,scaleY:1,skewY:0},300,Ease.quartOut);
+			this.sortAndUpdate();
+			Tween.to(this.list,{scaleX:1,scaleY:1,skewY:0},300,Ease.quartOut,Handler.create(this,tweenRoundComplete));
+		}
+
+		private function tweenRoundComplete():void
+		{
+
 		}
 	}
 

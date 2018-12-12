@@ -21,6 +21,8 @@ package view.game
 		private var num:int = 20; // 当前
 		private var place:int = 0;
 		private var data:Array = [];
+		private var cards:Array = [];
+		private var isOwner:Boolean = false;
 		
 		public function Poker() 
 		{
@@ -72,6 +74,8 @@ package view.game
 				if(data != null)
 				{
 					this.onCardsPoker(data.msg);
+				}else{
+					this.onGainOwner();
 				}
 			}else if(type == GameEvent.GAME_PLAY_POKER)
 			{
@@ -83,23 +87,22 @@ package view.game
 		{
 			this.loadData(data);
 			this.update();
-			for(var index:int in this.data)
-			{
-				var cell:Box = this.list.getCell(index);
-				if(cell != null)
-				{
-					var parent:Sprite = cell.getChildAt(0) as Sprite;
-					parent.visible = false;
-				}
-			}
-			
+			this.hideListCell();			
 			this.dealAction(0);
+		}
+
+		private function onGainOwner():void
+		{
+			this.isOwner = true;
+
+			this.loadData(this.cards);
+			this.showInsertCards();
+			this.sortAndUpdate();
 		}
 
 		private function onCardsPoker(data:Array):void
 		{
-			this.loadData(data);
-			this.sortAndUpdate();
+			this.cards = data;
 		}
 
 		private function onPlayPoker(data:int):void
@@ -192,15 +195,15 @@ package view.game
 				y = 425;
 			}
 			
-			Tween.to(img,{x:x,y:y,scaleX:scaleX,scaleY:scaleY},300,Ease.strongIn,Handler.create(this,tweenBgImgComple,[index, place, img]));
+			Tween.to(img, {x:x,y:y,scaleX:scaleX,scaleY:scaleY}, 100, Ease.strongIn, Handler.create(this,tweenBgImgComple,[index, place, img]));
 
 			if(place == 2)
 			{
 				var next_index:int = index+1
-				Laya.timer.once(100,this,dealAction,[next_index]);
+				Laya.timer.once(100, this, dealAction, [next_index]);
 			}else
 			{
-				Laya.timer.once(100,this,dealAction,[index]);
+				Laya.timer.once(100, this, dealAction, [index]);
 			}
 
 			this.place++;
@@ -216,8 +219,7 @@ package view.game
 				var cell:Box = this.list.getCell(index);
 				if(cell != null)
 				{
-					var parent:Sprite = cell.getChildAt(0) as Sprite;
-					parent.visible = true;
+					cell.visible = true;
 				}
 			}else
 			{
@@ -242,28 +244,55 @@ package view.game
 
 		private function onListMouse(e:Event, index: int): void 
 		{
+			var cell:Box = null;
 			if(e.type == Event.CLICK)
 			{
-				var selectItem:Box = this.list.getCell(index);
-				if(selectItem.y != 0)
+				cell = this.list.getCell(index);
+				if(cell.y != 0)
 				{
-					selectItem.y = 0;
+					cell.y = 0;
 				}else{
-					selectItem.y -= 30;
+					cell.y = -30;
 				}
 			}else if(e.type == Event.MOUSE_OVER)
 			{				
-				var selectItem:Box = this.list.getCell(index);
-				if(selectItem.y == 0)
+				cell = this.list.getCell(index);
+				if(cell.y == 0)
 				{
-					selectItem.y -= 30;
+					cell.y = -30;
 				}
 			}else if(e.type == Event.MOUSE_OUT)
 			{				
-				var selectItem:Box = this.list.getCell(index);
-				if(selectItem.y != 0)
+				cell = this.list.getCell(index);
+				if(cell.y != 0)
 				{
-					selectItem.y = 0;
+					cell.y = 0;
+				}
+			}
+		}
+
+		private function hideListCell():void
+		{			
+			for(var index:int in this.data)
+			{
+				var cell:Box = this.list.getCell(index);
+				if(cell != null)
+				{
+					cell.visible = false;
+				}
+			}
+		}
+
+		private function showInsertCards():void
+		{			
+			var len:int = this.list.length;
+			for(var i:int = 1; i <= 3; i++)
+			{
+				var cell:Box = this.list.getCell(len - i);
+				if(cell != null)
+				{
+					cell.y = -30;
+					Tween.to(cell, {y : 0}, 300, Ease.quadIn);
 				}
 			}
 		}
@@ -300,13 +329,13 @@ package view.game
 
 		private function tweenRoundBegin():void
 		{
-			Tween.to(this.list,{scaleX:0,scaleY:0,skewY:-15},300,Ease.quartIn,Handler.create(this,tweenRoundEnd));
+			Tween.to(this.list, {scaleX:0,scaleY:0,skewY:-15}, 300, Ease.quartIn, Handler.create(this, tweenRoundEnd));
 		}
 
 		private function tweenRoundEnd():void
 		{
 			this.sortAndUpdate();
-			Tween.to(this.list,{scaleX:1,scaleY:1,skewY:0},300,Ease.quartOut,Handler.create(this,tweenRoundComplete));
+			Tween.to(this.list, {scaleX:1,scaleY:1,skewY:0}, 300, Ease.quartOut, Handler.create(this, tweenRoundComplete));
 		}
 
 		private function tweenRoundComplete():void

@@ -17,10 +17,14 @@ package view.game
 			this.visible = false;
 			this.pnlSnatch.visible = false;
 			this.pnlDouble.visible = false;
+			this.pnlPlay.visible = false;
 			this.btnSnatchYes.on(Event.CLICK, this, onBtnSnatch);
 			this.btnSnatchNo.on(Event.CLICK, this, onBtnNotSnatch);
 			this.btnDoubleYes.on(Event.CLICK, this, onBtnDouble);
 			this.btnDoubleNo.on(Event.CLICK, this, onBtnNotDouble);
+			this.btnPlayYes.on(Event.CLICK, this, onBtnPlay);
+			this.btnPlayPrompt.on(Event.CLICK, this, onBtnPromptPlay);
+			this.btnPlayCancel.on(Event.CLICK, this, onBtnCancelPlay);
 		}
 
 		public function show():void
@@ -82,7 +86,7 @@ package view.game
 
 		private function onShowPlay():void
 		{
-
+			this.pnlPlay.visible = true;
 		}
 
 		private function notify_game_update(data:Object):void
@@ -143,16 +147,21 @@ package view.game
 			data.msg = 0;
 
 			this.notify_game_update(data);
-		}
+		}		
 
-		private function onBtnPromptPlay():void
+		private function onBtnPlay():void
 		{
 			this.event(GameEvent.GAME_PLAY_TABLE, 0);
 		}
 
-		private function onBtnPlay():void
+		private function onBtnPromptPlay():void
 		{
 			this.event(GameEvent.GAME_PLAY_TABLE, 1);
+		}
+
+		private function onBtnCancelPlay():void
+		{
+			this.event(GameEvent.GAME_PLAY_TABLE, 2);
 		}
 	}
 

@@ -23,6 +23,7 @@ package view.game
 		private var data:Array = [];
 		private var cards:Array = [];
 		private var isOwner:Boolean = false;
+		private var isRendered:Boolean = false;
 		
 		public function Poker() 
 		{
@@ -47,6 +48,7 @@ package view.game
 		public function hide():void
 		{
 			this.visible = false;
+			this.data = [];
 		}		
 
 		private function onListRender(cell:Box, index: int): void 
@@ -62,6 +64,14 @@ package view.game
 			literalImg.skin = item.literal;
 			scolorImg.skin 	= item.scolor;
 			bcolorImg.skin 	= item.bcolor;
+
+			if(index == 16)
+			{
+				this.hideListCell();				
+			}else if(index == 19)
+			{
+				this.showInsertCards();
+			}
 		}
 
 		public function onEvent(type:String, data:*=null):void
@@ -87,7 +97,6 @@ package view.game
 		{
 			this.loadData(data);
 			this.update();
-			this.hideListCell();			
 			this.dealAction(0);
 		}
 
@@ -96,7 +105,6 @@ package view.game
 			this.isOwner = true;
 
 			this.loadData(this.cards);
-			this.showInsertCards();
 			this.sortAndUpdate();
 		}
 
@@ -107,7 +115,7 @@ package view.game
 
 		private function onPlayPoker(data:int):void
 		{
-			
+			trace("onPlayPoker", data)
 		}
 
 		private function loadData(data:Array):void
@@ -195,7 +203,7 @@ package view.game
 				y = 425;
 			}
 			
-			Tween.to(img, {x:x,y:y,scaleX:scaleX,scaleY:scaleY}, 100, Ease.strongIn, Handler.create(this,tweenBgImgComple,[index, place, img]));
+			Tween.to(img, {x:x,y:y,scaleX:scaleX,scaleY:scaleY}, 300, Ease.strongIn, Handler.create(this,tweenBgImgComple,[index, place, img]));
 
 			if(place == 2)
 			{
@@ -244,6 +252,7 @@ package view.game
 
 		private function onListMouse(e:Event, index: int): void 
 		{
+			trace("onListMouse")
 			var cell:Box = null;
 			if(e.type == Event.CLICK)
 			{
@@ -272,27 +281,42 @@ package view.game
 		}
 
 		private function hideListCell():void
-		{			
-			for(var index:int in this.data)
+		{
+			if(this.isRendered == false)
 			{
-				var cell:Box = this.list.getCell(index);
-				if(cell != null)
+				this.isRendered = true
+				for(var index:int in this.data)
 				{
-					cell.visible = false;
+					var cell:Box = this.list.getCell(index);
+					if(cell != null)
+					{
+						cell.visible = false;
+					}
 				}
 			}
 		}
 
 		private function showInsertCards():void
-		{			
-			var len:int = this.list.length;
-			for(var i:int = 1; i <= 3; i++)
+		{
+			if(this.isOwner)
 			{
-				var cell:Box = this.list.getCell(len - i);
-				if(cell != null)
+				var len:int = this.data.length;
+				for(var i:int = 0; i < len; i++)
 				{
-					cell.y = -30;
-					Tween.to(cell, {y : 0}, 300, Ease.quadIn);
+					var val:int = this.data[i].value;
+					for each(var cVal:int in this.cards)
+					{
+						if(val == cVal)
+						{
+							var cell:Box = this.list.getCell(i);
+							if(cell != null)
+							{
+								cell.y = -30;
+								//Tween.to(cell, {y : 0}, 300, Ease.quadIn, null, 500);
+							}
+							break;
+						}
+					}
 				}
 			}
 		}

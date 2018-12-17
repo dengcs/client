@@ -26,7 +26,7 @@ package view.game
 			this.minePoker.on(GameEvent.GAME_DEAL_POKER, this, onDealFromPoker);
 
 			this.mineTable = new Table();
-			this.addChild(mineTable);			
+			this.addChild(mineTable);
 			this.mineTable.on(GameEvent.GAME_PLAY_TABLE, this, onPlayFromTable);
 			this.mineTable.on(GameEvent.GAME_CARDS_TABLE, this, onCardsFromTable);
 		}

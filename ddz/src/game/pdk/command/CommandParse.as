@@ -1,9 +1,7 @@
 package game.pdk.command
 {
 	import common.GameConstants;
-	import game.pdk.command.PlayCommand;
 	import game.pdk.command.Actor;
-	import game.pdk.command.Command;
 
 	/**
 	 * ...
@@ -11,8 +9,6 @@ package game.pdk.command
 	 */
 	public class CommandParse{
 		private static  var _instance:CommandParse = null;
-
-		private var playCommand:PlayCommand = new PlayCommand();
 
 		private var actor:Actor = new Actor();
 
@@ -28,12 +24,6 @@ package game.pdk.command
                 _instance = new CommandParse();
             }
             return _instance;
-		}
-
-		private function execute(cmd:Command, msg:Object):void
-		{
-			cmd.pushMsg(msg);
-			cmd.execute(actor);
 		}
 
 		public function parse(data:String):void
@@ -63,7 +53,7 @@ package game.pdk.command
 				}
 				case GameConstants.PLAY_STATE_PLAY:
 				{
-					execute(playCommand, cmdObj.msg);
+					actor.play(cmdObj.msg);
 					break;
 				}
 				case GameConstants.PLAY_STATE_OVER:

@@ -23,8 +23,10 @@ package view.game.super
 		private var num:int = 20; // 当前
 		private var place:int = 0;
 		private var data:Array = [];
+		
+		// 是否发完牌
+		private var isDeaLed:Boolean = false;
 
-		private var renderFinishHandler:Handler = null;
 		private var getCardsHandler:Handler = null;
 
 		public function PokerSuper(){
@@ -40,9 +42,8 @@ package view.game.super
 			this.cacheBGImage();
 		}
 
-		public function setHandler(renderFinish:Handler, getCards:Handler):void
+		public function setHandler(getCards:Handler):void
 		{
-			this.renderFinishHandler = renderFinish;
 			this.getCardsHandler = getCards;
 		}
 
@@ -75,7 +76,7 @@ package view.game.super
 
 			if(index == 16)
 			{
-				this.renderFinishHandler.run();			
+				this.onDealFinish();			
 			}else if(index == 19)
 			{
 				this.getCardsHandler.run();
@@ -110,7 +111,24 @@ package view.game.super
 					cell.y = 0;
 				}
 			}
-		}		
+		}
+
+		public function getPostOfCards():Array
+		{
+			var cards:Array = [];
+
+			var len:int = this.list.length;
+			for(var i:int; i<len; i++)
+			{
+				var cell:Box = this.list.getCell(i);
+				if(cell.y != 0)
+				{
+					cards.push(this.data[i].value);
+				}
+			}
+
+			return cards
+		}
 
 		public function loadData(data:Array):void
 		{
@@ -157,6 +175,23 @@ package view.game.super
 				img.anchorX = 0.5;
 				img.anchorY = 0.5;
 				Pool.recover("poker_bg", img);
+			}
+		}
+		
+
+		private function onDealFinish():void
+		{
+			if(this.isDeaLed == false)
+			{
+				this.isDeaLed = true
+				for(var index:int in this.list.array)
+				{
+					var cell:Box = this.list.getCell(index);
+					if(cell != null)
+					{
+						cell.visible = false;
+					}
+				}
 			}
 		}
 
@@ -279,7 +314,10 @@ package view.game.super
 
 		private function tweenRoundComplete():void
 		{
-			this.event(GameEvent.GAME_DEAL_POKER);
+			var ev_data:Object = new Object();
+			ev_data.type = GameEvent.GAME_DEAL_TABLE;
+
+			this.event(GameEvent.GAME_POKER_TABLE, ev_data);
 		}
 	}
 

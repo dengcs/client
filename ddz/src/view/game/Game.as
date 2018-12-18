@@ -23,12 +23,11 @@ package view.game
 			
 			this.minePoker = new Poker();
 			this.addChild(minePoker);
-			this.minePoker.on(GameEvent.GAME_DEAL_POKER, this, onDealFromPoker);
+			this.minePoker.on(GameEvent.GAME_POKER_TABLE, this, onPokerToTable);
 
 			this.mineTable = new Table();
 			this.addChild(mineTable);
-			this.mineTable.on(GameEvent.GAME_PLAY_TABLE, this, onPlayFromTable);
-			this.mineTable.on(GameEvent.GAME_CARDS_TABLE, this, onCardsFromTable);
+			this.mineTable.on(GameEvent.GAME_TABLE_POKER, this, onTableToPoker);
 		}
 
 		public function show():void
@@ -55,19 +54,14 @@ package view.game
 			this.mineTable.onEvent(type, data);
 		}
 
-		private function onDealFromPoker():void
+		private function onPokerToTable(msg:Object):void
 		{
-			this.onTableEvent(GameEvent.GAME_DEAL_TABLE);
+			this.onTableEvent(msg.type, msg.data);
 		}
 
-		private function onPlayFromTable(type:int):void
+		private function onTableToPoker(msg:Object):void
 		{
-			this.onPokerEvent(GameEvent.GAME_PLAY_POKER, type);
-		}
-
-		private function onCardsFromTable():void
-		{
-			this.onPokerEvent(GameEvent.GAME_CARDS_POKER);
+			this.onPokerEvent(msg.type, msg.data);
 		}
 	}
 

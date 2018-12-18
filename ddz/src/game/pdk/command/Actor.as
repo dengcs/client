@@ -35,12 +35,7 @@ package game.pdk.command
 
 		public function cards(msg:Object):void
 		{
-			if(msg == null)
-			{
-				game.onTableEvent(GameEvent.GAME_CARDS_TABLE);
-			}else{
-				game.onPokerEvent(GameEvent.GAME_CARDS_POKER, msg);
-			}
+			game.onPokerEvent(GameEvent.GAME_CARDS_POKER, msg);
 		}
 		
 		public function double(msg:Object):void

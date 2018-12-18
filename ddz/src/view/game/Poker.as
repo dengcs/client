@@ -7,12 +7,13 @@ package view.game
 	import laya.utils.Handler;
 	import laya.utils.Tween;
 	import laya.utils.Ease;
+	import common.GameConstants;
+	import common.StaticFunctions;
 
 	public class Poker extends PokerSuper
 	{		
 		private var cards:Array = [];
 		private var isOwner:Boolean = false;
-		private var isRendered:Boolean = false;
 		
 		public function Poker() 
 		{
@@ -22,9 +23,8 @@ package view.game
 
 		public function init():void
 		{
-			var renderHandler:Handler = Handler.create(this, onListRenderFinish);
 			var getCardsHandler:Handler = Handler.create(this, onGetCardsTween);
-			this.setHandler(renderHandler, getCardsHandler);
+			this.setHandler(getCardsHandler);
 		}
 
 		public function onEvent(type:String, data:*=null):void
@@ -34,12 +34,7 @@ package view.game
 				this.onDealPoker(data);
 			}else if(type == GameEvent.GAME_CARDS_POKER)
 			{
-				if(data != null)
-				{
-					this.onCardsPoker(data.msg);
-				}else{
-					this.onGainOwner();
-				}
+				this.onGainOwner(data);
 			}else if(type == GameEvent.GAME_PLAY_POKER)
 			{
 				this.onPlayPoker(data);
@@ -53,37 +48,31 @@ package view.game
 			this.dealAction(0);
 		}
 
-		private function onGainOwner():void
+		private function onGainOwner(data:Object=null):void
 		{
-			this.isOwner = true;
-
-			this.loadData(this.cards);
-			this.sortAndUpdate();
+			if(data != null)
+			{				
+				this.cards = data.msg as Array;
+			}else{				
+				this.isOwner = true;
+				this.loadData(this.cards);
+				this.sortAndUpdate();
+			}
 		}
 
-		private function onCardsPoker(data:Array):void
-		{
-			this.cards = data;
-		}
-
-		private function onPlayPoker(data:int):void
+		private function onPlayPoker(data:Object):void
 		{
 			trace("onPlayPoker", data)
-		}
-
-		private function onListRenderFinish():void
-		{
-			if(this.isRendered == false)
+			if(data.type == 1)
 			{
-				this.isRendered = true
-				for(var index:int in this.list.array)
-				{
-					var cell:Box = this.list.getCell(index);
-					if(cell != null)
-					{
-						cell.visible = false;
-					}
-				}
+				var ev_data:Object = new Object();
+				ev_data.type = GameEvent.GAME_POST_CARDS;
+				ev_data.data = this.getPostOfCards();
+
+				this.event(GameEvent.GAME_POKER_TABLE, ev_data);
+			}else if(data.type == 2)
+			{
+
 			}
 		}
 

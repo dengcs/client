@@ -1,5 +1,8 @@
 package common
 {
+	import game.proto.game_update;
+	import game.net.NetClient;
+
 	/**
 	 * ...
 	 * @dengcs
@@ -21,6 +24,13 @@ package common
 				return 1;
 			}
 			return -1;
+		}
+
+		public static function notify_game_update(data:Object):void
+		{
+			var sendMsg:game_update = new game_update();
+			sendMsg.data = JSON.stringify(data);
+			NetClient.send("game_update", sendMsg);
 		}
 	}
 

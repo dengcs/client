@@ -43,7 +43,6 @@ package view.game
 			this.loadData(data);
 			this.update();
 			this.dealAction(0);
-			this.list.visible = false;
 		}
 
 		private function onGainOwner(data:Object=null):void

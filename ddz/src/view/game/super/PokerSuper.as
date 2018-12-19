@@ -49,7 +49,8 @@ package view.game.super
 
 		public function show():void
 		{
-			this.visible = true;
+			this.visible = true;			
+			this.list.visible = false;
 		}
 
 		public function hide():void

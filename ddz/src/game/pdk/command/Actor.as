@@ -16,6 +16,12 @@ package game.pdk.command
 		{
 			game = ViewManager.getInstance().game;
 		}
+
+		public function prepare(msg:Object):void
+		{
+			game.onPokerEvent(GameEvent.GAME_PREPARE_ALL, msg);
+			game.onTableEvent(GameEvent.GAME_PREPARE_ALL, msg);
+		}
 		
 		public function deal(msg:Object):void
 		{
@@ -51,15 +57,8 @@ package game.pdk.command
 
 		public function play(msg:Object):void
 		{
-			if(msg == null)
-			{
-				// 命令处理				
-				game.onTableEvent(GameEvent.GAME_PLAY_TABLE);
-			}else
-			{
-				// 广播，表现效果
-				trace("play", msg)
-			}
+			// 命令处理				
+			game.onTableEvent(GameEvent.GAME_PLAY_TABLE, msg);			
 		}
 
 		public function over(msg:Object):void

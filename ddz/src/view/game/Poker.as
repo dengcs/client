@@ -18,18 +18,15 @@ package view.game
 		public function Poker() 
 		{
 			super();
-			this.init();
-		}
-
-		public function init():void
-		{
-			var getCardsHandler:Handler = Handler.create(this, onGetCardsTween);
-			this.setHandler(getCardsHandler);
 		}
 
 		public function onEvent(type:String, data:*=null):void
 		{
-			if(type == GameEvent.GAME_DEAL_POKER)
+			if(type == GameEvent.GAME_PREPARE_ALL)
+			{
+				this.onInit(data);
+			}
+			else if(type == GameEvent.GAME_DEAL_POKER)
 			{
 				this.onDealPoker(data);
 			}else if(type == GameEvent.GAME_CARDS_POKER)
@@ -46,6 +43,7 @@ package view.game
 			this.loadData(data);
 			this.update();
 			this.dealAction(0);
+			this.list.visible = false;
 		}
 
 		private function onGainOwner(data:Object=null):void
@@ -57,6 +55,7 @@ package view.game
 				this.isOwner = true;
 				this.loadData(this.cards);
 				this.sortAndUpdate();
+				Laya.timer.frameOnce(1, this, onGetCardsTween);
 			}
 		}
 
@@ -67,12 +66,15 @@ package view.game
 			{
 				var ev_data:Object = new Object();
 				ev_data.type = GameEvent.GAME_POST_CARDS;
-				ev_data.data = this.getPostOfCards();
+				ev_data.data = this.postCards(data.type);
 
 				this.event(GameEvent.GAME_POKER_TABLE, ev_data);
 			}else if(data.type == 2)
 			{
 
+			}else if(data.type == 11)
+			{
+				this.postCards(data.type);
 			}
 		}
 

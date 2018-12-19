@@ -31,6 +31,11 @@ package game.pdk.command
 			var cmdObj:Object = JSON.parse(data);
 			switch(cmdObj.cmd)
 			{
+				case GameConstants.PLAY_STATE_PREPARE:
+				{
+					actor.prepare(cmdObj.msg);
+					break;
+				}
 				case GameConstants.PLAY_STATE_DEAL:
 				{
 					actor.deal(cmdObj.msg);

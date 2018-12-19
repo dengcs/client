@@ -23,11 +23,9 @@ package view.game.super
 		private var num:int = 20; // 当前
 		private var place:int = 0;
 		private var data:Array = [];
-		
-		// 是否发完牌
-		private var isDeaLed:Boolean = false;
 
-		private var getCardsHandler:Handler = null;
+		// 服务端给的idx
+		private var mineIdx:int = 0;
 
 		public function PokerSuper(){
 			this.visible = false;
@@ -42,23 +40,22 @@ package view.game.super
 			this.cacheBGImage();
 		}
 
-		public function setHandler(getCards:Handler):void
+		public function onInit(data:Object):void
 		{
-			this.getCardsHandler = getCards;
-		}
+			this.mineIdx = data.idx;
+			this.data = [];						
+			this.list.array = this.data;
+		}		
 
 		public function show():void
 		{
-			this.visible = true;			
-			this.list.array = this.data;
+			this.visible = true;
 		}
 
 		public function hide():void
 		{
 			this.visible = false;
-			this.data = [];
 		}
-
 		
 		private function onListRender(cell:Box, index: int): void 
 		{
@@ -73,14 +70,6 @@ package view.game.super
 			literalImg.skin = item.literal;
 			scolorImg.skin 	= item.scolor;
 			bcolorImg.skin 	= item.bcolor;
-
-			if(index == 16)
-			{
-				this.onDealFinish();			
-			}else if(index == 19)
-			{
-				this.getCardsHandler.run();
-			}
 		}
 
 		private function onListMouse(e:Event, index: int): void 
@@ -113,17 +102,23 @@ package view.game.super
 			}
 		}
 
-		public function getPostOfCards():Array
+		public function postCards(type:int):Array
 		{
 			var cards:Array = [];
 
 			var len:int = this.list.length;
-			for(var i:int; i<len; i++)
+			for(var i:int = 0; i<len; i++)
 			{
 				var cell:Box = this.list.getCell(i);
 				if(cell.y != 0)
 				{
-					cards.push(this.data[i].value);
+					if(type == 1)
+					{
+						cards.push(this.data[i].value);
+					}else if(type == 11)
+					{
+						Tween.to(cell, {alpha:0}, 300, Ease.cubicIn, Handler.create(this.list, this.list.deleteItem, [i]))
+					}
 				}
 			}
 
@@ -177,24 +172,19 @@ package view.game.super
 				Pool.recover("poker_bg", img);
 			}
 		}
-		
 
-		private function onDealFinish():void
+		public function onDealFinish():void
 		{
-			if(this.isDeaLed == false)
+			this.list.visible = true;
+			for(var index:int in this.list.array)
 			{
-				this.isDeaLed = true
-				for(var index:int in this.list.array)
+				var cell:Box = this.list.getCell(index);
+				if(cell != null)
 				{
-					var cell:Box = this.list.getCell(index);
-					if(cell != null)
-					{
-						cell.visible = false;
-					}
+					cell.visible = false;
 				}
 			}
 		}
-
 		
 		public function dealAction(index:int):void
 		{
@@ -251,6 +241,10 @@ package view.game.super
 		{
 			if(place == 0)
 			{
+				if(index == 0)
+				{
+					this.onDealFinish();
+				}
 
 			}else if(place == 1)
 			{
@@ -292,7 +286,7 @@ package view.game.super
 				this.list.width = width20 - (41*(20-num))
 			}
 
-			this.list.refresh();
+			this.list.array = this.data;
 		}
 
 		public function sortAndUpdate():void

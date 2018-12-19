@@ -32,6 +32,43 @@ package common
 			sendMsg.data = JSON.stringify(data);
 			NetClient.send("game_update", sendMsg);
 		}
+
+		public static function loadData(data:Array):Array
+		{
+			var retData:Array = new Array();
+
+			for each(var card:int in data)
+			{
+				var value:int = Math.ceil(card/4);
+				var color:int = ((card-1) % 4) + 1;
+
+				var dataObj:Object = new Object();
+				dataObj.value = card;
+
+				if(card == 53)
+				{
+					dataObj.literal = "game/poker/joker_small.png";
+					dataObj.scolor = "";
+					dataObj.bcolor = "game/poker/big_small.png";
+				}else if(card == 54){
+					dataObj.literal = "game/poker/joker_big.png";
+					dataObj.scolor = "";
+					dataObj.bcolor = "game/poker/big_joker.png";
+				}else{
+					var colorStr:String = "red";
+					if(color%2 == 0)
+					{
+						colorStr = "black";
+					}
+					
+					dataObj.literal = "game/poker/" + colorStr + "_" + value + ".png";
+					dataObj.scolor = dataObj.bcolor = "game/poker/big_" + color + ".png";
+				}
+				retData.push(dataObj);
+			}
+
+			return retData;
+		}
 	}
 
 }

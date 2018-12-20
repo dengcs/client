@@ -8,6 +8,11 @@ package common
 	 * @dengcs
 	 */
 	public class GameFunctions{
+		public static function getCardVal(card:int):int
+		{
+			return Math.ceil(card/4);
+		}
+
 		public static function compareObjDes(a:Object, b:Object):Number
 		{
 			if(a.value < b.value)

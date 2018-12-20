@@ -3,6 +3,8 @@ package game.pdk
 
 	import laya.utils.Dictionary;
 	import game.pdk.PokerType;
+	import common.GameFunctions;
+	import common.GameConstants;
 
 	/**
 	 * ...
@@ -15,16 +17,77 @@ package game.pdk
 			var mode:Dictionary = new Dictionary();
 			for(var i:int in cards)
 			{
-				var card:int = PokerType.get_card(cards[i]);
+				var card:int = GameFunctions.getCardVal(cards[i]);
 				var data:Array = mode[card];
 				if(data == null)
 				{
 					data = new Array();
-					mode[card] = data
+					mode[card] = data;
 				}
 				data.push(i);
 			}
 			return mode;
+		}
+
+		public static function fetch_type(type:int, cards:Vector.<int>, value:int = 0, count:int = 0):Object
+		{
+			var mode:Dictionary = get_mode(cards);
+			switch(type)
+			{
+				case GameConstants.POKER_TYPE_ONE:
+				{
+					return PokerFetch.fetch_one(mode, value);
+				}
+				case GameConstants.POKER_TYPE_TWO:
+				{
+					return PokerFetch.fetch_two(mode, value);
+				}
+				case GameConstants.POKER_TYPE_THREE:
+				{
+					return PokerFetch.fetch_three(mode, value);
+				}
+				case GameConstants.POKER_TYPE_BOMB:
+				{
+					return PokerFetch.fetch_bomb(mode, value);
+				}
+				case GameConstants.POKER_TYPE_KING:
+				{
+					return PokerFetch.fetch_king(mode);
+				}
+				case GameConstants.POKER_TYPE_1STRAIGHT:
+				{
+					return PokerFetch.fetch_1straight(mode, value, count);
+				}
+				case GameConstants.POKER_TYPE_2STRAIGHT:
+				{
+					return PokerFetch.fetch_2straight(mode, value, count);
+				}
+				case GameConstants.POKER_TYPE_3STRAIGHT:
+				{
+					return PokerFetch.fetch_3straight(mode, value, count);
+				}
+				case GameConstants.POKER_TYPE_3WITH1:
+				{
+					return PokerFetch.fetch_3with1(mode, value, count);
+				}
+				case GameConstants.POKER_TYPE_3WITH2:
+				{
+					return PokerFetch.fetch_3with2(mode, value, count);
+				}
+				case GameConstants.POKER_TYPE_4WITH1:
+				{
+					return PokerFetch.fetch_4with1(mode, value);
+				}
+				case GameConstants.POKER_TYPE_4WITH21:
+				{
+					return PokerFetch.fetch_4with21(mode, value);
+				}
+				case GameConstants.POKER_TYPE_4WITH22:
+				{
+					return PokerFetch.fetch_4with22(mode, value);
+				}
+			}
+			return null;
 		}
 
 		public static function fetch_one(mode:Dictionary, value:int):Object
@@ -252,7 +315,7 @@ package game.pdk
 			var indexes:Array = new Array();
 			var max_value:int = 0;			
 
-			mode.keys.sort(PokerType.compare)
+			mode.keys.sort(GameFunctions.compareIntAsc)
 			var straightCount:int = 0;
 			var first_card:int = mode.keys[0];
 			for(var i:int in mode.keys)
@@ -302,7 +365,7 @@ package game.pdk
 			var indexes:Array = new Array();
 			var max_value:int = 0;			
 
-			mode.keys.sort(PokerType.compare)
+			mode.keys.sort(GameFunctions.compareIntAsc)
 			var straightCount:int = 0;
 			var first_card:int = mode.keys[0];
 			for(var i:int in mode.keys)
@@ -355,7 +418,7 @@ package game.pdk
 			var indexes:Array = new Array();
 			var max_value:int = 0;			
 
-			mode.keys.sort(PokerType.compare)
+			mode.keys.sort(GameFunctions.compareIntAsc)
 			var straightCount:int = 0;
 			var first_card:int = mode.keys[0];
 			for(var i:int in mode.keys)
@@ -437,7 +500,7 @@ package game.pdk
 			var indexes:Array = new Array();
 			var max_value:int = 0;			
 
-			mode.keys.sort(PokerType.compare)
+			mode.keys.sort(GameFunctions.compareIntAsc)
 			var straightCount:int = 0;
 			var first_card:int = mode.keys[0];
 			for(var i:int in mode.keys)
@@ -473,7 +536,7 @@ package game.pdk
 				}
 
 				var attachCount:int = 0;
-				attachMap.keys.sort(PokerType.compare)
+				attachMap.keys.sort(GameFunctions.compareIntAsc)
 
 				for(var n:int = 1; n < 3; n++)
 				{
@@ -548,7 +611,7 @@ package game.pdk
 			var indexes:Array = new Array();
 			var max_value:int = 0;			
 
-			mode.keys.sort(PokerType.compare)
+			mode.keys.sort(GameFunctions.compareIntAsc)
 			var straightCount:int = 0;
 			var first_card:int = mode.keys[0];
 			for(var i:int in mode.keys)
@@ -586,7 +649,7 @@ package game.pdk
 				}
 
 				var attachCount:int = 0;
-				attachMap.keys.sort(PokerType.compare)
+				attachMap.keys.sort(GameFunctions.compareIntAsc)
 
 				for(var n:int = 2; n < 4; n++)
 				{
@@ -667,7 +730,7 @@ package game.pdk
 				indexes.push(targetMap[max_value][3]);
 
 				var attachCount:int = 0;
-				attachMap.keys.sort(PokerType.compare)
+				attachMap.keys.sort(GameFunctions.compareIntAsc)
 
 				for(var n:int = 1; n < 4; n++)
 				{
@@ -755,7 +818,7 @@ package game.pdk
 				indexes.push(targetMap[max_value][3]);
 
 				var attachCount:int = 0;
-				attachMap.keys.sort(PokerType.compare)
+				attachMap.keys.sort(GameFunctions.compareIntAsc)
 
 				for(var n:int = 1; n < 4; n++)
 				{
@@ -843,7 +906,7 @@ package game.pdk
 				indexes.push(targetMap[max_value][3]);
 
 				var attachCount:int = 0;
-				attachMap.keys.sort(PokerType.compare)
+				attachMap.keys.sort(GameFunctions.compareIntAsc)
 
 				for(var n:int = 2; n < 4; n++)
 				{

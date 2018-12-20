@@ -191,41 +191,59 @@ package view.game.super
 
 		private function update(idx:int):void
 		{
+			var nextIdx:int = (idx + 1) % 3;
+			var completeHandler:Handler = Handler.create(this, restoreActive, [nextIdx]);
+
 			if(idx == 0)
 			{
 				this.preList.scale(0.6, 0.6);
 				this.preList.visible = true;
 				this.preList.array = vtData[idx];
-				Tween.to(this.preList, {x:this.preList.x + 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, null, 5);
+				this.preList.width = GamePropertys.NEXT_LIST_WIDTH + GamePropertys.NEXT_LIST_STEP * (this.preList.array.length - 1)
+				Tween.to(this.preList, {x:this.preList.x + 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, completeHandler, 5);
 			}else if(idx == 1)
 			{
 				this.mineList.scale(0.6, 0.6);
 				this.mineList.visible = true;
 				this.mineList.array = vtData[idx];
-				Tween.to(this.mineList, {y:this.mineList.y - 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, null, 5);
+				this.mineList.width = GamePropertys.MINE_LIST_WIDTH + GamePropertys.MINE_LIST_STEP * (this.mineList.array.length - 1)
+				Tween.to(this.mineList, {y:this.mineList.y - 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, completeHandler, 5);
 			}else if(idx == 2)
 			{
 				this.nextList.scale(0.6, 0.6);
 				this.nextList.visible = true;
 				this.nextList.array = vtData[idx];
-				Tween.to(this.nextList, {x:this.nextList.x - 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, null, 5);
-			}			
+				this.nextList.width = GamePropertys.NEXT_LIST_WIDTH + GamePropertys.NEXT_LIST_STEP * (this.nextList.array.length - 1)
+				Tween.to(this.nextList, {x:this.nextList.x - 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, completeHandler, 5);
+			}
 		}
 
-		private function restoreList():void
+		private function restoreActive(idx:int):void
 		{
-			this.preList.visible = false;
-			this.mineList.visible = false;
-			this.nextList.visible = false;
-			
-			this.preList.x = GamePropertys.PREFIX_LIST_X;
-			this.mineList.y = GamePropertys.MINE_LIST_Y;
-			this.nextList.x = GamePropertys.NEXT_LIST_X;
+			if(idx == 0)
+			{
+				this.preList.visible = false;
+				this.preList.x = GamePropertys.PREFIX_LIST_X;
+			}else if(idx == 1)
+			{
+				this.mineList.visible = false;
+				this.mineList.y = GamePropertys.MINE_LIST_Y;
+			}else if(idx == 2)
+			{
+				this.nextList.visible = false;			
+				this.nextList.x = GamePropertys.NEXT_LIST_X;
+			}
+		}
+
+		private function idxToLocal(idx:int):int
+		{
+			var localIdx:int = (idx - this.mineIdx + 4) % 3
+			return localIdx;
 		}
 
 		public function onPlayShow(data:Object):void
 		{
-			var curIdx:int = data.idx - 1;
+			var curIdx:int = this.idxToLocal(data.idx);
 			var values:Array = data.msg;
 			vtData[curIdx] = GameFunctions.loadData(values);
 

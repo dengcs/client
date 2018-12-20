@@ -26,6 +26,11 @@ package common
 		public static const PREFIX_LIST_X:int			= 18;
 		public static const MINE_LIST_Y:int				= 18;
 		public static const NEXT_LIST_X:int				= 18;
+
+		public static const NEXT_LIST_WIDTH:int			= 18;
+		public static const NEXT_LIST_STEP:int			= 18;
+		public static const MINE_LIST_WIDTH:int			= 18;
+		public static const MINE_LIST_STEP:int			= 18;
 	}
 
 }

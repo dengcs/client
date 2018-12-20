@@ -147,12 +147,6 @@ package game.pdk
 
 			return 0;
 		}
-		
-
-		public static function get_card(card:int):int
-		{
-			return Math.ceil(card/4);
-		}
 
 		public static function check_one(cards:Vector.<int>):int
 		{
@@ -160,7 +154,7 @@ package game.pdk
 
 			if(len == 1)
 			{
-				return PokerType.get_card(cards[0]);
+				return GameFunctions.getCardVal(cards[0]);
 			}
 
 			return 0;
@@ -172,8 +166,8 @@ package game.pdk
 
 			if(len == 2)
 			{
-				var card1:int = PokerType.get_card(cards[0]);
-				var card2:int = PokerType.get_card(cards[1]);
+				var card1:int = GameFunctions.getCardVal(cards[0]);
+				var card2:int = GameFunctions.getCardVal(cards[1]);
 
 				if(card1 == card2)
 				{
@@ -190,9 +184,9 @@ package game.pdk
 
 			if(len == 3)
 			{
-				var card1:int = PokerType.get_card(cards[0]);
-				var card2:int = PokerType.get_card(cards[1]);
-				var card3:int = PokerType.get_card(cards[2]);
+				var card1:int = GameFunctions.getCardVal(cards[0]);
+				var card2:int = GameFunctions.getCardVal(cards[1]);
+				var card3:int = GameFunctions.getCardVal(cards[2]);
 
 				if(card1==card2 && card2==card3)
 				{
@@ -209,10 +203,10 @@ package game.pdk
 
 			if(len == 4)
 			{
-				var card1:int = PokerType.get_card(cards[0]);
-				var card2:int = PokerType.get_card(cards[1]);
-				var card3:int = PokerType.get_card(cards[2]);
-				var card4:int = PokerType.get_card(cards[3]);
+				var card1:int = GameFunctions.getCardVal(cards[0]);
+				var card2:int = GameFunctions.getCardVal(cards[1]);
+				var card3:int = GameFunctions.getCardVal(cards[2]);
+				var card4:int = GameFunctions.getCardVal(cards[3]);
 
 				if(card1==card2 && card2==card3 && card3==card4)
 				{
@@ -229,8 +223,8 @@ package game.pdk
 
 			if(len == 2)
 			{
-				var card1:int = PokerType.get_card(cards[0]);
-				var card2:int = PokerType.get_card(cards[1]);
+				var card1:int = GameFunctions.getCardVal(cards[0]);
+				var card2:int = GameFunctions.getCardVal(cards[1]);
 
 				if(card1 > 13 && card2 > 13)
 				{
@@ -249,12 +243,12 @@ package game.pdk
 			{
 				cards.sort(GameFunctions.compareIntAsc);
 
-				var firstcard:int = PokerType.get_card(cards[0]);
+				var firstcard:int = GameFunctions.getCardVal(cards[0]);
 				var curcard:int = 0;
 				
 				for(var i:int = 0;i<len;i++)
 				{
-					curcard = PokerType.get_card(cards[i]);
+					curcard = GameFunctions.getCardVal(cards[i]);
 					if(firstcard+i != curcard)
 					{
 						return 0;
@@ -279,12 +273,12 @@ package game.pdk
 					return 0;
 				}
 
-				var firstcard:int = PokerType.get_card(cards[0]);
+				var firstcard:int = GameFunctions.getCardVal(cards[0]);
 				
 				for(var i:int = 0;i<child_len;i++)
 				{
-					var card1:int = PokerType.get_card(cards[i*2]);
-					var card2:int = PokerType.get_card(cards[i*2 + 1]);
+					var card1:int = GameFunctions.getCardVal(cards[i*2]);
+					var card2:int = GameFunctions.getCardVal(cards[i*2 + 1]);
 					if(card1 != card2)
 					{
 						return 0;
@@ -316,13 +310,13 @@ package game.pdk
 					return 0;
 				}
 
-				var firstcard:int = PokerType.get_card(cards[0]);
+				var firstcard:int = GameFunctions.getCardVal(cards[0]);
 				
 				for(var i:int = 0;i<child_len;i++)
 				{
-					var card1:int = PokerType.get_card(cards[i*3]);
-					var card2:int = PokerType.get_card(cards[i*3 + 1]);
-					var card3:int = PokerType.get_card(cards[i*3 + 2]);
+					var card1:int = GameFunctions.getCardVal(cards[i*3]);
+					var card2:int = GameFunctions.getCardVal(cards[i*3 + 1]);
+					var card3:int = GameFunctions.getCardVal(cards[i*3 + 2]);
 					if(card1 != card2 || card2 != card3)
 					{
 						return 0;
@@ -351,7 +345,7 @@ package game.pdk
 				var check_cards:Vector.<int> = new Vector.<int>();
 				for each(var item:int in cards)
 				{
-					var card:int = PokerType.get_card(item);
+					var card:int = GameFunctions.getCardVal(item);
 					if(temp_data[card] == null)
 					{
 						temp_data[card] = 1;
@@ -399,7 +393,7 @@ package game.pdk
 				var check_cards:Vector.<int> = new Vector.<int>();
 				for each(var item:int in cards)
 				{
-					var card:int = PokerType.get_card(item);
+					var card:int = GameFunctions.getCardVal(item);
 					if(temp_data[card] == null)
 					{
 						temp_data[card] = 1;
@@ -453,7 +447,7 @@ package game.pdk
 				var temp_data:Dictionary = new Dictionary();
 				for each(var item:int in cards)
 				{
-					var card:int = PokerType.get_card(item);
+					var card:int = GameFunctions.getCardVal(item);
 					if(temp_data[card] == null)
 					{
 						temp_data[card] = 1;
@@ -479,7 +473,7 @@ package game.pdk
 				var temp_data:Dictionary = new Dictionary();
 				for each(var item:int in cards)
 				{
-					var card:int = PokerType.get_card(item);
+					var card:int = GameFunctions.getCardVal(item);
 					if(temp_data[card] == null)
 					{
 						temp_data[card] = 1;
@@ -507,7 +501,7 @@ package game.pdk
 				var temp_data:Dictionary = new Dictionary();
 				for each(var item:int in cards)
 				{
-					var card:int = PokerType.get_card(item);
+					var card:int = GameFunctions.getCardVal(item);
 					if(temp_data[card] == null)
 					{
 						temp_data[card] = 1;

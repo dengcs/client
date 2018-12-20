@@ -75,7 +75,6 @@ package view.game.super
 
 		private function onListMouse(e:Event, index: int): void 
 		{
-			trace("onListMouse")
 			var cell:Box = null;
 			if(e.type == Event.CLICK)
 			{
@@ -86,27 +85,13 @@ package view.game.super
 				}else{
 					cell.y = GamePropertys.LIST_SELECT_Y;
 				}
-			}else if(e.type == Event.MOUSE_OVER)
-			{				
-				cell = this.list.getCell(index);
-				if(cell.y == 0)
-				{
-					cell.y = GamePropertys.LIST_SELECT_Y;
-				}
-			}else if(e.type == Event.MOUSE_OUT)
-			{				
-				cell = this.list.getCell(index);
-				if(cell.y != 0)
-				{
-					cell.y = 0;
-				}
 			}
 		}
 
 		public function postCards(type:int):Array
 		{
 			var cards:Array = [];
-
+			
 			var len:int = this.list.length;
 			for(var i:int = 0; i<len; i++)
 			{
@@ -118,10 +103,13 @@ package view.game.super
 						cards.push(this.data[i].value);
 					}else if(type == 11)
 					{
-						Tween.to(cell, {alpha:0}, 300, Ease.cubicIn, Handler.create(this.list, this.list.deleteItem, [i]))
+						this.data.splice(i, 1);
+						Tween.to(cell, {alpha:0}, 300, Ease.cubicIn);
 					}
 				}
 			}
+
+			Laya.timer.once(300, this, update);
 
 			return cards
 		}
@@ -134,7 +122,7 @@ package view.game.super
 		
 		private function cacheBGImage():void
 		{
-			for(var i:int = 0;i<GamePropertys.DEAL_BG_IMG_CACHE_COUNT;i++)
+			for(var i:int = 0;i<GamePropertys.DEAL_CACHE_COUNT;i++)
 			{
 				var img:Image = new Image("game/poker/poker_bg.png");
 				img.x = GamePropertys.DEAL_BG_IMG_X;
@@ -250,15 +238,9 @@ package view.game.super
 
 		public function update():void
 		{
-			this.num = this.list.length;
-
-			if(this.num == GamePropertys.LIST_MAX_COUNT)
-			{
-				this.list.width = GamePropertys.LIST_MAX_WIDTH;
-			}else
-			{
-				this.list.width = GamePropertys.LIST_MAX_WIDTH - (GamePropertys.LIST_X_STEP*(GamePropertys.LIST_MAX_COUNT-num))
-			}
+			this.num = this.data.length;
+			
+			this.list.width = GamePropertys.LIST_CELL_WIDTH + (GamePropertys.LIST_X_STEP*(num - 1))
 
 			this.list.array = this.data;
 		}

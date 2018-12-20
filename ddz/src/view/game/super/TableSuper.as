@@ -46,6 +46,10 @@ package view.game.super
 		public function show():void
 		{			
 			this.visible = true;
+
+			this.preList.visible = false;
+			this.mineList.visible = false;
+			this.nextList.visible = false;
 		}
 
 		public function hide():void
@@ -256,7 +260,7 @@ package view.game.super
 				this.event(GameEvent.GAME_TABLE_POKER, ev_data);
 			}
 
-			//Laya.timer.once(300, this, update, [curIdx]);
+			Laya.timer.once(300, this, update, [curIdx]);
 		}
 	}
 

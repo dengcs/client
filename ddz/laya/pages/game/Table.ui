@@ -2,7 +2,7 @@
     "x":0,
     "type":"View",
     "selectedBox":1,
-    "selecteID":2,
+    "selecteID":12,
     "props":{"width":1140,"sceneColor":"#000000","mouseThrough":true,"height":855},
     "nodeParent":-1,
     "label":"View",
@@ -143,41 +143,236 @@
         {
             "x":15,
             "type":"List",
-            "props":{"width":"100","var":"preList","height":"100"},
+            "props":{"y":427,"x":240,"width":807,"var":"preList","spaceX":-110,"rotation":90,"repeatY":1,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":1,
             "label":"List(preList)",
-            "isDirectory":false,
+            "isOpen":true,
+            "isDirectory":true,
             "isAniNode":true,
-            "hasChild":false,
+            "hasChild":true,
             "compId":12,
             "child":[
-                ]
+                {
+                    "x":30,
+                    "type":"Box",
+                    "props":{"renderType":"render"},
+                    "nodeParent":12,
+                    "label":"Box",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":false,
+                    "hasChild":true,
+                    "compId":25,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "props":{"skin":"game/poker/poker_fg.png","sizeGrid":"20,15,20,15"},
+                            "nodeParent":25,
+                            "label":"Image",
+                            "isOpen":true,
+                            "isDirectory":true,
+                            "isAniNode":false,
+                            "hasChild":true,
+                            "compId":26,
+                            "child":[
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "props":{"y":10,"x":8,"name":"literal"},
+                                    "nodeParent":26,
+                                    "label":"Image(literal)",
+                                    "isOpen":true,
+                                    "isDirectory":true,
+                                    "isAniNode":false,
+                                    "hasChild":true,
+                                    "compId":27,
+                                    "child":[
+                                        {
+                                            "x":75,
+                                            "type":"Image",
+                                            "props":{"y":50,"scaleY":0.38,"scaleX":0.38,"name":"scolor"},
+                                            "nodeParent":27,
+                                            "label":"Image(scolor)",
+                                            "isDirectory":false,
+                                            "isAniNode":false,
+                                            "hasChild":false,
+                                            "compId":28,
+                                            "child":[
+                                                ]
+                                        }]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "props":{"y":95,"x":55,"name":"bcolor"},
+                                    "nodeParent":26,
+                                    "label":"Image(bcolor)",
+                                    "isDirectory":false,
+                                    "isAniNode":false,
+                                    "hasChild":false,
+                                    "compId":29,
+                                    "child":[
+                                        ]
+                                }]
+                        }]
+                }]
         },
         {
             "x":15,
             "type":"List",
-            "props":{"width":"100","var":"mineList","height":"100"},
+            "props":{"y":500,"x":570,"width":807,"var":"mineList","spaceX":-110,"repeatY":1,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":1,
             "label":"List(mineList)",
-            "isDirectory":false,
+            "isOpen":true,
+            "isDirectory":true,
             "isAniNode":true,
-            "hasChild":false,
+            "hasChild":true,
             "compId":13,
             "child":[
-                ]
+                {
+                    "x":30,
+                    "type":"Box",
+                    "props":{"renderType":"render"},
+                    "nodeParent":13,
+                    "label":"Box",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":false,
+                    "hasChild":true,
+                    "compId":15,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "props":{"skin":"game/poker/poker_fg.png","sizeGrid":"20,15,20,15"},
+                            "nodeParent":15,
+                            "label":"Image",
+                            "isOpen":true,
+                            "isDirectory":true,
+                            "isAniNode":false,
+                            "hasChild":true,
+                            "compId":16,
+                            "child":[
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "props":{"y":10,"x":8,"name":"literal"},
+                                    "nodeParent":16,
+                                    "label":"Image(literal)",
+                                    "isOpen":true,
+                                    "isDirectory":true,
+                                    "isAniNode":false,
+                                    "hasChild":true,
+                                    "compId":17,
+                                    "child":[
+                                        {
+                                            "x":75,
+                                            "type":"Image",
+                                            "props":{"y":50,"scaleY":0.38,"scaleX":0.38,"name":"scolor"},
+                                            "nodeParent":17,
+                                            "label":"Image(scolor)",
+                                            "isDirectory":false,
+                                            "isAniNode":false,
+                                            "hasChild":false,
+                                            "compId":18,
+                                            "child":[
+                                                ]
+                                        }]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "props":{"y":95,"x":55,"name":"bcolor"},
+                                    "nodeParent":16,
+                                    "label":"Image(bcolor)",
+                                    "isDirectory":false,
+                                    "isAniNode":false,
+                                    "hasChild":false,
+                                    "compId":19,
+                                    "child":[
+                                        ]
+                                }]
+                        }]
+                }]
         },
         {
             "x":15,
             "type":"List",
-            "props":{"width":"100","var":"nextList","height":"100"},
+            "props":{"y":427,"x":900,"width":807,"var":"nextList","spaceX":-110,"rotation":-90,"repeatY":1,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":1,
             "label":"List(nextList)",
-            "isDirectory":false,
+            "isOpen":true,
+            "isDirectory":true,
             "isAniNode":true,
-            "hasChild":false,
+            "hasChild":true,
             "compId":14,
             "child":[
-                ]
+                {
+                    "x":30,
+                    "type":"Box",
+                    "props":{"renderType":"render"},
+                    "nodeParent":14,
+                    "label":"Box",
+                    "isOpen":true,
+                    "isDirectory":true,
+                    "isAniNode":false,
+                    "hasChild":true,
+                    "compId":20,
+                    "child":[
+                        {
+                            "x":45,
+                            "type":"Image",
+                            "props":{"skin":"game/poker/poker_fg.png","sizeGrid":"20,15,20,15"},
+                            "nodeParent":20,
+                            "label":"Image",
+                            "isOpen":true,
+                            "isDirectory":true,
+                            "isAniNode":false,
+                            "hasChild":true,
+                            "compId":21,
+                            "child":[
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "props":{"y":10,"x":8,"name":"literal"},
+                                    "nodeParent":21,
+                                    "label":"Image(literal)",
+                                    "isOpen":true,
+                                    "isDirectory":true,
+                                    "isAniNode":false,
+                                    "hasChild":true,
+                                    "compId":22,
+                                    "child":[
+                                        {
+                                            "x":75,
+                                            "type":"Image",
+                                            "props":{"y":50,"scaleY":0.38,"scaleX":0.38,"name":"scolor"},
+                                            "nodeParent":22,
+                                            "label":"Image(scolor)",
+                                            "isDirectory":false,
+                                            "isAniNode":false,
+                                            "hasChild":false,
+                                            "compId":23,
+                                            "child":[
+                                                ]
+                                        }]
+                                },
+                                {
+                                    "x":60,
+                                    "type":"Image",
+                                    "props":{"y":95,"x":55,"name":"bcolor"},
+                                    "nodeParent":21,
+                                    "label":"Image(bcolor)",
+                                    "isDirectory":false,
+                                    "isAniNode":false,
+                                    "hasChild":false,
+                                    "compId":24,
+                                    "child":[
+                                        ]
+                                }]
+                        }]
+                }]
         }],
     "animations":[
         {

@@ -2,7 +2,7 @@
     "x":0,
     "type":"View",
     "selectedBox":1,
-    "selecteID":10,
+    "selecteID":7,
     "props":{"width":1140,"sceneColor":"#000000","height":855},
     "nodeParent":-1,
     "label":"View",
@@ -15,16 +15,17 @@
         {
             "x":15,
             "type":"List",
-            "props":{"y":730,"x":570,"width":807,"var":"list","spaceX":-110,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5},
+            "props":{"y":730,"x":570,"width":807,"var":"list","spaceX":-110,"repeatY":1,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5},
             "nodeParent":1,
             "label":"List(list)",
-            "isOpen":false,
+            "isOpen":true,
             "isDirectory":true,
             "isAniNode":true,
             "hasChild":true,
             "compId":7,
             "child":[
                 {
+                    "x":30,
                     "type":"Box",
                     "props":{"renderType":"render"},
                     "nodeParent":7,
@@ -36,10 +37,11 @@
                     "compId":6,
                     "child":[
                         {
+                            "x":45,
                             "type":"Image",
-                            "props":{"skin":"game/poker/poker_fg.png","sizeGrid":"20,15,20,15","name":"bkground"},
+                            "props":{"skin":"game/poker/poker_fg.png","sizeGrid":"20,15,20,15"},
                             "nodeParent":6,
-                            "label":"Image(bkground)",
+                            "label":"Image",
                             "isOpen":true,
                             "isDirectory":true,
                             "isAniNode":false,
@@ -47,6 +49,7 @@
                             "compId":2,
                             "child":[
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "props":{"y":10,"x":8,"name":"literal"},
                                     "nodeParent":2,
@@ -58,6 +61,7 @@
                                     "compId":9,
                                     "child":[
                                         {
+                                            "x":75,
                                             "type":"Image",
                                             "props":{"y":50,"x":0,"scaleY":0.38,"scaleX":0.38,"name":"scolor"},
                                             "nodeParent":9,
@@ -71,6 +75,7 @@
                                         }]
                                 },
                                 {
+                                    "x":60,
                                     "type":"Image",
                                     "props":{"y":95,"x":55,"name":"bcolor"},
                                     "nodeParent":2,

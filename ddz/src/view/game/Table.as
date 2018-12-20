@@ -39,6 +39,7 @@ package view.game
 
 		private function onPostCards(data:Array):void
 		{
+			trace("onPostCards", data)
 			this.pnlPlay.visible = false;
 
 			var msg_data:Object = new Object();

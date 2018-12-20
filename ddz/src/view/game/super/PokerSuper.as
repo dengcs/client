@@ -9,9 +9,10 @@ package view.game.super
 	import laya.utils.Pool;
 	import laya.utils.Tween;
 	import common.GameEvent;
-	import common.StaticFunctions;
+	import common.GameFunctions;
 	import laya.utils.Ease;
 	import common.GameConstants;
+	import common.GamePropertys;
 
 	/**
 	 * ...
@@ -19,8 +20,7 @@ package view.game.super
 	 */
 	public class PokerSuper extends PokerUI{
 
-		private var width20:int = 930;
-		private var num:int = 20; // 当前
+		private var num:int = 0; // 当前
 		private var place:int = 0;
 		private var data:Array = [];
 
@@ -84,14 +84,14 @@ package view.game.super
 				{
 					cell.y = 0;
 				}else{
-					cell.y = -30;
+					cell.y = GamePropertys.LIST_SELECT_Y;
 				}
 			}else if(e.type == Event.MOUSE_OVER)
 			{				
 				cell = this.list.getCell(index);
 				if(cell.y == 0)
 				{
-					cell.y = -30;
+					cell.y = GamePropertys.LIST_SELECT_Y;
 				}
 			}else if(e.type == Event.MOUSE_OUT)
 			{				
@@ -128,46 +128,19 @@ package view.game.super
 
 		public function loadData(data:Array):void
 		{
-			for each(var card:int in data)
-			{
-				var value:int = Math.ceil(card/4);
-				var color:int = ((card-1) % 4) + 1;
-
-				var dataObj:Object = new Object();
-				dataObj.value = card;
-
-				if(card == 53)
-				{
-					dataObj.literal = "game/poker/joker_small.png";
-					dataObj.scolor = "";
-					dataObj.bcolor = "game/poker/big_small.png";
-				}else if(card == 54){
-					dataObj.literal = "game/poker/joker_big.png";
-					dataObj.scolor = "";
-					dataObj.bcolor = "game/poker/big_joker.png";
-				}else{
-					var colorStr:String = "red";
-					if(color%2 == 0)
-					{
-						colorStr = "black";
-					}
-					
-					dataObj.literal = "game/poker/" + colorStr + "_" + value + ".png";
-					dataObj.scolor = dataObj.bcolor = "game/poker/big_" + color + ".png";
-				}
-				this.data.push(dataObj);
-			}
+			var addArray:Array = GameFunctions.loadData(data);
+			this.data = this.data.concat(addArray);
 		}
 		
 		private function cacheBGImage():void
 		{
-			for(var i:int = 0;i<20;i++)
+			for(var i:int = 0;i<GamePropertys.DEAL_BG_IMG_CACHE_COUNT;i++)
 			{
 				var img:Image = new Image("game/poker/poker_bg.png");
-				img.x = 569;
-				img.y = 213;
-				img.scaleX = 0.8;
-				img.scaleY = 0.8;
+				img.x = GamePropertys.DEAL_BG_IMG_X;
+				img.y = GamePropertys.DEAL_BG_IMG_Y;
+				img.scaleX = GamePropertys.DEAL_BG_IMG_SCALEX;
+				img.scaleY = GamePropertys.DEAL_BG_IMG_SCALEY;
 				img.anchorX = 0.5;
 				img.anchorY = 0.5;
 				Pool.recover("poker_bg", img);
@@ -210,21 +183,21 @@ package view.game.super
 
 			if(place == 0)
 			{
-				x = 100;
-				y = 425;
+				x = GamePropertys.DEAL_TARGET_PLACE0_X;
+				y = GamePropertys.DEAL_TARGET_PLACE0_Y;
 			}else if(place == 1)
 			{
-				x =240 + 41*index;
-				y = 730;
+				x =GamePropertys.DEAL_TARGET_PLACE1_X + GamePropertys.LIST_X_STEP*index;
+				y = GamePropertys.DEAL_TARGET_PLACE1_Y;
 				scaleX = 1;
 				scaleY = 1;
 			}else
 			{
-				x = 1040;
-				y = 425;
+				x = GamePropertys.DEAL_TARGET_PLACE2_X;
+				y = GamePropertys.DEAL_TARGET_PLACE2_Y;
 			}
 			
-			Tween.to(img, {x:x,y:y,scaleX:scaleX,scaleY:scaleY}, 300, Ease.strongIn, Handler.create(this,tweenBgImgComple,[index, place, img]));
+			Tween.to(img, {x:x,y:y,scaleX:scaleX,scaleY:scaleY}, 300, Ease.strongIn, Handler.create(this,dealActionComplete,[index, place, img]));
 
 			if(place == 2)
 			{
@@ -238,7 +211,7 @@ package view.game.super
 			this.place++;
 		}
 
-		private function tweenBgImgComple(index:int, place:int, img:Image):void
+		private function dealActionComplete(index:int, place:int, img:Image):void
 		{
 			if(place == 0)
 			{
@@ -261,17 +234,17 @@ package view.game.super
 
 			if(img != null)
 			{
-				img.x = 569;
-				img.y = 213;				
-				img.scaleX = 0.8;
-				img.scaleY = 0.8;
+				img.x = GamePropertys.DEAL_BG_IMG_X;
+				img.y = GamePropertys.DEAL_BG_IMG_Y;				
+				img.scaleX = GamePropertys.DEAL_BG_IMG_SCALEX;
+				img.scaleY = GamePropertys.DEAL_BG_IMG_SCALEY;
 				img.visible = false;
 				Pool.recover("poker_bg", img)
 			}
 
 			if((index + 1) == this.list.length && place == 2)
 			{				
-				this.tweenRoundBegin();
+				this.tweenRotateIn();
 			}
 		}		
 
@@ -279,12 +252,12 @@ package view.game.super
 		{
 			this.num = this.list.length;
 
-			if(this.num == 20)
+			if(this.num == GamePropertys.LIST_MAX_COUNT)
 			{
-				this.list.width = width20;
+				this.list.width = GamePropertys.LIST_MAX_WIDTH;
 			}else
 			{
-				this.list.width = width20 - (41*(20-num))
+				this.list.width = GamePropertys.LIST_MAX_WIDTH - (GamePropertys.LIST_X_STEP*(GamePropertys.LIST_MAX_COUNT-num))
 			}
 
 			this.list.array = this.data;
@@ -292,22 +265,22 @@ package view.game.super
 
 		public function sortAndUpdate():void
 		{
-			this.data.sort(StaticFunctions.compareObjDes);
+			this.data.sort(GameFunctions.compareObjDes);
 			this.update();
 		}		
 
-		private function tweenRoundBegin():void
+		private function tweenRotateIn():void
 		{
-			Tween.to(this.list, {scaleX:0,scaleY:0,skewY:-15}, 300, Ease.quartIn, Handler.create(this, tweenRoundEnd));
+			Tween.to(this.list, {scaleX:0,scaleY:0,skewY:-15}, 300, Ease.quartIn, Handler.create(this, tweenRotateOut));
 		}
 
-		private function tweenRoundEnd():void
+		private function tweenRotateOut():void
 		{
 			this.sortAndUpdate();
-			Tween.to(this.list, {scaleX:1,scaleY:1,skewY:0}, 300, Ease.quartOut, Handler.create(this, tweenRoundComplete));
+			Tween.to(this.list, {scaleX:1,scaleY:1,skewY:0}, 300, Ease.quartOut, Handler.create(this, tweenRotateOver));
 		}
 
-		private function tweenRoundComplete():void
+		private function tweenRotateOver():void
 		{
 			var ev_data:Object = new Object();
 			ev_data.type = GameEvent.GAME_DEAL_TABLE;

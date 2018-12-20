@@ -7,7 +7,7 @@ package common
 	 * ...
 	 * @dengcs
 	 */
-	public class StaticFunctions{
+	public class GameFunctions{
 		public static function compareObjDes(a:Object, b:Object):Number
 		{
 			if(a.value < b.value)
@@ -45,12 +45,12 @@ package common
 				var dataObj:Object = new Object();
 				dataObj.value = card;
 
-				if(card == 53)
+				if(card == GameConstants.JOKER_SMALL_VALUE)
 				{
 					dataObj.literal = "game/poker/joker_small.png";
 					dataObj.scolor = "";
 					dataObj.bcolor = "game/poker/big_small.png";
-				}else if(card == 54){
+				}else if(card == GameConstants.JOKER_BIG_VALUE){
 					dataObj.literal = "game/poker/joker_big.png";
 					dataObj.scolor = "";
 					dataObj.bcolor = "game/poker/big_joker.png";

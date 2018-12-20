@@ -8,7 +8,8 @@ package view.game
 	import laya.utils.Tween;
 	import laya.utils.Ease;
 	import common.GameConstants;
-	import common.StaticFunctions;
+	import common.GameFunctions;
+	import common.GamePropertys;
 
 	public class Poker extends PokerSuper
 	{		
@@ -40,7 +41,7 @@ package view.game
 
 		private function onDealPoker(data:Array):void
 		{
-			this.loadData(data);
+			this.loadData(data);			
 			this.update();
 			this.dealAction(0);
 		}
@@ -78,25 +79,22 @@ package view.game
 		}
 
 		private function onGetCardsTween():void
-		{
-			if(this.isOwner)
+		{			
+			var len:int = this.list.array.length;
+			for(var i:int = 0; i < len; i++)
 			{
-				var len:int = this.list.array.length;
-				for(var i:int = 0; i < len; i++)
+				var val:int = this.list.array[i].value;
+				for each(var cVal:int in this.cards)
 				{
-					var val:int = this.list.array[i].value;
-					for each(var cVal:int in this.cards)
+					if(val == cVal)
 					{
-						if(val == cVal)
+						var cell:Box = this.list.getCell(i);
+						if(cell != null)
 						{
-							var cell:Box = this.list.getCell(i);
-							if(cell != null)
-							{
-								cell.y = -30;
-								Tween.to(cell, {y : 0}, 300, Ease.quadIn, null, 500);
-							}
-							break;
+							cell.y = GamePropertys.LIST_SELECT_Y;
+							Tween.to(cell, {y : 0}, 300, Ease.quadIn, null, 500);
 						}
+						break;
 					}
 				}
 			}

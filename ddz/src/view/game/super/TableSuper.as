@@ -6,13 +6,15 @@ package view.game.super
 	import game.proto.game_update;
 	import game.net.NetClient;
 	import common.GameConstants;
-	import common.StaticFunctions;
+	import common.GameFunctions;
 	import laya.ui.Box;
 	import laya.display.Sprite;
 	import laya.ui.Image;
 	import laya.utils.Handler;
 	import laya.webgl.shapes.Ellipse;
 	import laya.utils.Tween;
+	import laya.utils.Ease;
+	import common.GamePropertys;
 
 	/**
 	 * ...
@@ -95,7 +97,7 @@ package view.game.super
 			data.cmd = GameConstants.PLAY_STATE_SNATCH;
 			data.msg = 1;
 
-			StaticFunctions.notify_game_update(data);
+			GameFunctions.notify_game_update(data);
 		}
 
 		private function onBtnNotSnatch():void
@@ -105,7 +107,7 @@ package view.game.super
 			var data:Object = new Object();
 			data.cmd = GameConstants.PLAY_STATE_SNATCH;
 
-			StaticFunctions.notify_game_update(data);
+			GameFunctions.notify_game_update(data);
 		}
 
 		private function onBtnDouble():void
@@ -116,7 +118,7 @@ package view.game.super
 			data.cmd = GameConstants.PLAY_STATE_DOUBLE;
 			data.msg = 1;
 
-			StaticFunctions.notify_game_update(data);
+			GameFunctions.notify_game_update(data);
 		}
 
 		private function onBtnNotDouble():void
@@ -126,7 +128,7 @@ package view.game.super
 			var data:Object = new Object();
 			data.cmd = GameConstants.PLAY_STATE_DOUBLE;
 
-			StaticFunctions.notify_game_update(data);
+			GameFunctions.notify_game_update(data);
 		}
 
 		private function onBtnCancelPlay():void
@@ -136,7 +138,7 @@ package view.game.super
 			var data:Object = new Object();
 			data.cmd = GameConstants.PLAY_STATE_PLAY;
 
-			StaticFunctions.notify_game_update(data);
+			GameFunctions.notify_game_update(data);
 		}		
 
 		private function onBtnPlay():void
@@ -174,49 +176,69 @@ package view.game.super
 
 		private function onPreListRender(cell:Box, index:int): void 
 		{
-			this.listRender(cell, index, this.preList.array)
+			this.listRender(cell, index, this.preList.array);
 		}
 
 		private function onMineListRender(cell:Box, index:int): void 
 		{
-			this.listRender(cell, index, this.mineList.array)
+			this.listRender(cell, index, this.mineList.array);
 		}
 
 		private function onNextListRender(cell:Box, index:int): void 
 		{
-			this.listRender(cell, index, this.nextList.array)
+			this.listRender(cell, index, this.nextList.array);
 		}
 
-		public function update(idx:int):void
+		private function update(idx:int):void
 		{
-			if(idx == 1)
+			if(idx == 0)
 			{
+				this.preList.scale(0.6, 0.6);
+				this.preList.visible = true;
 				this.preList.array = vtData[idx];
+				Tween.to(this.preList, {x:this.preList.x + 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, null, 5);
+			}else if(idx == 1)
+			{
+				this.mineList.scale(0.6, 0.6);
+				this.mineList.visible = true;
+				this.mineList.array = vtData[idx];
+				Tween.to(this.mineList, {y:this.mineList.y - 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, null, 5);
 			}else if(idx == 2)
 			{
-				this.mineList.array = vtData[idx];
-			}else if(idx == 3)
-			{
+				this.nextList.scale(0.6, 0.6);
+				this.nextList.visible = true;
 				this.nextList.array = vtData[idx];
+				Tween.to(this.nextList, {x:this.nextList.x - 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, null, 5);
 			}			
-		} 
+		}
+
+		private function restoreList():void
+		{
+			this.preList.visible = false;
+			this.mineList.visible = false;
+			this.nextList.visible = false;
+			
+			this.preList.x = GamePropertys.PREFIX_LIST_X;
+			this.mineList.y = GamePropertys.MINE_LIST_Y;
+			this.nextList.x = GamePropertys.NEXT_LIST_X;
+		}
 
 		public function onPlayShow(data:Object):void
 		{
-			var curIdx:int = data.idx;
+			var curIdx:int = data.idx - 1;
 			var values:Array = data.msg;
-			vtData[curIdx - 1] = StaticFunctions.loadData(values);
+			vtData[curIdx] = GameFunctions.loadData(values);
 
-			if(curIdx == this.mineIdx)
+			if(data.idx == this.mineIdx)
 			{
 				var ev_data:Object = new Object();
 				ev_data.type = GameEvent.GAME_PLAY_POKER;
 				ev_data.data = {type:11};
 
 				this.event(GameEvent.GAME_TABLE_POKER, ev_data);
-
-				//Laya.timer.once(350, this, update, [curIdx]);
 			}
+
+			//Laya.timer.once(300, this, update, [curIdx]);
 		}
 	}
 

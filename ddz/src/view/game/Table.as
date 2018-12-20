@@ -4,7 +4,7 @@ package view.game
 	import common.GameEvent;
 	import view.game.super.TableSuper;
 	import common.GameConstants;
-	import common.StaticFunctions;
+	import common.GameFunctions;
 
 	public class Table extends TableSuper
 	{
@@ -45,7 +45,7 @@ package view.game
 			msg_data.cmd = GameConstants.PLAY_STATE_PLAY;
 			msg_data.msg = data;
 
-			StaticFunctions.notify_game_update(msg_data);
+			GameFunctions.notify_game_update(msg_data);
 		}
 
 		private function onPlay(data:Object):void

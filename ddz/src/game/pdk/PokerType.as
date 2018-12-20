@@ -3,7 +3,7 @@ package game.pdk
 	import game.pdk.PokerType;
 	import laya.utils.Dictionary;
 	import common.GameConstants;
-	import common.StaticFunctions;
+	import common.GameFunctions;
 
 	/**
 	 * ...
@@ -247,7 +247,7 @@ package game.pdk
 
 			if(len > 4)
 			{
-				cards.sort(StaticFunctions.compareIntAsc);
+				cards.sort(GameFunctions.compareIntAsc);
 
 				var firstcard:int = PokerType.get_card(cards[0]);
 				var curcard:int = 0;
@@ -272,7 +272,7 @@ package game.pdk
 			var len:int = cards.length;
 			if(len > 5)
 			{
-				cards.sort(StaticFunctions.compareIntAsc);
+				cards.sort(GameFunctions.compareIntAsc);
 				var child_len:int = Math.ceil(len/2);
 				if(child_len*2 != len)
 				{
@@ -308,7 +308,7 @@ package game.pdk
 
 			if(len > 5)
 			{
-				cards.sort(StaticFunctions.compareIntAsc);
+				cards.sort(GameFunctions.compareIntAsc);
 
 				var child_len:int = Math.ceil(len/3);
 				if(child_len*3 != len)
@@ -372,7 +372,7 @@ package game.pdk
 				}
 
 				// 判断连续
-				check_cards.sort(StaticFunctions.compareIntAsc);
+				check_cards.sort(GameFunctions.compareIntAsc);
 				var first_card:int = check_cards[0]
 				for(var i:int=0;i<target_count;i++)
 				{
@@ -429,7 +429,7 @@ package game.pdk
 				}
 
 				// 判断连续
-				check_cards.sort(StaticFunctions.compareIntAsc);
+				check_cards.sort(GameFunctions.compareIntAsc);
 				var first_card:int = check_cards[0]
 				for(var i:int=0;i<target_count;i++)
 				{

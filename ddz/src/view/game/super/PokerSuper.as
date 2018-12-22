@@ -103,7 +103,7 @@ package view.game.super
 				if(cell.y != 0)
 				{
 					idxVt.push(this.data[i].value);
-					Tween.to(cell, {alpha:0}, 300, Ease.cubicIn);
+					Tween.to(cell, {alpha:0}, 100, Ease.cubicIn);
 				}
 			}
 
@@ -119,7 +119,7 @@ package view.game.super
 				}
 			}
 
-			Laya.timer.once(600, this, update);
+			Laya.timer.once(400, this, update);
 		}
 
 		public function fetchCards():Array

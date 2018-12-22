@@ -2,7 +2,7 @@
     "x":0,
     "type":"View",
     "selectedBox":1,
-    "selecteID":5,
+    "selecteID":13,
     "props":{"width":1140,"sceneColor":"#000000","mouseThrough":true,"height":855},
     "nodeParent":-1,
     "label":"View",
@@ -15,7 +15,7 @@
         {
             "x":15,
             "type":"List",
-            "props":{"y":350,"x":1040,"width":807,"var":"nextList","spaceX":-110,"scaleY":0.3,"scaleX":0.3,"rotation":-90,"repeatY":1,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5},
+            "props":{"y":350,"x":1040,"width":807,"var":"nextList","spaceX":-110,"scaleY":0.3,"scaleX":0.3,"rotation":-90,"repeatY":1,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5,"alpha":0},
             "nodeParent":1,
             "label":"List(nextList)",
             "isOpen":false,
@@ -88,7 +88,7 @@
         {
             "x":15,
             "type":"List",
-            "props":{"y":625,"x":570,"width":807,"var":"mineList","spaceX":-110,"scaleY":0.3,"scaleX":0.3,"repeatY":1,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5},
+            "props":{"y":625,"x":570,"width":807,"var":"mineList","spaceX":-110,"scaleY":0.3,"scaleX":0.3,"repeatY":1,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5,"alpha":0},
             "nodeParent":1,
             "label":"List(mineList)",
             "isOpen":false,
@@ -161,7 +161,7 @@
         {
             "x":15,
             "type":"List",
-            "props":{"y":350,"x":100,"width":807,"var":"preList","spaceX":-110,"scaleY":0.3,"scaleX":0.3,"rotation":90,"repeatY":1,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5},
+            "props":{"y":350,"x":100,"width":807,"var":"preList","spaceX":-110,"scaleY":0.3,"scaleX":0.3,"rotation":90,"repeatY":1,"repeatX":20,"height":209,"anchorY":0.5,"anchorX":0.5,"alpha":0},
             "nodeParent":1,
             "label":"List(preList)",
             "isOpen":false,

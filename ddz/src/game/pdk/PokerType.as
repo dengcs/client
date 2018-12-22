@@ -368,14 +368,12 @@ package game.pdk
 				// 判断连续
 				check_cards.sort(GameFunctions.compareIntAsc);
 				var first_card:int = check_cards[0]
-				for(var i:int=0;i<target_count;i++)
+				var target_card:int = check_cards[target_count - 1]
+				
+				if((target_card - first_card + 1) == target_count)
 				{
-					if(first_card + i != check_cards[i])
-					{
-						return 0
-					}
+					return target_card;
 				}
-				return first_card + target_count - 1
 			}
 
 			return 0;
@@ -425,14 +423,12 @@ package game.pdk
 				// 判断连续
 				check_cards.sort(GameFunctions.compareIntAsc);
 				var first_card:int = check_cards[0]
-				for(var i:int=0;i<target_count;i++)
+				var target_card:int = check_cards[target_count - 1]
+				
+				if((target_card - first_card + 1) == target_count)
 				{
-					if(first_card + i != check_cards[i])
-					{
-						return 0
-					}
+					return target_card;
 				}
-				return first_card + target_count - 1
 			}
 
 			return 0;

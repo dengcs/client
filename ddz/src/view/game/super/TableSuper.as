@@ -196,30 +196,27 @@ package view.game.super
 
 		private function update(idx:int):void
 		{
-			var nextIdx:int = (idx + 1) % 3;
-			var completeHandler:Handler = Handler.create(this, restoreActive, [nextIdx]);
-
 			if(idx == 0)
 			{
-				this.preList.scale(0.3, 0.3);
+				var x:Number = this.preList.x + 120;
 				this.preList.visible = true;
 				this.preList.array = vtData[idx];
 				this.preList.width = GamePropertys.NEXT_LIST_WIDTH + GamePropertys.NEXT_LIST_STEP * (this.preList.array.length - 1)
-				Tween.to(this.preList, {x:this.preList.x + 120,scaleX:0.6,scaleY:0.6}, 300, Ease.quadInOut, completeHandler, 5);
+				Tween.to(this.preList, {x:x,scaleX:0.6,scaleY:0.6,alpha:1}, 300, Ease.quadInOut);
 			}else if(idx == 1)
 			{
-				this.mineList.scale(0.3, 0.3);
+				var y:Number = this.mineList.y - 120;
 				this.mineList.visible = true;
 				this.mineList.array = vtData[idx];
 				this.mineList.width = GamePropertys.MINE_LIST_WIDTH + GamePropertys.MINE_LIST_STEP * (this.mineList.array.length - 1)
-				Tween.to(this.mineList, {y:this.mineList.y - 120,scaleX:0.6,scaleY:0.6}, 300, Ease.quadInOut, completeHandler, 5);
+				Tween.to(this.mineList, {y:y,scaleX:0.6,scaleY:0.6,alpha:1}, 300, Ease.quadInOut);
 			}else if(idx == 2)
 			{
-				this.nextList.scale(0.3, 0.3);
+				var x:Number = this.nextList.x - 120;
 				this.nextList.visible = true;
 				this.nextList.array = vtData[idx];
 				this.nextList.width = GamePropertys.NEXT_LIST_WIDTH + GamePropertys.NEXT_LIST_STEP * (this.nextList.array.length - 1)
-				Tween.to(this.nextList, {x:this.nextList.x - 120,scaleX:0.6,scaleY:0.6}, 300, Ease.quadInOut, completeHandler, 5);
+				Tween.to(this.nextList, {x:x,scaleX:0.6,scaleY:0.6,alpha:1}, 300, Ease.quadInOut);
 			}
 		}
 
@@ -227,14 +224,20 @@ package view.game.super
 		{
 			if(idx == 0)
 			{
+				this.preList.alpha = 0;
+				this.preList.scale(0.3, 0.3);
 				this.preList.visible = false;
 				this.preList.x = GamePropertys.PREFIX_LIST_X;
 			}else if(idx == 1)
 			{
+				this.mineList.alpha = 0;
+				this.mineList.scale(0.3, 0.3);
 				this.mineList.visible = false;
 				this.mineList.y = GamePropertys.MINE_LIST_Y;
 			}else if(idx == 2)
 			{
+				this.nextList.alpha = 0;
+				this.nextList.scale(0.3, 0.3);
 				this.nextList.visible = false;			
 				this.nextList.x = GamePropertys.NEXT_LIST_X;
 			}
@@ -249,11 +252,11 @@ package view.game.super
 		public function onPlayShow(data:Object):void
 		{
 			var curIdx:int = this.idxToLocal(data.idx);
+			var nextIdx:int = (curIdx + 1) % 3;
+			this.restoreActive(nextIdx);
 
 			if(data.msg == 0)
 			{
-				var nextIdx:int = (curIdx + 1) % 3;
-				this.restoreActive(nextIdx);
 				return;
 			}
 
@@ -268,9 +271,12 @@ package view.game.super
 				ev_data.data = {type:11};
 
 				this.event(GameEvent.GAME_TABLE_POKER, ev_data);
+
+				Laya.timer.once(100, this, update, [curIdx]);
+			}else{
+				this.update(curIdx);
 			}
 
-			Laya.timer.once(300, this, update, [curIdx]);
 		}
 	}
 

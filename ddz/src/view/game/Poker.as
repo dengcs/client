@@ -66,7 +66,7 @@ package view.game
 			{
 				var ev_data:Object = new Object();
 				ev_data.type = GameEvent.GAME_POST_CARDS;
-				ev_data.data = this.postCards(data.type);
+				ev_data.data = this.fetchCards();
 
 				this.event(GameEvent.GAME_POKER_TABLE, ev_data);
 			}else if(data.type == 2)
@@ -74,7 +74,7 @@ package view.game
 
 			}else if(data.type == 11)
 			{
-				this.postCards(data.type);
+				this.removeCards();
 			}
 		}
 

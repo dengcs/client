@@ -141,6 +141,7 @@ package view.game.super
 
 			var data:Object = new Object();
 			data.cmd = GameConstants.PLAY_STATE_PLAY;
+			data.msg = 0;
 
 			GameFunctions.notify_game_update(data);
 		}		
@@ -200,25 +201,25 @@ package view.game.super
 
 			if(idx == 0)
 			{
-				this.preList.scale(0.6, 0.6);
+				this.preList.scale(0.3, 0.3);
 				this.preList.visible = true;
 				this.preList.array = vtData[idx];
 				this.preList.width = GamePropertys.NEXT_LIST_WIDTH + GamePropertys.NEXT_LIST_STEP * (this.preList.array.length - 1)
-				Tween.to(this.preList, {x:this.preList.x + 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, completeHandler, 5);
+				Tween.to(this.preList, {x:this.preList.x + 120,scaleX:0.6,scaleY:0.6}, 300, Ease.quadInOut, completeHandler, 5);
 			}else if(idx == 1)
 			{
-				this.mineList.scale(0.6, 0.6);
+				this.mineList.scale(0.3, 0.3);
 				this.mineList.visible = true;
 				this.mineList.array = vtData[idx];
 				this.mineList.width = GamePropertys.MINE_LIST_WIDTH + GamePropertys.MINE_LIST_STEP * (this.mineList.array.length - 1)
-				Tween.to(this.mineList, {y:this.mineList.y - 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, completeHandler, 5);
+				Tween.to(this.mineList, {y:this.mineList.y - 120,scaleX:0.6,scaleY:0.6}, 300, Ease.quadInOut, completeHandler, 5);
 			}else if(idx == 2)
 			{
-				this.nextList.scale(0.6, 0.6);
+				this.nextList.scale(0.3, 0.3);
 				this.nextList.visible = true;
 				this.nextList.array = vtData[idx];
 				this.nextList.width = GamePropertys.NEXT_LIST_WIDTH + GamePropertys.NEXT_LIST_STEP * (this.nextList.array.length - 1)
-				Tween.to(this.nextList, {x:this.nextList.x - 100,scaleX:1,scaleY:1}, 300, Ease.quadIn, completeHandler, 5);
+				Tween.to(this.nextList, {x:this.nextList.x - 120,scaleX:0.6,scaleY:0.6}, 300, Ease.quadInOut, completeHandler, 5);
 			}
 		}
 
@@ -248,6 +249,15 @@ package view.game.super
 		public function onPlayShow(data:Object):void
 		{
 			var curIdx:int = this.idxToLocal(data.idx);
+
+			if(data.msg == 0)
+			{
+				var nextIdx:int = (curIdx + 1) % 3;
+				this.restoreActive(nextIdx);
+				return;
+			}
+
+			this.pnlPlay.visible = false;
 			var values:Array = data.msg;
 			vtData[curIdx] = GameFunctions.loadData(values);
 

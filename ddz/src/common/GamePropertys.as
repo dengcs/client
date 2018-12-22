@@ -22,9 +22,9 @@ package common
 		public static const LIST_CELL_WIDTH:Number		= 151;
 		public static const LIST_SELECT_Y:Number		= -30;
 
-		public static const PREFIX_LIST_X:int			= 240;
-		public static const MINE_LIST_Y:int				= 500;
-		public static const NEXT_LIST_X:int				= 900;
+		public static const PREFIX_LIST_X:int			= 100;
+		public static const MINE_LIST_Y:int				= 625;
+		public static const NEXT_LIST_X:int				= 1040;
 
 		public static const NEXT_LIST_WIDTH:int			= 151;
 		public static const NEXT_LIST_STEP:int			= 41;

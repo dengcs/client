@@ -20,7 +20,6 @@ package view.game.super
 	 */
 	public class PokerSuper extends PokerUI{
 
-		private var num:int = 0; // 当前
 		private var place:int = 0;
 		private var data:Array = [];
 
@@ -60,6 +59,11 @@ package view.game.super
 		
 		private function onListRender(cell:Box, index: int): void 
 		{
+			if(cell.alpha == 0)
+			{
+				cell.alpha = 1;
+			}
+
 			var item:Object = this.data[index];
 
 			var parent:Sprite = cell.getChildAt(0) as Sprite;
@@ -88,7 +92,37 @@ package view.game.super
 			}
 		}
 
-		public function postCards(type:int):Array
+		public function removeCards():void
+		{
+			var idxVt:Vector.<int> = new Vector.<int>();
+
+			var len:int = this.list.length;
+			for(var i:int = 0; i<len; i++)
+			{
+				var cell:Box = this.list.getCell(i);
+				if(cell.y != 0)
+				{
+					idxVt.push(this.data[i].value);
+					Tween.to(cell, {alpha:0}, 300, Ease.cubicIn);
+				}
+			}
+
+			for each(var v:int in idxVt)
+			{
+				for(var k:int in this.data)
+				{
+					if(v == this.data[k].value)
+					{
+						this.data.splice(k, 1);
+						break;
+					}
+				}
+			}
+
+			Laya.timer.once(600, this, update);
+		}
+
+		public function fetchCards():Array
 		{
 			var cards:Array = [];
 			
@@ -98,18 +132,9 @@ package view.game.super
 				var cell:Box = this.list.getCell(i);
 				if(cell.y != 0)
 				{
-					if(type == 1)
-					{
-						cards.push(this.data[i].value);
-					}else if(type == 11)
-					{
-						this.data.splice(i, 1);
-						Tween.to(cell, {alpha:0}, 300, Ease.cubicIn);
-					}
+					cards.push(this.data[i].value);					
 				}
 			}
-
-			Laya.timer.once(300, this, update);
 
 			return cards
 		}
@@ -238,9 +263,9 @@ package view.game.super
 
 		public function update():void
 		{
-			this.num = this.data.length;
-			
-			this.list.width = GamePropertys.LIST_CELL_WIDTH + (GamePropertys.LIST_X_STEP*(num - 1))
+			var len:int = this.data.length;
+
+			this.list.width = GamePropertys.LIST_CELL_WIDTH + (GamePropertys.LIST_X_STEP*(len - 1))
 
 			this.list.array = this.data;
 		}

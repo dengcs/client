@@ -29,64 +29,129 @@ package game.pdk
 			return mode;
 		}
 
-		public static function fetch_type(type:int, cards:Vector.<int>, value:int = 0, count:int = 0):Object
+		public static function fetch_type(cards:Vector.<int>, type:int, value:int = 0, count:int = 0):Object
 		{
 			var mode:Dictionary = get_mode(cards);
 			switch(type)
 			{
 				case GameConstants.POKER_TYPE_ONE:
 				{
-					return PokerFetch.fetch_one(mode, value);
+					return fetch_one(mode, value);
 				}
 				case GameConstants.POKER_TYPE_TWO:
 				{
-					return PokerFetch.fetch_two(mode, value);
+					return fetch_two(mode, value);
 				}
 				case GameConstants.POKER_TYPE_THREE:
 				{
-					return PokerFetch.fetch_three(mode, value);
+					return fetch_three(mode, value);
 				}
 				case GameConstants.POKER_TYPE_BOMB:
 				{
-					return PokerFetch.fetch_bomb(mode, value);
+					return fetch_bomb(mode, value);
 				}
 				case GameConstants.POKER_TYPE_KING:
 				{
-					return PokerFetch.fetch_king(mode);
+					return fetch_king(mode);
 				}
 				case GameConstants.POKER_TYPE_1STRAIGHT:
 				{
-					return PokerFetch.fetch_1straight(mode, value, count);
+					return fetch_1straight(mode, value, count);
 				}
 				case GameConstants.POKER_TYPE_2STRAIGHT:
 				{
-					return PokerFetch.fetch_2straight(mode, value, count);
+					return fetch_2straight(mode, value, count);
 				}
 				case GameConstants.POKER_TYPE_3STRAIGHT:
 				{
-					return PokerFetch.fetch_3straight(mode, value, count);
+					return fetch_3straight(mode, value, count);
 				}
 				case GameConstants.POKER_TYPE_3WITH1:
 				{
-					return PokerFetch.fetch_3with1(mode, value, count);
+					return fetch_3with1(mode, value, count);
 				}
 				case GameConstants.POKER_TYPE_3WITH2:
 				{
-					return PokerFetch.fetch_3with2(mode, value, count);
+					return fetch_3with2(mode, value, count);
 				}
 				case GameConstants.POKER_TYPE_4WITH1:
 				{
-					return PokerFetch.fetch_4with1(mode, value);
+					return fetch_4with1(mode, value);
 				}
 				case GameConstants.POKER_TYPE_4WITH21:
 				{
-					return PokerFetch.fetch_4with21(mode, value);
+					return fetch_4with21(mode, value);
 				}
 				case GameConstants.POKER_TYPE_4WITH22:
 				{
-					return PokerFetch.fetch_4with22(mode, value);
+					return fetch_4with22(mode, value);
 				}
 			}
+			return null;
+		}
+
+		public static function auto_type(cards:Vector.<int>):Object
+		{
+			var retData:Object = null;
+
+			var mode:Dictionary = get_mode(cards);
+
+			retData = fetch_3with2(mode, 0, 1);
+			if(retData != null)
+			{
+				retData.type = GameConstants.POKER_TYPE_3WITH2;
+				return retData;
+			}
+
+			retData = fetch_3with1(mode, 0, 1);
+			if(retData != null)
+			{
+				retData.type = GameConstants.POKER_TYPE_3WITH1;
+				return retData;
+			}
+
+			retData = fetch_3straight(mode, 0, 2);
+			if(retData != null)
+			{
+				retData.type = GameConstants.POKER_TYPE_3STRAIGHT;
+				return retData;
+			}
+
+			retData = fetch_2straight(mode, 0, 3);
+			if(retData != null)
+			{
+				retData.type = GameConstants.POKER_TYPE_2STRAIGHT;
+				return retData;
+			}
+
+			retData = fetch_1straight(mode, 0, 5);
+			if(retData != null)
+			{
+				retData.type = GameConstants.POKER_TYPE_1STRAIGHT;
+				return retData;
+			}
+
+			retData = fetch_three(mode, 0);
+			if(retData != null)
+			{
+				retData.type = GameConstants.POKER_TYPE_THREE;
+				return retData;
+			}
+
+			retData = fetch_two(mode, 0);
+			if(retData != null)
+			{
+				retData.type = GameConstants.POKER_TYPE_TWO;
+				return retData;
+			}
+
+			retData = fetch_one(mode, 0);
+			if(retData != null)
+			{
+				retData.type = GameConstants.POKER_TYPE_ONE;
+				return retData;
+			}
+
 			return null;
 		}
 
@@ -166,7 +231,7 @@ package game.pdk
 				{
 					if(modeVals.length == 2)
 					{
-						if(card < firstVal || firstVal == 0)
+						if((card < firstVal && card < GameConstants.GLOBAL_JOKER_VALUE) || firstVal == 0)
 						{
 							firstVal = card;
 						}
@@ -281,7 +346,7 @@ package game.pdk
 			for each(var card:int in mode.keys)
 			{
 				var modeVals:Array = mode[card];
-				if(card > 13)
+				if(card == GameConstants.GLOBAL_JOKER_VALUE)
 				{
 					if(modeVals.length == 2)
 					{						

@@ -15,6 +15,7 @@ package view.game.super
 	import laya.utils.Tween;
 	import laya.utils.Ease;
 	import common.GamePropertys;
+	import common.GameData;
 
 	/**
 	 * ...
@@ -255,14 +256,20 @@ package view.game.super
 			var nextIdx:int = (curIdx + 1) % 3;
 			this.restoreActive(nextIdx);
 
+			GameData.roundState.curIdx = curIdx;
+
 			if(data.msg == 0)
 			{
 				return;
 			}
 
+			GameData.roundState.preIdx = curIdx;
+
 			this.pnlPlay.visible = false;
 			var values:Array = data.msg;
 			vtData[curIdx] = GameFunctions.loadData(values);
+
+			GameData.testType(data.msg);
 
 			if(data.idx == this.mineIdx)
 			{

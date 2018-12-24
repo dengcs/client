@@ -17,135 +17,233 @@ package game.pdk
 			{
 				case GameConstants.POKER_TYPE_ONE:
 				{
-					return PokerType.check_one(cards);
+					return check_one(cards);
 				}
 				case GameConstants.POKER_TYPE_TWO:
 				{
-					return PokerType.check_two(cards);
+					return check_two(cards);
 				}
 				case GameConstants.POKER_TYPE_THREE:
 				{
-					return PokerType.check_three(cards);
+					return check_three(cards);
 				}
 				case GameConstants.POKER_TYPE_BOMB:
 				{
-					return PokerType.check_bomb(cards);
+					return check_bomb(cards);
 				}
 				case GameConstants.POKER_TYPE_KING:
 				{
-					return PokerType.check_king(cards);
+					return check_king(cards);
 				}
 				case GameConstants.POKER_TYPE_1STRAIGHT:
 				{
-					return PokerType.check_1straight(cards);
+					return check_1straight(cards);
 				}
 				case GameConstants.POKER_TYPE_2STRAIGHT:
 				{
-					return PokerType.check_2straight(cards);
+					return check_2straight(cards);
 				}
 				case GameConstants.POKER_TYPE_3STRAIGHT:
 				{
-					return PokerType.check_3straight(cards);
+					return check_3straight(cards);
 				}
 				case GameConstants.POKER_TYPE_3WITH1:
 				{
-					return PokerType.check_3with1(cards);
+					return check_3with1(cards);
 				}
 				case GameConstants.POKER_TYPE_3WITH2:
 				{
-					return PokerType.check_3with2(cards);
+					return check_3with2(cards);
 				}
 				case GameConstants.POKER_TYPE_4WITH1:
 				{
-					return PokerType.check_4with1(cards);
+					return check_4with1(cards);
 				}
 				case GameConstants.POKER_TYPE_4WITH21:
 				{
-					return PokerType.check_4with21(cards);
+					return check_4with21(cards);
 				}
 				case GameConstants.POKER_TYPE_4WITH22:
 				{
-					return PokerType.check_4with22(cards);
+					return check_4with22(cards);
 				}
 			}
 			return 0;
 		}
 
-		public static function test_type(cards:Vector.<int>):int
+		public static function test_type(cards:Vector.<int>):Object
 		{
+			var retData:Object = null;
+
 			var len:int = cards.length;
 
+			var max_value:int = 0;
 			if(len == 1)
 			{
-				if(PokerType.check_one(cards) > 0)
+				max_value = check_one(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_ONE;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_ONE;
+					retData.count = 0;
+
+					return retData;
 				}
 			}
 			else if(len == 2)
 			{
-				if(PokerType.check_king(cards) > 0)
+				max_value = check_king(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_KING;
-				}else if(PokerType.check_two(cards) > 0)
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_KING;
+					retData.count = 0;
+
+					return retData;
+				}
+
+				max_value = check_two(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_TWO;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_TWO;
+					retData.count = 0;
+
+					return retData;
 				}
 			}
 			else if(len == 3)
 			{
-				if(PokerType.check_three(cards) > 0)
+				max_value = check_three(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_THREE;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_THREE;
+					retData.count = 0;
+
+					return retData;
 				}
 			}
 			else if(len == 4)
 			{
-				if(PokerType.check_3with1(cards) > 0)
+				max_value = check_3with1(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_3WITH1;
-				}else if(PokerType.check_bomb(cards) > 0)
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_3WITH1;
+					retData.count = 1;
+
+					return retData;
+				}
+
+				max_value = check_bomb(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_BOMB;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_BOMB;
+					retData.count = 0;
+
+					return retData;
 				}
 			}
 			else if(len > 4)
 			{
-				if(PokerType.check_1straight(cards) > 0)
+				max_value = check_1straight(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_1STRAIGHT;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_1STRAIGHT;
+					retData.count = len;
+
+					return retData;
 				}
-				else if(PokerType.check_2straight(cards) > 0)
+
+				max_value = check_2straight(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_2STRAIGHT;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_2STRAIGHT;
+					retData.count = len/2;
+
+					return retData;
 				}
-				else if(PokerType.check_3straight(cards) > 0)
+
+				max_value = check_3straight(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_3STRAIGHT;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_3STRAIGHT;
+					retData.count = len/3;
+
+					return retData;
 				}
-				else if(PokerType.check_4with1(cards) > 0)
+
+				max_value = check_4with1(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_4WITH1;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_4WITH1;
+					retData.count = 0;
+
+					return retData;
 				}
-				else if(PokerType.check_4with21(cards) > 0)
+
+				max_value = check_4with21(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_4WITH21;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_4WITH21;
+					retData.count = 0;
+
+					return retData;
 				}
-				else if(PokerType.check_4with22(cards) > 0)
+
+				max_value = check_4with22(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_4WITH22;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_4WITH22;
+					retData.count = 0;
+
+					return retData;
 				}
-				else if(PokerType.check_3with1(cards) > 0)
+
+				max_value = check_3with1(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_3WITH1;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_3WITH1;
+					retData.count = len/4;
+
+					return retData;
 				}
-				else if(PokerType.check_3with2(cards) > 0)
+
+				max_value = check_3with2(cards);
+				if(max_value > 0)
 				{
-					return GameConstants.POKER_TYPE_3WITH2;
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_3WITH2;
+					retData.count = len/5;
+
+					return retData;
 				}
 			}
 
-			return 0;
+			return null;
 		}
 
 		public static function check_one(cards:Vector.<int>):int
@@ -169,7 +267,7 @@ package game.pdk
 				var card1:int = GameFunctions.getCardVal(cards[0]);
 				var card2:int = GameFunctions.getCardVal(cards[1]);
 
-				if(card1 == card2)
+				if(card1 == card2 && card1 < GameConstants.GLOBAL_JOKER_VALUE)
 				{
 					return card1;
 				}
@@ -226,7 +324,7 @@ package game.pdk
 				var card1:int = GameFunctions.getCardVal(cards[0]);
 				var card2:int = GameFunctions.getCardVal(cards[1]);
 
-				if(card1 > 13 && card2 > 13)
+				if(card1 == card2 && card1 == GameConstants.GLOBAL_JOKER_VALUE)
 				{
 					return card1;
 				}

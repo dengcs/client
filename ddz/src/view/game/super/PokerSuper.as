@@ -13,6 +13,8 @@ package view.game.super
 	import laya.utils.Ease;
 	import common.GameConstants;
 	import common.GamePropertys;
+	import game.pdk.PokerFetch;
+	import common.GameData;
 
 	/**
 	 * ...
@@ -90,53 +92,6 @@ package view.game.super
 					cell.y = GamePropertys.LIST_SELECT_Y;
 				}
 			}
-		}
-
-		public function removeCards():void
-		{
-			var idxVt:Vector.<int> = new Vector.<int>();
-
-			var len:int = this.list.length;
-			for(var i:int = 0; i<len; i++)
-			{
-				var cell:Box = this.list.getCell(i);
-				if(cell.y != 0)
-				{
-					idxVt.push(this.data[i].value);
-					Tween.to(cell, {alpha:0}, 100, Ease.cubicIn);
-				}
-			}
-
-			for each(var v:int in idxVt)
-			{
-				for(var k:int in this.data)
-				{
-					if(v == this.data[k].value)
-					{
-						this.data.splice(k, 1);
-						break;
-					}
-				}
-			}
-
-			Laya.timer.once(400, this, update);
-		}
-
-		public function fetchCards():Array
-		{
-			var cards:Array = [];
-			
-			var len:int = this.list.length;
-			for(var i:int = 0; i<len; i++)
-			{
-				var cell:Box = this.list.getCell(i);
-				if(cell.y != 0)
-				{
-					cards.push(this.data[i].value);					
-				}
-			}
-
-			return cards
 		}
 
 		public function loadData(data:Array):void
@@ -293,6 +248,90 @@ package view.game.super
 			ev_data.type = GameEvent.GAME_DEAL_TABLE;
 
 			this.event(GameEvent.GAME_POKER_TABLE, ev_data);
+		}		
+
+		public function removeCards():void
+		{
+			var idxVt:Vector.<int> = new Vector.<int>();
+
+			var len:int = this.list.length;
+			for(var i:int = 0; i<len; i++)
+			{
+				var cell:Box = this.list.getCell(i);
+				if(cell.y != 0)
+				{
+					idxVt.push(this.data[i].value);
+					Tween.to(cell, {alpha:0}, 100, Ease.cubicIn);
+				}
+			}
+
+			for each(var v:int in idxVt)
+			{
+				for(var k:int in this.data)
+				{
+					if(v == this.data[k].value)
+					{
+						this.data.splice(k, 1);
+						break;
+					}
+				}
+			}
+
+			Laya.timer.once(400, this, update);
+		}
+
+		public function collectCards():Array
+		{
+			var cards:Array = [];
+			
+			var len:int = this.list.length;
+			for(var i:int = 0; i<len; i++)
+			{
+				var cell:Box = this.list.getCell(i);
+				if(cell.y != 0)
+				{
+					cards.push(this.data[i].value);					
+				}
+			}
+
+			return cards
+		}
+
+		public function autoChoice():void
+		{
+			var valueVt:Vector.<int> = new Vector.<int>();
+			for each(var item:Object in this.data)
+			{
+				valueVt.push(item.value);
+			}
+
+			var isMain:Boolean = GameData.isMain();
+			if(isMain)
+			{
+				var mainData:Object = PokerFetch.auto_type(valueVt);
+				if(mainData != null)
+				{
+					for each(var idx:int in mainData.indexes)
+					{
+						var cell:Box = this.list.getCell(idx);
+						cell.y = GamePropertys.LIST_SELECT_Y;
+					}
+				}
+			}else{
+				var type:int = GameData.roundData.type;
+				var value:int = GameData.roundData.value;
+				var count:int = GameData.roundData.count;
+
+				var retData:Object = PokerFetch.fetch_type(valueVt, type, value, count);
+				if(retData != null)
+				{
+					for each(var idx:int in retData.indexes)
+					{
+						var cell:Box = this.list.getCell(idx);
+						cell.y = GamePropertys.LIST_SELECT_Y;
+					}
+				}
+			}
 		}
 	}
 

@@ -31,63 +31,87 @@ package game.pdk
 
 		public static function fetch_type(cards:Vector.<int>, type:int, value:int = 0, count:int = 0):Object
 		{
+			var retData:Object = null;
+
 			var mode:Dictionary = get_mode(cards);
 			switch(type)
 			{
 				case GameConstants.POKER_TYPE_ONE:
 				{
-					return fetch_one(mode, value);
+					retData = fetch_one(mode, value);
+					break;
 				}
 				case GameConstants.POKER_TYPE_TWO:
 				{
-					return fetch_two(mode, value);
+					retData = fetch_two(mode, value);
+					break;
 				}
 				case GameConstants.POKER_TYPE_THREE:
 				{
-					return fetch_three(mode, value);
+					retData = fetch_three(mode, value);
+					break;
 				}
 				case GameConstants.POKER_TYPE_BOMB:
 				{
-					return fetch_bomb(mode, value);
-				}
-				case GameConstants.POKER_TYPE_KING:
-				{
-					return fetch_king(mode);
+					retData = fetch_bomb(mode, value);
+					if(retData == null)
+					{
+						retData = fetch_king(mode);
+					}
+					return retData;
 				}
 				case GameConstants.POKER_TYPE_1STRAIGHT:
 				{
-					return fetch_1straight(mode, value, count);
+					retData = fetch_1straight(mode, value, count);
+					break;
 				}
 				case GameConstants.POKER_TYPE_2STRAIGHT:
 				{
-					return fetch_2straight(mode, value, count);
+					retData = fetch_2straight(mode, value, count);
+					break;
 				}
 				case GameConstants.POKER_TYPE_3STRAIGHT:
 				{
-					return fetch_3straight(mode, value, count);
+					retData = fetch_3straight(mode, value, count);
+					break;
 				}
 				case GameConstants.POKER_TYPE_3WITH1:
 				{
-					return fetch_3with1(mode, value, count);
+					retData = fetch_3with1(mode, value, count);
+					break;
 				}
 				case GameConstants.POKER_TYPE_3WITH2:
 				{
-					return fetch_3with2(mode, value, count);
+					retData = fetch_3with2(mode, value, count);
+					break;
 				}
 				case GameConstants.POKER_TYPE_4WITH1:
 				{
-					return fetch_4with1(mode, value);
+					retData = fetch_4with1(mode, value);
+					break;
 				}
 				case GameConstants.POKER_TYPE_4WITH21:
 				{
-					return fetch_4with21(mode, value);
+					retData = fetch_4with21(mode, value);
+					break;
 				}
 				case GameConstants.POKER_TYPE_4WITH22:
 				{
-					return fetch_4with22(mode, value);
+					retData = fetch_4with22(mode, value);
+					break;				
 				}
 			}
-			return null;
+
+			if(retData == null)
+			{
+				retData = fetch_bomb(mode, 0);
+			}
+			if(retData == null)
+			{
+				retData = fetch_king(mode);
+			}
+
+			return retData;
 		}
 
 		public static function auto_type(cards:Vector.<int>):Object

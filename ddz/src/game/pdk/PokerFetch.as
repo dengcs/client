@@ -18,11 +18,11 @@ package game.pdk
 			for(var i:int in cards)
 			{
 				var card:int = GameFunctions.getCardVal(cards[i]);
-				var data:Array = mode[card];
+				var data:Array = mode.get(card);
 				if(data == null)
 				{
 					data = new Array();
-					mode[card] = data;
+					mode.set(card, data);
 				}
 				data.push(i);
 			}
@@ -123,7 +123,6 @@ package game.pdk
 			var retData:Object = null;
 
 			var mode:Dictionary = get_mode(cards);
-
 			retData = fetch_3with2(mode, 0, 1);
 			if(retData != null)
 			{
@@ -192,7 +191,8 @@ package game.pdk
 			var firstVal:int = 0;
 			var secondVal:int = 0;
 			var thirdVal:int = 0;
-
+			trace("fetch_one-mode", mode)
+			trace("fetch_one-keys", mode.keys)
 			for each(var card:int in mode.keys)
 			{
 				var modeVals:Array = mode[card];

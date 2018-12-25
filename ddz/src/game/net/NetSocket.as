@@ -12,7 +12,6 @@ package game.net
 		private static  var _instance:NetSocket = null;
 
 		private var socket:Socket = null;
-		private var nstate:int = 0;
 
 		public function NetSocket(){
 			if (_instance != null) {
@@ -63,13 +62,11 @@ package game.net
 		private function onSocketOpen(e:*=null):void
 		{
 			trace("Connected");
-			this.nstate = 1;
 		}
 		
 		private function onSocketClose(e:*=null):void
 		{
 			trace("closed");
-			this.nstate = 2;
 		}
 		
 		private function onMessageReveived(message:*=null):void
@@ -86,7 +83,7 @@ package game.net
 
 		public function isOpened():Boolean
 		{
-			return this.nstate == 1;
+			return socket.connected;
 		}
 	}
 

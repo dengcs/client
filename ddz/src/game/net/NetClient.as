@@ -27,7 +27,7 @@ package game.net
 
 			var sendMsg:ByteArray = Message.toByteArray(ntMessage);			
 
-			NetSocket.getInstance().sendAndFlush(sendMsg.getUint8Array(0,sendMsg.length));
+			NetSocket.getInstance().sendAndFlush(sendMsg.buffer);
 		}
 
 		private static function login():void

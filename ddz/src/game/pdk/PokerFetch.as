@@ -60,6 +60,10 @@ package game.pdk
 					}
 					return retData;
 				}
+				case GameConstants.POKER_TYPE_KING:
+				{
+					return null;
+				}
 				case GameConstants.POKER_TYPE_1STRAIGHT:
 				{
 					retData = fetch_1straight(mode, value, count);

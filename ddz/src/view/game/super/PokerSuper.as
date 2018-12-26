@@ -311,6 +311,7 @@ package view.game.super
 				var mainData:Object = PokerFetch.auto_type(valueVt);
 				if(mainData != null)
 				{
+					trace("mainData", mainData)
 					for each(var idx:int in mainData.indexes)
 					{
 						var cell:Box = this.list.getCell(idx);

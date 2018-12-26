@@ -191,11 +191,9 @@ package game.pdk
 			var firstVal:int = 0;
 			var secondVal:int = 0;
 			var thirdVal:int = 0;
-			trace("fetch_one-mode", mode)
-			trace("fetch_one-keys", mode.keys)
 			for each(var card:int in mode.keys)
 			{
-				var modeVals:Array = mode[card];
+				var modeVals:Array = mode.get(card);
 				if(card > value)
 				{
 					if(modeVals.length == 1)
@@ -233,7 +231,7 @@ package game.pdk
 
 			if(max_value > 0)
 			{
-				indexes.push(mode[max_value][0])
+				indexes.push(mode.get(max_value)[0])
 
 				retData = new Object();
 				retData.indexes = indexes;
@@ -254,7 +252,7 @@ package game.pdk
 
 			for each(var card:int in mode.keys)
 			{
-				var modeVals:Array = mode[card];
+				var modeVals:Array = mode.get(card);
 				if(card > value)
 				{
 					if(modeVals.length == 2)
@@ -283,8 +281,8 @@ package game.pdk
 
 			if(max_value > 0)
 			{
-				indexes.push(mode[max_value][0]);
-				indexes.push(mode[max_value][1]);
+				indexes.push(mode.get(max_value)[0]);
+				indexes.push(mode.get(max_value)[1]);
 
 				retData = new Object();
 				retData.indexes = indexes;
@@ -302,7 +300,7 @@ package game.pdk
 
 			for each(var card:int in mode.keys)
 			{
-				var modeVals:Array = mode[card];
+				var modeVals:Array = mode.get(card);
 				if(card > value)
 				{
 					if(modeVals.length == 3)
@@ -317,9 +315,9 @@ package game.pdk
 
 			if(max_value > 0)
 			{
-				indexes.push(mode[max_value][0]);
-				indexes.push(mode[max_value][1]);
-				indexes.push(mode[max_value][2]);
+				indexes.push(mode.get(max_value)[0]);
+				indexes.push(mode.get(max_value)[1]);
+				indexes.push(mode.get(max_value)[2]);
 
 				retData = new Object();
 				retData.indexes = indexes;
@@ -337,7 +335,7 @@ package game.pdk
 
 			for each(var card:int in mode.keys)
 			{
-				var modeVals:Array = mode[card];
+				var modeVals:Array = mode.get(card);
 				if(card > value)
 				{
 					if(modeVals.length == 4)
@@ -352,10 +350,10 @@ package game.pdk
 
 			if(max_value > 0)
 			{
-				indexes.push(mode[max_value][0]);
-				indexes.push(mode[max_value][1]);
-				indexes.push(mode[max_value][2]);
-				indexes.push(mode[max_value][3]);
+				indexes.push(mode.get(max_value)[0]);
+				indexes.push(mode.get(max_value)[1]);
+				indexes.push(mode.get(max_value)[2]);
+				indexes.push(mode.get(max_value)[3]);
 
 				retData = new Object();
 				retData.indexes = indexes;
@@ -373,7 +371,7 @@ package game.pdk
 
 			for each(var card:int in mode.keys)
 			{
-				var modeVals:Array = mode[card];
+				var modeVals:Array = mode.get(card);
 				if(card == GameConstants.GLOBAL_JOKER_VALUE)
 				{
 					if(modeVals.length == 2)
@@ -386,8 +384,8 @@ package game.pdk
 
 			if(max_value > 0)
 			{
-				indexes.push(mode[max_value][0]);
-				indexes.push(mode[max_value][1]);
+				indexes.push(mode.get(max_value)[0]);
+				indexes.push(mode.get(max_value)[1]);
 
 				retData = new Object();
 				retData.indexes = indexes;
@@ -436,7 +434,7 @@ package game.pdk
 			{
 				for(var k:int = count; k>0; k--)
 				{
-					indexes.push(mode[max_value - k + 1][0])
+					indexes.push(mode.get(max_value - k + 1)[0])
 				}
 
 				retData = new Object();
@@ -488,8 +486,8 @@ package game.pdk
 				for(var k:int = count; k>0; k--)
 				{
 					cardVal = max_value - k + 1;
-					indexes.push(mode[cardVal][0]);
-					indexes.push(mode[cardVal][1]);
+					indexes.push(mode.get(cardVal)[0]);
+					indexes.push(mode.get(cardVal)[1]);
 				}
 
 				retData = new Object();
@@ -541,9 +539,9 @@ package game.pdk
 				for(var k:int = count; k>0; k--)
 				{
 					cardVal = max_value - k + 1;
-					indexes.push(mode[cardVal][0]);
-					indexes.push(mode[cardVal][1]);
-					indexes.push(mode[cardVal][2]);
+					indexes.push(mode.get(cardVal)[0]);
+					indexes.push(mode.get(cardVal)[1]);
+					indexes.push(mode.get(cardVal)[2]);
 				}
 
 				retData = new Object();
@@ -564,9 +562,9 @@ package game.pdk
 			var attachMap:Dictionary = new Dictionary();
 			var attachNum:int = 0;
 			var targetNum:int = 0;
-			for(var m:int in mode)
+			for each(var m:int in mode.keys)
 			{
-				var len:int = mode[m].length;
+				var len:int = mode.get(m).length;
 
 				if(len == 3)
 				{
@@ -575,7 +573,7 @@ package game.pdk
 
 				if(len < 3)
 				{
-					attachMap.set(m, mode[m]);
+					attachMap.set(m, mode.get(m));
 					attachNum += len
 				}
 			}
@@ -623,9 +621,9 @@ package game.pdk
 				for(var k:int = count; k>0; k--)
 				{
 					cardVal = max_value - k + 1;
-					indexes.push(mode[cardVal][0]);
-					indexes.push(mode[cardVal][1]);
-					indexes.push(mode[cardVal][2]);
+					indexes.push(mode.get(cardVal)[0]);
+					indexes.push(mode.get(cardVal)[1]);
+					indexes.push(mode.get(cardVal)[2]);
 				}
 
 				var attachCount:int = 0;
@@ -640,9 +638,9 @@ package game.pdk
 							break;
 						}
 
-						if(attachMap[a].length == n)
+						if(attachMap.get(a).length == n)
 						{
-							for each(var b:int in attachMap[a])
+							for each(var b:int in attachMap.get(a))
 							{
 								indexes.push(b);
 								attachCount++;
@@ -674,9 +672,9 @@ package game.pdk
 			var attachMap:Dictionary = new Dictionary();
 			var attachNum:int = 0;
 			var targetNum:int = 0;
-			for(var m:int in mode)
+			for each(var m:int in mode.keys)
 			{
-				var len:int = mode[m].length;
+				var len:int = mode.get(m).length;
 
 				if(len == 3)
 				{
@@ -685,7 +683,7 @@ package game.pdk
 
 				if(len < 4)
 				{
-					attachMap.set(m, mode[m]);
+					attachMap.set(m, mode.get(m));
 					attachNum++;
 				}
 			}
@@ -734,9 +732,9 @@ package game.pdk
 				for(var k:int = count; k>0; k--)
 				{
 					cardVal = max_value - k + 1;
-					indexes.push(mode[cardVal][0]);
-					indexes.push(mode[cardVal][1]);
-					indexes.push(mode[cardVal][2]);
+					indexes.push(mode.get(cardVal)[0]);
+					indexes.push(mode.get(cardVal)[1]);
+					indexes.push(mode.get(cardVal)[2]);
 
 					attachMap.remove(cardVal);
 				}
@@ -753,10 +751,10 @@ package game.pdk
 							break;
 						}
 
-						if(attachMap[a].length == n)
+						if(attachMap.get(a).length == n)
 						{
-							indexes.push(attachMap[a][0]);
-							indexes.push(attachMap[a][1]);
+							indexes.push(attachMap.get(a)[0]);
+							indexes.push(attachMap.get(a)[1]);
 							attachCount++;
 						}
 					}
@@ -776,17 +774,17 @@ package game.pdk
 			var targetMap:Dictionary = new Dictionary();
 			var attachNum:int = 0;
 			var targetNum:int = 0;
-			for(var m:int in mode)
+			for each(var m:int in mode.keys)
 			{
-				var len:int = mode[m].length;
+				var len:int = mode.get(m).length;
 
 				if(len == 4)
 				{
-					targetMap.set(m, mode[m]);
+					targetMap.set(m, mode.get(m));
 					targetNum++;
 				}else
 				{
-					attachMap.set(m, mode[m]);
+					attachMap.set(m, mode.get(m));
 					attachNum += len;
 				}
 			}
@@ -817,10 +815,10 @@ package game.pdk
 
 			if(max_value > 0)
 			{
-				indexes.push(targetMap[max_value][0]);
-				indexes.push(targetMap[max_value][1]);
-				indexes.push(targetMap[max_value][2]);
-				indexes.push(targetMap[max_value][3]);
+				indexes.push(targetMap.get(max_value)[0]);
+				indexes.push(targetMap.get(max_value)[1]);
+				indexes.push(targetMap.get(max_value)[2]);
+				indexes.push(targetMap.get(max_value)[3]);
 
 				var attachCount:int = 0;
 				attachMap.keys.sort(GameFunctions.compareIntAsc)
@@ -834,9 +832,9 @@ package game.pdk
 							break;
 						}
 
-						if(attachMap[a].length == n)
+						if(attachMap.get(a).length == n)
 						{
-							for each(var b:int in attachMap[a])
+							for each(var b:int in attachMap.get(a))
 							{
 								indexes.push(b);
 								attachCount++;
@@ -864,17 +862,17 @@ package game.pdk
 			var targetMap:Dictionary = new Dictionary();
 			var attachNum:int = 0;
 			var targetNum:int = 0;
-			for(var m:int in mode)
+			for each(var m:int in mode.keys)
 			{
-				var len:int = mode[m].length;
+				var len:int = mode.get(m).length;
 
 				if(len == 4)
 				{
-					targetMap.set(m, mode[m]);
+					targetMap.set(m, mode.get(m));
 					targetNum++;
 				}else
 				{
-					attachMap.set(m, mode[m]);
+					attachMap.set(m, mode.get(m));
 					attachNum += len;
 				}
 			}
@@ -905,10 +903,10 @@ package game.pdk
 
 			if(max_value > 0)
 			{
-				indexes.push(targetMap[max_value][0]);
-				indexes.push(targetMap[max_value][1]);
-				indexes.push(targetMap[max_value][2]);
-				indexes.push(targetMap[max_value][3]);
+				indexes.push(targetMap.get(max_value)[0]);
+				indexes.push(targetMap.get(max_value)[1]);
+				indexes.push(targetMap.get(max_value)[2]);
+				indexes.push(targetMap.get(max_value)[3]);
 
 				var attachCount:int = 0;
 				attachMap.keys.sort(GameFunctions.compareIntAsc)
@@ -922,9 +920,9 @@ package game.pdk
 							break;
 						}
 
-						if(attachMap[a].length == n)
+						if(attachMap.get(a).length == n)
 						{
-							for each(var b:int in attachMap[a])
+							for each(var b:int in attachMap.get(a))
 							{
 								indexes.push(b);
 								attachCount++;
@@ -952,17 +950,17 @@ package game.pdk
 			var targetMap:Dictionary = new Dictionary();
 			var attachNum:int = 0;
 			var targetNum:int = 0;
-			for(var m:int in mode)
+			for each(var m:int in mode.keys)
 			{
-				var len:int = mode[m].length;
+				var len:int = mode.get(m).length;
 
 				if(len == 4)
 				{
-					targetMap.set(m, mode[m]);
+					targetMap.set(m, mode.get(m));
 					targetNum++;
 				}else if(len > 1)
 				{
-					attachMap.set(m, mode[m]);
+					attachMap.set(m, mode.get(m));
 					attachNum++;
 				}
 			}
@@ -993,10 +991,10 @@ package game.pdk
 
 			if(max_value > 0)
 			{
-				indexes.push(targetMap[max_value][0]);
-				indexes.push(targetMap[max_value][1]);
-				indexes.push(targetMap[max_value][2]);
-				indexes.push(targetMap[max_value][3]);
+				indexes.push(targetMap.get(max_value)[0]);
+				indexes.push(targetMap.get(max_value)[1]);
+				indexes.push(targetMap.get(max_value)[2]);
+				indexes.push(targetMap.get(max_value)[3]);
 
 				var attachCount:int = 0;
 				attachMap.keys.sort(GameFunctions.compareIntAsc)
@@ -1010,10 +1008,10 @@ package game.pdk
 							break;
 						}
 
-						if(attachMap[a].length == n)
+						if(attachMap.get(a).length == n)
 						{							
-							indexes.push(attachMap[a][0]);
-							indexes.push(attachMap[a][1]);
+							indexes.push(attachMap.get(a)[0]);
+							indexes.push(attachMap.get(a)[1]);
 							attachCount++;
 
 							if(attachCount > 1)

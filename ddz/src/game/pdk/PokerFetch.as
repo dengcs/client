@@ -14,6 +14,7 @@ package game.pdk
 
 		public static function get_mode(cards:Vector.<int>):Dictionary
 		{
+			var len:int = cards.length - 1;
 			var mode:Dictionary = new Dictionary();
 			for(var i:int in cards)
 			{
@@ -24,7 +25,7 @@ package game.pdk
 					data = new Array();
 					mode.set(card, data);
 				}
-				data.push(i);
+				data.push(len - i);
 			}
 			return mode;
 		}
@@ -406,19 +407,18 @@ package game.pdk
 			var indexes:Array = new Array();
 			var max_value:int = 0;			
 
-			mode.keys.sort(GameFunctions.compareIntAsc)
 			var straightCount:int = 0;
 			var first_card:int = mode.keys[0];
 			for(var i:int in mode.keys)
 			{
 				var card:int = mode.keys[i];
-				if(first_card + i == card)
+				if(first_card == card)
 				{
 					straightCount++;
 				}else{
 					straightCount = 1;
-					first_card = card - i;
 				}
+				first_card = card + 1;
 
 				if(straightCount >= count)
 				{
@@ -456,26 +456,30 @@ package game.pdk
 			var indexes:Array = new Array();
 			var max_value:int = 0;			
 
-			mode.keys.sort(GameFunctions.compareIntAsc)
 			var straightCount:int = 0;
 			var first_card:int = mode.keys[0];
 			for(var i:int in mode.keys)
 			{
 				var card:int = mode.keys[i];
-				if(first_card + i == card)
-				{
-					straightCount++;
-				}else{
-					straightCount = 1;
-					first_card = card - i;
-				}
 
-				if(straightCount >= count)
+				var length:int = mode.get(card).length;
+				if(length == 2)
 				{
-					if(card > value)
-					{						
-						max_value = card;
-						break;
+					if(first_card == card)
+					{
+						straightCount++;
+					}else{
+						straightCount = 1;
+					}
+					first_card = card + 1;
+
+					if(straightCount >= count)
+					{
+						if(card > value)
+						{						
+							max_value = card;
+							break;
+						}
 					}
 				}
 			}
@@ -509,28 +513,33 @@ package game.pdk
 			var indexes:Array = new Array();
 			var max_value:int = 0;			
 
-			mode.keys.sort(GameFunctions.compareIntAsc)
 			var straightCount:int = 0;
 			var first_card:int = mode.keys[0];
 			for(var i:int in mode.keys)
 			{
 				var card:int = mode.keys[i];
-				if(first_card + i == card)
-				{
-					straightCount++;
-				}else{
-					straightCount = 1;
-					first_card = card - i;
-				}
 
-				if(straightCount >= count)
+				var length:int = mode.get(card).length;
+				if(length == 3)
 				{
-					if(card > value)
-					{						
-						max_value = card;
-						break;
+					if(first_card == card)
+					{
+						straightCount++;
+					}else{
+						straightCount = 1;
+					}
+					first_card = card + 1;
+
+					if(straightCount >= count)
+					{
+						if(card > value)
+						{						
+							max_value = card;
+							break;
+						}
 					}
 				}
+
 			}
 
 			if(max_value > 0)
@@ -591,26 +600,30 @@ package game.pdk
 			var indexes:Array = new Array();
 			var max_value:int = 0;			
 
-			mode.keys.sort(GameFunctions.compareIntAsc)
 			var straightCount:int = 0;
 			var first_card:int = mode.keys[0];
 			for(var i:int in mode.keys)
 			{
 				var card:int = mode.keys[i];
-				if(first_card + i == card)
-				{
-					straightCount++;
-				}else{
-					straightCount = 1;
-					first_card = card - i;
-				}
 
-				if(straightCount >= count)
+				var length:int = mode.get(card).length;
+				if(length == 3)
 				{
-					if(card > value)
-					{						
-						max_value = card;
-						break;
+					if(first_card == card)
+					{
+						straightCount++;
+					}else{
+						straightCount = 1;
+					}
+					first_card = card + 1;
+
+					if(straightCount >= count)
+					{
+						if(card > value)
+						{						
+							max_value = card;
+							break;
+						}
 					}
 				}
 			}
@@ -627,7 +640,6 @@ package game.pdk
 				}
 
 				var attachCount:int = 0;
-				attachMap.keys.sort(GameFunctions.compareIntAsc)
 
 				for(var n:int = 1; n < 3; n++)
 				{
@@ -681,7 +693,7 @@ package game.pdk
 					targetNum++;
 				}
 
-				if(len < 4)
+				if(len == 2)
 				{
 					attachMap.set(m, mode.get(m));
 					attachNum++;
@@ -693,7 +705,7 @@ package game.pdk
 				return null;
 			}
 
-			if(attachNum < count*2)
+			if(attachNum < count)
 			{
 				return null;
 			}
@@ -702,28 +714,33 @@ package game.pdk
 			var indexes:Array = new Array();
 			var max_value:int = 0;			
 
-			mode.keys.sort(GameFunctions.compareIntAsc)
 			var straightCount:int = 0;
 			var first_card:int = mode.keys[0];
 			for(var i:int in mode.keys)
 			{
 				var card:int = mode.keys[i];
-				if(first_card + i == card)
-				{
-					straightCount++;
-				}else{
-					straightCount = 1;
-					first_card = card - i;
-				}
 
-				if(straightCount >= count)
+				var length:int = mode.get(card).length;
+				if(length == 3)
 				{
-					if(card > value)
-					{						
-						max_value = card;
-						break;
+					if(first_card == card)
+					{
+						straightCount++;
+					}else{
+						straightCount = 1;
+					}
+					first_card = card + 1;
+
+					if(straightCount >= count)
+					{
+						if(card > value)
+						{						
+							max_value = card;
+							break;
+						}
 					}
 				}
+
 			}
 
 			if(max_value > 0)
@@ -740,7 +757,6 @@ package game.pdk
 				}
 
 				var attachCount:int = 0;
-				attachMap.keys.sort(GameFunctions.compareIntAsc)
 
 				for(var n:int = 2; n < 4; n++)
 				{
@@ -821,7 +837,6 @@ package game.pdk
 				indexes.push(targetMap.get(max_value)[3]);
 
 				var attachCount:int = 0;
-				attachMap.keys.sort(GameFunctions.compareIntAsc)
 
 				for(var n:int = 1; n < 4; n++)
 				{
@@ -909,7 +924,6 @@ package game.pdk
 				indexes.push(targetMap.get(max_value)[3]);
 
 				var attachCount:int = 0;
-				attachMap.keys.sort(GameFunctions.compareIntAsc)
 
 				for(var n:int = 1; n < 4; n++)
 				{
@@ -997,7 +1011,6 @@ package game.pdk
 				indexes.push(targetMap.get(max_value)[3]);
 
 				var attachCount:int = 0;
-				attachMap.keys.sort(GameFunctions.compareIntAsc)
 
 				for(var n:int = 2; n < 4; n++)
 				{

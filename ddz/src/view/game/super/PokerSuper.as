@@ -304,6 +304,7 @@ package view.game.super
 			{
 				valueVt.push(item.value);
 			}
+			valueVt.reverse();
 
 			var isMain:Boolean = GameData.isMain();
 			if(isMain)

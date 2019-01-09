@@ -45,13 +45,14 @@ package view.game.super
 		{
 			this.mineIdx = data.idx;
 			this.data = [];						
-			this.list.array = this.data;
+			this.list.array = this.data;						
+			this.list.visible = false;
 		}		
 
 		public function show():void
 		{
-			this.visible = true;			
 			this.list.visible = false;
+			this.visible = true;
 		}
 
 		public function hide():void

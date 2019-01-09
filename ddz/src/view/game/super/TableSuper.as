@@ -32,9 +32,6 @@ package view.game.super
 
 		public function TableSuper(){
 			this.visible = false;
-			this.pnlSnatch.visible = false;
-			this.pnlDouble.visible = false;
-			this.pnlPlay.visible = false;
 			this.btnSnatchYes.on(Event.CLICK, this, onBtnSnatch);
 			this.btnSnatchNo.on(Event.CLICK, this, onBtnNotSnatch);
 			this.btnDoubleYes.on(Event.CLICK, this, onBtnDouble);
@@ -45,12 +42,11 @@ package view.game.super
 		}
 
 		public function show():void
-		{			
+		{
+			this.pnlSnatch.visible = false;
+			this.pnlDouble.visible = false;
+			this.pnlPlay.visible = false;
 			this.visible = true;
-
-			this.preList.visible = false;
-			this.mineList.visible = false;
-			this.nextList.visible = false;
 		}
 
 		public function hide():void
@@ -66,6 +62,14 @@ package view.game.super
 			this.preList.renderHandler = new Handler(this, onPreListRender);
 			this.mineList.renderHandler = new Handler(this, onMineListRender);
 			this.nextList.renderHandler = new Handler(this, onNextListRender);
+
+			this.preList.visible = false;
+			this.mineList.visible = false;
+			this.nextList.visible = false;
+			
+			this.pnlSnatch.visible = false;
+			this.pnlDouble.visible = false;
+			this.pnlPlay.visible = false;
 		}
 
 		public function onDealComplete():void

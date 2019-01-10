@@ -7,8 +7,14 @@ package common
 	 * @dengcs
 	 */
 	public class GameData{
-		public static var roundState:Object = {curIdx:2, preIdx:0};
-		public static var roundData:Object = {type:0,value:0,count:0};
+		public static var roundState:Object = null;
+		public static var roundData:Object = null;
+
+		public static function init():void
+		{
+			roundState = {curIdx:2, preIdx:0};
+			roundData = {type:0,value:0,count:0};
+		}
 
 		public static function isMain():Boolean
 		{

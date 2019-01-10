@@ -70,6 +70,8 @@ package view.game.super
 			this.pnlSnatch.visible = false;
 			this.pnlDouble.visible = false;
 			this.pnlPlay.visible = false;
+
+			GameData.init();
 		}
 
 		public function onDealComplete():void

@@ -130,17 +130,6 @@ package game.pdk
 			}
 			else if(len == 4)
 			{
-				max_value = check_3with1(cards);
-				if(max_value > 0)
-				{
-					retData = new Object();
-					retData.value = max_value;
-					retData.type = GameConstants.POKER_TYPE_3WITH1;
-					retData.count = 1;
-
-					return retData;
-				}
-
 				max_value = check_bomb(cards);
 				if(max_value > 0)
 				{
@@ -148,6 +137,17 @@ package game.pdk
 					retData.value = max_value;
 					retData.type = GameConstants.POKER_TYPE_BOMB;
 					retData.count = 0;
+
+					return retData;
+				}
+
+				max_value = check_3with1(cards);
+				if(max_value > 0)
+				{
+					retData = new Object();
+					retData.value = max_value;
+					retData.type = GameConstants.POKER_TYPE_3WITH1;
+					retData.count = 1;
 
 					return retData;
 				}

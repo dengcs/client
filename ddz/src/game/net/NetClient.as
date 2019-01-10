@@ -34,7 +34,7 @@ package game.net
 		{
 			var q_player:query_players = new query_players();
 				
-			q_player.account = "dcs1006";
+			q_player.account = "dcs1001";
 			
 			send("query_players", q_player);
 		}

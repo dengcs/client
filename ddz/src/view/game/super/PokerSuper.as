@@ -248,7 +248,7 @@ package view.game.super
 			var ev_data:Object = new Object();
 			ev_data.type = GameEvent.GAME_DEAL_TABLE;
 
-			this.event(GameEvent.GAME_POKER_TABLE, ev_data);
+			this.event(GameEvent.EVENT_TO_TABLE, ev_data);
 		}		
 
 		public function removeCards():void

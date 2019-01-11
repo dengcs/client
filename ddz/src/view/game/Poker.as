@@ -68,7 +68,7 @@ package view.game
 				ev_data.type = GameEvent.GAME_POST_CARDS;
 				ev_data.data = this.collectCards();
 
-				this.event(GameEvent.GAME_POKER_TABLE, ev_data);
+				this.event(GameEvent.EVENT_TO_TABLE, ev_data);
 			}else if(data.type == 2)
 			{
 				this.autoChoice();

@@ -46,6 +46,8 @@ package view.game
 			msg_data.msg = data;
 
 			GameFunctions.notify_game_update(msg_data);
+
+			this.clearCancelTimer();
 		}
 
 		private function onPlay(data:Object):void
@@ -53,6 +55,7 @@ package view.game
 			if(data == null)
 			{
 				this.onShowPlay();
+				this.createCancelTimer();
 			}else{
 				this.onPlayShow(data);
 			}

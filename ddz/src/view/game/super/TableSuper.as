@@ -159,7 +159,7 @@ package view.game.super
 			ev_data.type = GameEvent.GAME_PLAY_POKER;
 			ev_data.data = {type:1};
 
-			this.event(GameEvent.GAME_TABLE_POKER, ev_data);
+			this.event(GameEvent.EVENT_TO_POKER, ev_data);
 		}
 
 		private function onBtnPromptPlay():void
@@ -168,7 +168,7 @@ package view.game.super
 			ev_data.type = GameEvent.GAME_PLAY_POKER;
 			ev_data.data = {type:2};
 
-			this.event(GameEvent.GAME_TABLE_POKER, ev_data);
+			this.event(GameEvent.EVENT_TO_POKER, ev_data);
 		}
 
 		private function listRender(cell:Box, index:int, data:Array):void
@@ -283,13 +283,22 @@ package view.game.super
 				ev_data.type = GameEvent.GAME_PLAY_POKER;
 				ev_data.data = {type:11};
 
-				this.event(GameEvent.GAME_TABLE_POKER, ev_data);
+				this.event(GameEvent.EVENT_TO_POKER, ev_data);
 
 				Laya.timer.once(100, this, update, [curIdx]);
 			}else{
 				this.update(curIdx);
 			}
+		}
 
+		public function clearCancelTimer():void
+		{
+			Laya.timer.clear(this, onBtnCancelPlay);
+		}
+
+		public function createCancelTimer():void
+		{
+			Laya.timer.once(15000, this, onBtnCancelPlay);
 		}
 	}
 

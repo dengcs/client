@@ -430,7 +430,7 @@ package game.pdk
 				}
 			}
 
-			if(max_value > 0)
+			if(max_value > 0 && max_value < GameConstants.GLOBAL_POKER_VALUE2)
 			{
 				for(var k:int = count; k>0; k--)
 				{
@@ -484,7 +484,7 @@ package game.pdk
 				}
 			}
 
-			if(max_value > 0)
+			if(max_value > 0 && max_value < GameConstants.GLOBAL_POKER_VALUE2)
 			{
 				var cardVal:int = 0;
 				for(var k:int = count; k>0; k--)
@@ -542,7 +542,7 @@ package game.pdk
 
 			}
 
-			if(max_value > 0)
+			if(max_value > 0 && max_value < GameConstants.GLOBAL_POKER_VALUE2)
 			{
 				var cardVal:int = 0;
 				for(var k:int = count; k>0; k--)
@@ -628,7 +628,7 @@ package game.pdk
 				}
 			}
 
-			if(max_value > 0)
+			if(max_value > 0 && max_value < GameConstants.GLOBAL_POKER_VALUE2)
 			{
 				var cardVal:int = 0;
 				for(var k:int = count; k>0; k--)
@@ -743,7 +743,7 @@ package game.pdk
 
 			}
 
-			if(max_value > 0)
+			if(max_value > 0 && max_value < GameConstants.GLOBAL_POKER_VALUE2)
 			{
 				var cardVal:int = 0;
 				for(var k:int = count; k>0; k--)

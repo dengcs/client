@@ -351,6 +351,10 @@ package game.pdk
 					{
 						return 0;
 					}
+					if(curcard >= GameConstants.GLOBAL_POKER_VALUE2)
+					{
+						return 0;
+					}
 				}
 
 				return curcard;
@@ -383,6 +387,11 @@ package game.pdk
 					}
 
 					if(firstcard+i != card1)
+					{
+						return 0;
+					}
+
+					if(card1 >= GameConstants.GLOBAL_POKER_VALUE2)
 					{
 						return 0;
 					}
@@ -424,6 +433,11 @@ package game.pdk
 					{
 						return 0;
 					}
+
+					if(card1 >= GameConstants.GLOBAL_POKER_VALUE2)
+					{
+						return 0;
+					}
 				}
 
 				return firstcard + child_len - 1;
@@ -449,7 +463,7 @@ package game.pdk
 						temp_data[card] = 1;
 					}else{
 						temp_data[card]++;
-						if(temp_data[card] == 3)
+						if(temp_data[card] == 3 && card < GameConstants.GLOBAL_POKER_VALUE2)
 						{
 							target_count++;
 							check_cards.push(card);
@@ -495,7 +509,7 @@ package game.pdk
 						temp_data[card] = 1;
 					}else{
 						temp_data[card]++;
-						if(temp_data[card] == 3)
+						if(temp_data[card] == 3 && card < GameConstants.GLOBAL_POKER_VALUE2)
 						{
 							target_count++;
 							check_cards.push(card);

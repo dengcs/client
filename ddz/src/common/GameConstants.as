@@ -14,7 +14,8 @@ package common
 		public static const GLOBAL_POKER_MAX:int 		= 54; 	// 扑克数量
 		public static const GLOBAL_PLAYER_NUM:int		= 3;	// 玩家数量
 		public static const GLOBAL_POKER_NUM:int		= 17;	// 玩家扑克数量
-		public static const GLOBAL_JOKER_VALUE:int 		= 14; 	// 
+		public static const GLOBAL_POKER_VALUE2:int		= 13;	// 2的扑克值
+		public static const GLOBAL_JOKER_VALUE:int 		= 14; 	// 王的扑克值
 
 		public static const POKER_TYPE_ONE:int 				= 1; // 单张
 		public static const POKER_TYPE_TWO:int 				= 2; // 对子

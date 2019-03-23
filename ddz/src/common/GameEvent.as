@@ -8,8 +8,8 @@ package common
 		public static const OPEN_MAIN_VIEW:String = "OPEN_MAIN_VIEW";
 		public static const OPEN_GAME_VIEW:String = "OPEN_GAME_VIEW";
 
-		public static const GAME_POKER_TABLE:String 	= "GAME_POKER_TABLE"; //
-		public static const GAME_TABLE_POKER:String 	= "GAME_TABLE_POKER"; //
+		public static const EVENT_TO_TABLE:String 	= "EVENT_TO_TABLE"; //
+		public static const EVENT_TO_POKER:String 	= "EVENT_TO_POKER"; //
 
 		public static const GAME_PREPARE_ALL:String 	= "GAME_PREPARE_ALL"; //
 

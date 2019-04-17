@@ -2,14 +2,17 @@ D .
 D game
 D main
 D game/bj
-R A86C2634 table_bg_bc_1.png
-R FE4B150C table_bg_bc_2.jpg
+R 8C7A95E2 table_bg_cg1.png
+R 1AA43438 table_bg_cg2.jpg
+D game/button
+P CAC29A19 btn_bg_green.png
+P F516FE5B btn_bg_red.png
 D game/poker
 P C6AB389C big_1.png
 P 8CCC068D big_2.png
 P DB7FBE05 big_3.png
 P FDCCEE2D big_4.png
-P 0B416B57 big_joker.png
+P F88746FC big_joker.png
 P B48C3F00 big_small.png
 P 14DF80AC black_1.png
 P 8C033942 black_10.png

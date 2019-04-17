@@ -5,12 +5,12 @@ public class NetHeader extends Message {
     public function NetHeader() {
     }
 
-    private var _uid:String = "";
-    public function get uid():String {
-        return _uid;
+    private var _pid:String = "";
+    public function get pid():String {
+        return _pid;
     }
-    public function set uid(value:String):void {
-        _uid = value || "";
+    public function set pid(value:String):void {
+        _pid = value || "";
     }
 
     private var _proto:String = "";
@@ -22,8 +22,8 @@ public class NetHeader extends Message {
     }
 
     override public function writeTo(output:CodedOutputStream):void {
-        if (!(_uid.length == 0)) {
-            output.writeString(1, _uid);
+        if (!(_pid.length == 0)) {
+            output.writeString(1, _pid);
         }
         if (!(_proto.length == 0)) {
             output.writeString(2, _proto);
@@ -46,7 +46,7 @@ public class NetHeader extends Message {
                     break;
                 }
                 case 10: {
-                    _uid = input.readString();
+                    _pid = input.readString();
                     break;
                 }
                 case 18: {

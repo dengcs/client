@@ -1,22 +1,11 @@
 package game.proto {
 import com.google.protobuf.*;
 
-public class room_invite extends Message {
-    public function room_invite() {
-    }
-
-    private var _pid:String = "";
-    public function get pid():String {
-        return _pid;
-    }
-    public function set pid(value:String):void {
-        _pid = value || "";
+public class ping_pong_resp extends Message {
+    public function ping_pong_resp() {
     }
 
     override public function writeTo(output:CodedOutputStream):void {
-        if (!(_pid.length == 0)) {
-            output.writeString(1, _pid);
-        }
 
         super.writeTo(output);
     }
@@ -32,10 +21,6 @@ public class room_invite extends Message {
                     if (!input.skipField(tag)) {
                         return;
                     }
-                    break;
-                }
-                case 10: {
-                    _pid = input.readString();
                     break;
                 }
             }

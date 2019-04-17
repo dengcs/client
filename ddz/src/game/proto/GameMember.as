@@ -5,12 +5,12 @@ public class GameMember extends Message {
     public function GameMember() {
     }
 
-    private var _uid:String = "";
-    public function get uid():String {
-        return _uid;
+    private var _pid:String = "";
+    public function get pid():String {
+        return _pid;
     }
-    public function set uid(value:String):void {
-        _uid = value || "";
+    public function set pid(value:String):void {
+        _pid = value || "";
     }
 
     private var _place:int = 0;
@@ -78,8 +78,8 @@ public class GameMember extends Message {
     }
 
     override public function writeTo(output:CodedOutputStream):void {
-        if (!(_uid.length == 0)) {
-            output.writeString(1, _uid);
+        if (!(_pid.length == 0)) {
+            output.writeString(1, _pid);
         }
         if (!(_place == 0)) {
             output.writeUInt32(2, _place);
@@ -123,7 +123,7 @@ public class GameMember extends Message {
                     break;
                 }
                 case 10: {
-                    _uid = input.readString();
+                    _pid = input.readString();
                     break;
                 }
                 case 16: {

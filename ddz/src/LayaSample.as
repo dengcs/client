@@ -19,7 +19,7 @@
 			
 			Laya.stage.alignH = Stage.ALIGN_CENTER;
 			Laya.stage.alignV = Stage.ALIGN_TOP;
-			Laya.stage.scaleMode = Stage.SCALE_FIXED_WIDTH;
+			Laya.stage.scaleMode = Stage.SCALE_SHOWALL;
 			Laya.stage.screenMode = Stage.SCREEN_HORIZONTAL;
 			
 			//设置版本控制类型为使用文件名映射的方式
@@ -29,7 +29,7 @@
 		}
 
 		private function beginLoad():void {
-			NetSocket.getInstance().connectToServer("ws://192.168.3.129:50001");
+			NetSocket.getInstance().connectToServer("ws://192.168.188.82:50001");
 			//加载引擎需要的资源
 			Laya.loader.load(atlasUrls(), Handler.create(this, onLoaded));
 		}

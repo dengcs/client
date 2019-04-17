@@ -5,17 +5,17 @@ public class game_submit extends Message {
     public function game_submit() {
     }
 
-    private var _uid:String = "";
-    public function get uid():String {
-        return _uid;
+    private var _pid:String = "";
+    public function get pid():String {
+        return _pid;
     }
-    public function set uid(value:String):void {
-        _uid = value || "";
+    public function set pid(value:String):void {
+        _pid = value || "";
     }
 
     override public function writeTo(output:CodedOutputStream):void {
-        if (!(_uid.length == 0)) {
-            output.writeString(1, _uid);
+        if (!(_pid.length == 0)) {
+            output.writeString(1, _pid);
         }
 
         super.writeTo(output);
@@ -35,7 +35,7 @@ public class game_submit extends Message {
                     break;
                 }
                 case 10: {
-                    _uid = input.readString();
+                    _pid = input.readString();
                     break;
                 }
             }

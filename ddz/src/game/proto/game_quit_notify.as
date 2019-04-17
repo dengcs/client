@@ -1,8 +1,8 @@
 package game.proto {
 import com.google.protobuf.*;
 
-public class room_invite extends Message {
-    public function room_invite() {
+public class game_quit_notify extends Message {
+    public function game_quit_notify() {
     }
 
     private var _pid:String = "";

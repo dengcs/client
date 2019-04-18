@@ -1,7 +1,4 @@
-
 ddz/src/LayaSample.as
-ddz/.laya/astool/debug.txt
-ddz/.laya/chrome/
-ddz/.laya/pubset.json
-ddz/bin/
-ddz/release/
+/ddz/.laya/
+/ddz/bin/
+/ddz/release/

@@ -2,10 +2,8 @@ package game.manager
 {
 	import game.manager.MessageManager;
 	import laya.utils.Dictionary;
-	import game.handler.PlayerHandler;
 	import game.proto.NetMessage;
-	import game.handler.RoomHandler;
-	import game.handler.GameHandler;
+	import game.handler.*;
 
 	/**
 	 * ...
@@ -34,6 +32,7 @@ package game.manager
 
 		private function registerHandler():void
 		{
+			handlerDic.set("AccountHandler", new AccountHandler());
 			handlerDic.set("PlayerHandler", new PlayerHandler());
 			handlerDic.set("RoomHandler", new RoomHandler());
 			handlerDic.set("GameHandler", new GameHandler());

@@ -3,11 +3,8 @@ package game.handler
 	import com.google.protobuf.CodedInputStream;
 	import game.manager.MessageManager;
 	import laya.utils.Handler;
-	import game.proto.NetMessage;
-	import game.proto.create_player;
 	import game.net.NetClient;
 	import game.proto.*;
-	import game.proto.player_login;
 
 	/**
 	 * ...

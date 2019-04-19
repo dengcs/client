@@ -1,12 +1,9 @@
 package game.handler
 {
 	import game.manager.MessageManager;
-	import game.proto.NetMessage;
 	import laya.utils.Handler;
-	import game.proto.game_leave_resp;
 	import com.google.protobuf.CodedInputStream;
-	import game.proto.game_start_notify;
-	import game.proto.game_update_notify;
+	import game.proto.*;
 	import game.net.NetClient;
 	import game.pdk.command.CommandParse;
 

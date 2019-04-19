@@ -4,10 +4,9 @@ package game.net
 	import com.google.protobuf.Message;
 	import com.google.protobuf.ByteArray;
 	import game.net.NetSocket;
-	import game.proto.NetHeader;
-	import game.proto.NetMessage;
-	import game.proto.query_players;
 	import game.net.NetClient;
+	import game.proto.*;
+	import game.proto.account_login;
 	/**
 	 * ...
 	 * @dengcs
@@ -32,11 +31,12 @@ package game.net
 
 		private static function login():void
 		{
-			var q_player:query_players = new query_players();
+			var acc_login:account_login = new account_login();
 				
-			q_player.account = "dcs1001";
+			acc_login.account 	= "dcs1001";
+			acc_login.passwd 	= "12345678";
 			
-			send("query_players", q_player);
+			send("account_login", acc_login);
 		}
 
 		public static function handshake():void

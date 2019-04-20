@@ -1,16 +1,8 @@
 package game.proto {
 import com.google.protobuf.*;
 
-public class account_login_resp extends Message {
-    public function account_login_resp() {
-    }
-
-    private var _ret:int = 0;
-    public function get ret():int {
-        return _ret;
-    }
-    public function set ret(value:int):void {
-        _ret = value;
+public class register_resp extends Message {
+    public function register_resp() {
     }
 
     private var _token:int = 0;
@@ -22,11 +14,8 @@ public class account_login_resp extends Message {
     }
 
     override public function writeTo(output:CodedOutputStream):void {
-        if (!(_ret == 0)) {
-            output.writeUInt32(1, _ret);
-        }
         if (!(_token == 0)) {
-            output.writeUInt32(2, _token);
+            output.writeUInt32(1, _token);
         }
 
         super.writeTo(output);
@@ -46,10 +35,6 @@ public class account_login_resp extends Message {
                     break;
                 }
                 case 8: {
-                    _ret = input.readUInt32();
-                    break;
-                }
-                case 16: {
                     _token = input.readUInt32();
                     break;
                 }

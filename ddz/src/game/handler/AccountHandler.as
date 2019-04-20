@@ -19,22 +19,39 @@ package game.handler
 		private function registerMessage():void
 		{
 			var msgManager:MessageManager = MessageManager.getInstance();
-			msgManager.registerMessage("account_login_resp", new Handler(this, handler_account_login_resp));
+			msgManager.registerMessage("register_resp", new Handler(this, handler_register_resp));
+			msgManager.registerMessage("verify_resp", new Handler(this, handler_verify_resp));
 		}
 
-		private function handler_account_login_resp(ntMessage:NetMessage):void
+		private function handler_register_resp(ntMessage:NetMessage):void
 		{
-			var resp_data:account_login_resp = new account_login_resp();
+			var resp_data:register_resp = new register_resp();
+			resp_data.readFrom(new CodedInputStream(ntMessage.payload));
+			trace(resp_data)
+
+			if(resp_data.token > 0)
+			{
+				var vf_msg:verify = new verify();
+				
+				vf_msg.token = resp_data.token;
+				
+				NetClient.send("verify", vf_msg);
+			}
+		}
+
+		private function handler_verify_resp(ntMessage:NetMessage):void
+		{
+			var resp_data:verify_resp = new verify_resp();
 			resp_data.readFrom(new CodedInputStream(ntMessage.payload));
 			trace(resp_data)
 
 			if(resp_data.ret == 0)
 			{
-				var q_player:query_players = new query_players();
+				var qp_msg:query_players = new query_players();
 				
-				q_player.account = "dcs1001";
+				qp_msg.account = "dcs1001";
 				
-				NetClient.send("query_players", q_player);
+				NetClient.send("query_players", qp_msg);
 			}
 		}
 	}

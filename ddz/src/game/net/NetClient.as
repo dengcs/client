@@ -7,6 +7,7 @@ package game.net
 	import game.net.NetClient;
 	import game.proto.*;
 	import game.proto.account_login;
+	import game.proto.register;
 	/**
 	 * ...
 	 * @dengcs
@@ -31,12 +32,12 @@ package game.net
 
 		private static function login():void
 		{
-			var acc_login:account_login = new account_login();
+			var reg:register = new register();
 				
-			acc_login.account 	= "dcs1001";
-			acc_login.passwd 	= "12345678";
+			reg.account 	= "dcs1001";
+			reg.passwd 	= "12345678";
 			
-			send("account_login", acc_login);
+			send("register", reg);
 		}
 
 		public static function handshake():void

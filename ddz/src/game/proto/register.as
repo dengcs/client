@@ -1,8 +1,8 @@
 package game.proto {
 import com.google.protobuf.*;
 
-public class account_login extends Message {
-    public function account_login() {
+public class register extends Message {
+    public function register() {
     }
 
     private var _account:String = "";

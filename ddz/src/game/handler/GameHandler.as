@@ -6,12 +6,13 @@ package game.handler
 	import game.proto.*;
 	import game.net.NetClient;
 	import game.pdk.command.CommandParse;
+	import game.base.HandlerBase;
 
 	/**
 	 * ...
 	 * @dengcs
 	 */
-	public final class GameHandler{
+	public final class GameHandler extends HandlerBase{
 		private static  var _instance:GameHandler = new GameHandler();
 
 		public function GameHandler(){

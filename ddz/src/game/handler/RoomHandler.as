@@ -4,12 +4,13 @@ package game.handler
 	import laya.utils.Handler;
 	import com.google.protobuf.CodedInputStream;
 	import game.proto.*;
+	import game.base.HandlerBase;
 
 	/**
 	 * ...
 	 * @dengcs
 	 */
-	public final class RoomHandler{
+	public final class RoomHandler extends HandlerBase{
 		private static  var _instance:RoomHandler = new RoomHandler();
 
 		public function RoomHandler(){

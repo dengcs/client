@@ -5,12 +5,13 @@ package game.handler
 	import laya.utils.Handler;
 	import game.net.NetClient;
 	import game.proto.*;
+	import game.base.HandlerBase;
 
 	/**
 	 * ...
 	 * @dengcs
 	 */
-	public final class AccountHandler{
+	public final class AccountHandler extends HandlerBase{
 		private static  var _instance:AccountHandler = new AccountHandler();
 
 		public function AccountHandler(){

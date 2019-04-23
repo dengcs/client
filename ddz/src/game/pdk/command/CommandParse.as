@@ -8,7 +8,7 @@ package game.pdk.command
 	 * @dengcs
 	 */
 	public class CommandParse{
-		private static  var _instance:CommandParse = null;
+		private static  var _instance:CommandParse = new CommandParse();
 
 		private var actor:Actor = new Actor();
 
@@ -20,9 +20,6 @@ package game.pdk.command
 
 		public static function getInstance():CommandParse
 		{
-			if (_instance == null) {
-                _instance = new CommandParse();
-            }
             return _instance;
 		}
 

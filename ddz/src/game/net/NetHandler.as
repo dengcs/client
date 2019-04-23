@@ -10,7 +10,7 @@ package game.net
 	 * @author
 	 */
 	public final class NetHandler{
-		private static  var _instance:NetHandler = null;
+		private static  var _instance:NetHandler = new NetHandler();
 
 		public function NetHandler(){
 			if (_instance != null) {
@@ -19,9 +19,6 @@ package game.net
 		}
 
 		public static function getInstance():NetHandler {
-            if (_instance == null) {
-                _instance = new NetHandler();
-            }
             return _instance;
         }
 

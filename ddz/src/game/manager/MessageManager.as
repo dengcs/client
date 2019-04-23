@@ -9,7 +9,7 @@ package game.manager
 	 * @dengcs
 	 */
 	public final class MessageManager{
-		private static  var _instance:MessageManager = null;
+		private static  var _instance:MessageManager = new MessageManager();
 
 		private var messageDic:Dictionary = new Dictionary();
 
@@ -21,9 +21,6 @@ package game.manager
 
 		public static function getInstance():MessageManager
 		{
-			if (_instance == null) {
-                _instance = new MessageManager();
-            }
             return _instance;
 		}
 

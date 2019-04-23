@@ -11,7 +11,7 @@ package game.manager
 	 * @author
 	 */
 	public final class ViewManager extends Sprite{
-		private static  var _instance:ViewManager = null;
+		private static  var _instance:ViewManager = new ViewManager();
 
 		private var mainView:Main;
 		private var gameView:Game;
@@ -26,9 +26,6 @@ package game.manager
 
 		public static function getInstance():ViewManager
 		{
-			if (_instance == null) {
-                _instance = new ViewManager();
-            }
             return _instance;
 		}
 

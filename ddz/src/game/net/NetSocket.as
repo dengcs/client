@@ -9,7 +9,7 @@ package game.net
 	 */
 	public final class NetSocket{
 
-		private static  var _instance:NetSocket = null;
+		private static  var _instance:NetSocket = new NetSocket();
 
 		private var socket:Socket = null;
 
@@ -22,9 +22,6 @@ package game.net
 		}
 
 		public static function getInstance():NetSocket {
-            if (_instance == null) {
-                _instance = new NetSocket();
-            }
             return _instance;
         }
 

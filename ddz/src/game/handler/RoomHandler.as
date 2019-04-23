@@ -10,9 +10,19 @@ package game.handler
 	 * @dengcs
 	 */
 	public final class RoomHandler{
+		private static  var _instance:RoomHandler = new RoomHandler();
 
-		public function RoomHandler(){			
-			registerMessage();
+		public function RoomHandler(){
+			if (_instance != null) {
+                 throw new Error("只能用getInstance()来获取实例!");
+             }else{
+				 registerMessage();
+			 }
+		}
+
+		public static function getInstance():RoomHandler
+		{
+            return _instance;
 		}
 
 		private function registerMessage():void

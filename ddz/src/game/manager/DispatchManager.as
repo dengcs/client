@@ -4,15 +4,14 @@ package game.manager
 	import laya.utils.Dictionary;
 	import game.proto.NetMessage;
 	import game.handler.*;
+	import game.handler.AccountHandler;
 
 	/**
 	 * ...
 	 * @dengcs
 	 */
 	public final class DispatchManager{
-		private static  var _instance:DispatchManager = null;
-
-		private var handlerDic:Dictionary = new Dictionary();
+		private static  var _instance:DispatchManager = new DispatchManager();
 
 		public function DispatchManager(){
 			if (_instance != null) {
@@ -24,18 +23,15 @@ package game.manager
 
 		public static function getInstance():DispatchManager
 		{
-			if (_instance == null) {
-                _instance = new DispatchManager();
-            }
             return _instance;
 		}
 
 		private function registerHandler():void
 		{
-			handlerDic.set("AccountHandler", new AccountHandler());
-			handlerDic.set("PlayerHandler", new PlayerHandler());
-			handlerDic.set("RoomHandler", new RoomHandler());
-			handlerDic.set("GameHandler", new GameHandler());
+			AccountHandler.getInstance();
+			PlayerHandler.getInstance();
+			RoomHandler.getInstance();
+			GameHandler.getInstance();			
 		}
 
 		public function messageDispatcher(ntMessage:NetMessage):void

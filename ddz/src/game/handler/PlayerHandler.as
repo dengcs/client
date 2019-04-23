@@ -11,9 +11,19 @@ package game.handler
 	 * @dengcs
 	 */
 	public final class PlayerHandler{
+		private static  var _instance:PlayerHandler = new PlayerHandler();
 
-		public function PlayerHandler(){			
-			registerMessage();
+		public function PlayerHandler(){
+			if (_instance != null) {
+                 throw new Error("只能用getInstance()来获取实例!");
+             }else{
+				 registerMessage();
+			 }
+		}
+
+		public static function getInstance():PlayerHandler
+		{
+            return _instance;
 		}
 
 		private function registerMessage():void

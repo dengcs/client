@@ -11,9 +11,19 @@ package game.handler
 	 * @dengcs
 	 */
 	public final class AccountHandler{
+		private static  var _instance:AccountHandler = new AccountHandler();
 
-		public function AccountHandler(){			
-			registerMessage();
+		public function AccountHandler(){
+			if (_instance != null) {
+                 throw new Error("只能用getInstance()来获取实例!");
+             }else{
+				 registerMessage();
+			 }
+		}
+
+		public static function getInstance():AccountHandler
+		{
+            return _instance;
 		}
 
 		private function registerMessage():void

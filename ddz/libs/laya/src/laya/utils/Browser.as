@@ -55,6 +55,8 @@ package laya.utils {
 		/** @private */
 		public static var onMiniGame:Boolean;
 		/** @private */
+		public static var onBDMiniGame:Boolean;
+		/** @private */
 		public static var onLimixiu:Boolean;
 		/** 表示是否在 PC 端。*/
 		public static var onPC:Boolean;		
@@ -115,6 +117,7 @@ package laya.utils {
 			onFirefox = /*[STATIC SAFE]*/ u.indexOf('Firefox') > -1;
 			onEdge = /*[STATIC SAFE]*/ u.indexOf('Edge') > -1;
 			onMiniGame = /*[STATIC SAFE]*/ u.indexOf('MiniGame') > -1;
+			onBDMiniGame = /*[STATIC SAFE]*/ u.indexOf('SwanGame') > -1;
 			onLimixiu = /*[STATIC SAFE]*/ u.indexOf('limixiu') > -1;
 			httpProtocol =/*[STATIC SAFE]*/ window.location.protocol == "http:";
 			if (onMiniGame && window.focus == null)

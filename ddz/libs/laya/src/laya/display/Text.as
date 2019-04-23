@@ -277,7 +277,7 @@ package laya.display {
 		 */
 		override public function get height():Number {
 			if (_height) return _height;
-			return textHeight + padding[0] + padding[2];
+			return textHeight;
 		}
 		
 		override public function set height(value:Number):void {
@@ -666,6 +666,7 @@ package laya.display {
 						word += "●";
 					}
 				}
+				if (word === undefined) word = "";
 				x = startX - (_clipPoint ? _clipPoint.x : 0);
 				y = startY + lineHeight * i - (_clipPoint ? _clipPoint.y : 0);
 				
@@ -738,7 +739,21 @@ package laya.display {
 				return;
 			}
 			
-			Browser.context.font = _getCSSStyle().font;
+			if (Render.isConchApp)
+			{
+				var ctxFont:String = "" + this._getCSSStyle().font;
+				var style:CSSStyle = this._getCSSStyle();
+				if (style.stroke)
+				{
+					if (this._getCSSStyle().strokeColor) {
+						ctxFont += " " + 1 + " " + this._getCSSStyle().strokeColor;
+					}
+				}
+				Browser.context.font = ctxFont;
+			}
+			else {
+				Browser.context.font=this._getCSSStyle().font;
+			}
 			
 			_lines.length = 0;
 			_lineWidths.length = 0;

@@ -262,11 +262,12 @@ package laya.webgl {
 				if (canvasWidth <= 0 || canvasHeight <= 0) {
 					trace("[error] canvasWidth and canvasHeight should greater than zero");	
 				}
-				offsetX -= sprite.x;
-				offsetY -= sprite.y;
+				// RenderSprite.renders[_renderType]._fun 已经不再加 sprite.x sprite.y了，所以这里也不要减了。
+				//offsetX -= sprite.x;
+				//offsetY -= sprite.y;
 				
 				//把参数强转成int
-				canvasWidth |= 1;	canvasHeight |= 1;	offsetX |= 1;	offsetY |= 1;
+				canvasWidth |= 0;	canvasHeight |= 0;	offsetX |= 0;	offsetY |= 0;
 				
 				var renderTarget:RenderTarget2D = RenderTarget2D.create(canvasWidth, canvasHeight, WebGLContext.RGBA, WebGLContext.UNSIGNED_BYTE, 0, false);
 				renderTarget.start();

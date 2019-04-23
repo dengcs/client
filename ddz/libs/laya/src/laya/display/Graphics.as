@@ -82,7 +82,12 @@ package laya.display {
 					x += tex.offsetX;
 					y += tex.offsetY;
 					var uv:Array = tex.uv, w:Number = tex.bitmap.width, h:Number = tex.bitmap.height;
-					this.drawImageM(tex.bitmap.source, uv[0] * w, uv[1] * h, (uv[2] - uv[0]) * w, (uv[5] - uv[3]) * h, x, y, width, height, m, alpha);
+					if (uv[4] < uv[0] && uv[5] < uv[1]) {
+						this.drawImageM(tex.bitmap.source, uv[4] * w, uv[5] * h, (uv[0] - uv[4]) * w, (uv[1] - uv[5]) * h, x, y, width, height, m, alpha);
+					}
+					else {
+						this.drawImageM(tex.bitmap.source, uv[0] * w, uv[1] * h, (uv[2] - uv[0]) * w, (uv[5] - uv[3]) * h, x, y, width, height, m, alpha);
+					}
 					this._repaint();
 				}
 				from.fillTexture = function(tex:Texture, x:Number, y:Number, width:Number = 0, height:Number = 0, type:String = "repeat", offset:Point = null):void {

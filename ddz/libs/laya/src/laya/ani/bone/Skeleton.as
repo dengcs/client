@@ -276,7 +276,7 @@ package laya.ani.bone {
 					}
 				}
 			}
-			_eventIndex = 0;
+			//_eventIndex = 0;
 			_drawOrder = null;
 			this.event(Event.STOPPED);
 		}

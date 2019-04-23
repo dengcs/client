@@ -11,6 +11,15 @@ package laya.wx.mini {
 		/**@private **/
 		protected function _loadImage(url:String):void {
 			var thisLoader:* = this;
+			
+			var urlHeader:String = __JS__('wx.env.USER_DATA_PATH');
+			if (url.indexOf(urlHeader) != -1 || url.indexOf(urlHeader) != -1)
+			{
+				//磁盘路径资源直接使用
+				onCreateImage(url, thisLoader, true);//直接读取本地文件，非加载缓存的图片
+				return;
+			}
+			
 			//这里要预处理磁盘文件的读取,带layanative目录标识的视为本地磁盘文件，不进行路径转换操作
 			if (MiniAdpter.isZiYu)
 			{
@@ -25,7 +34,8 @@ package laya.wx.mini {
 				url = URL.formatURL(url);
 			}else
 			{
-				if (url.indexOf("http://") != -1 || url.indexOf("https://") != -1)
+				//xiaosong20190301
+				if (url.indexOf('http://usr/') == -1&&(url.indexOf("http://") != -1 || url.indexOf("https://") != -1))
 				{
 					if(MiniFileMgr.loadPath != "")
 					{
@@ -33,13 +43,42 @@ package laya.wx.mini {
 					}else
 					{
 						var tempStr:String = URL.rootPath != "" ? URL.rootPath : URL.basePath;
+						var tempUrl:String = url;
 						if(tempStr != "")
 							url = url.split(tempStr)[1];//去掉http头
+						if(!url)
+						{
+							url = tempUrl;
+						}
+					}
+					
+				}
+				if (MiniAdpter.subNativeFiles && MiniAdpter.subNativeheads.length == 0)
+				{
+					for (var key:* in MiniAdpter.subNativeFiles)
+					{
+						var tempArr:Array = MiniAdpter.subNativeFiles[key];
+						MiniAdpter.subNativeheads = MiniAdpter.subNativeheads.concat(tempArr);
+						for (var aa:int = 0; aa < tempArr.length;aa++)
+						{
+							MiniAdpter.subMaps[tempArr[aa]] = key + "/" + tempArr[aa];
+						}
+					}
+				}
+				//判断当前的url是否为分包映射路径
+				if(MiniAdpter.subNativeFiles && url.indexOf("/") != -1)
+				{
+					var curfileHead:String = url.split("/")[0] + "/";//文件头
+					if(curfileHead && MiniAdpter.subNativeheads.indexOf(curfileHead) != -1)
+					{
+						var newfileHead:String = MiniAdpter.subMaps[curfileHead];
+						url = url.replace(curfileHead,newfileHead);
 					}
 				}
 			}
 			if (!MiniFileMgr.getFileInfo(url)) {
-				if (url.indexOf("http://") != -1 || url.indexOf("https://") != -1)
+				//xiaosong20190301
+				if (url.indexOf('http://usr/') == -1&&(url.indexOf("http://") != -1 || url.indexOf("https://") != -1))
 				{
 					//小游戏在子域里不能远端加载图片资源
 					if(MiniAdpter.isZiYu)
@@ -97,7 +136,17 @@ package laya.wx.mini {
 						fileNativeUrl = MiniFileMgr.getFileNativePath(fileMd5Name);
 					}
 				} else
-					fileNativeUrl = sourceUrl;
+					if(MiniAdpter.isZiYu)
+					{
+						//子域里需要读取主域透传过来的信息，然后这里获取一个本地磁盘图片路径，然后赋值给fileNativeUrl
+						var tempUrl:String = URL.formatURL(sourceUrl);
+						if(MiniFileMgr.ziyuFileTextureData[tempUrl])
+						{
+							fileNativeUrl = MiniFileMgr.ziyuFileTextureData[tempUrl];
+						}else
+							fileNativeUrl = sourceUrl;
+					}else
+						fileNativeUrl = sourceUrl;
 			}else
 			{
 				if(!isLocal)
@@ -115,7 +164,8 @@ package laya.wx.mini {
 			}
 			var onload:Function = function():void {
 				clear();
-				thisLoader._url = URL.formatURL(thisLoader._url);
+				//xiaosong20190301
+				//thisLoader._url = URL.formatURL(thisLoader._url);
 				thisLoader.onLoaded(image);
 			};
 			var onerror:Function = function():void {

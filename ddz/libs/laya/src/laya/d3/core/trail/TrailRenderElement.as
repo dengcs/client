@@ -330,7 +330,6 @@ package laya.d3.core.trail {
 			
 			WebGL.mainContext.drawArrays(WebGLContext.TRIANGLE_STRIP, _curDisappearIndex * 2, _verticesCount + _virtualVerticesCount - _curDisappearIndex * 2);
 			//WebGL.mainContext.drawArrays(WebGLContext.LINES,          _curDisappearIndex * 2, _verticesCount + _virtualVerticesCount - _curDisappearIndex * 2);
-			trace(_curDisappearIndex * 2, _verticesCount + _virtualVerticesCount - _curDisappearIndex * 2);
 			Stat.drawCall++;
 			Stat.trianglesFaces += (_verticesCount + _virtualVerticesCount - _curDisappearIndex * 2 - 2);
 		}

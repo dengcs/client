@@ -48,6 +48,7 @@ package laya.html.dom
 			
 			function onloaded():void
 			{
+				if (!_style) return;
 				var style:CSSStyle = _style as CSSStyle;				
 				var w:Number = style.widthed(this)? -1:_tex.width;
 				var h:Number = style.heighted(this)? -1:_tex.height;

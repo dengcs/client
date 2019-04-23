@@ -185,7 +185,7 @@ package laya.html.utils {
 						if (lines.length > 0 && (x + w) > width && curLine.wordStartIndex > 0) //如果完整单词超界，需要单词开始折到下一行
 						{
 							var tLineWord:int = 0;
-							tLineWord = curLine.elements.length - curLine.wordStartIndex + 1;
+							tLineWord = curLine.elements.length - curLine.wordStartIndex + 0;
 							curLine.elements.length = curLine.wordStartIndex;
 							i -= tLineWord;
 							addLine();

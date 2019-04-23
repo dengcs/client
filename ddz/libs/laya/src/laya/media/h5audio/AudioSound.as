@@ -35,8 +35,11 @@ package laya.media.h5audio {
 		 */
 		public function dispose():void {
 			var ad:Audio = _audioCache[url];
+			Pool.clearBySign("audio:" + url);
 			if (ad) {
-				ad.src = "";
+				if (!Render.isConchApp) {
+					ad.src = "";
+				}
 				delete _audioCache[url];	
 			}
 		}
@@ -155,9 +158,8 @@ package laya.media.h5audio {
 			
 			if (!ad) return null;
 			var tAd:Audio;
-
-			tAd = Pool.getItem("audio:" + url);
 			
+			tAd = Pool.getItem("audio:" + url);
 			if ( Render.isConchApp ){
 				if ( !tAd ){
 					tAd = Browser.createElement("audio") as Audio;

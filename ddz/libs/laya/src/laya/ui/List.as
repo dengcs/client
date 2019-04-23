@@ -215,6 +215,10 @@ package laya.ui {
 		/**@private */
 		protected var _offset:Point = new Point();
 		
+		public function List()
+		{
+			super();
+		}
 		/**@inheritDoc */
 		override public function destroy(destroyChild:Boolean = true):void {
 			_content && _content.destroy(destroyChild);

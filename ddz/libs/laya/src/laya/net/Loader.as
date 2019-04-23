@@ -56,7 +56,7 @@ package laya.net {
 		public static const PKM:String = "pkm";
 		
 		/** 文件后缀和类型对应表。*/
-		public static var typeMap:Object = /*[STATIC SAFE]*/ {"png": "image", "jpg": "image", "jpeg": "image", "txt": "text", "json": "json", "xml": "xml", "als": "atlas", "atlas": "atlas", "mp3": "sound", "ogg": "sound", "wav": "sound", "part": "json", "fnt": "font", "pkm": "pkm", "ttf": "ttf","plf":"plf"};
+		public static var typeMap:Object = /*[STATIC SAFE]*/ {"png": "image", "jpg": "image", "jpeg": "image", "txt": "text", "json": "json", "xml": "xml", "als": "atlas", "atlas": "atlas", "mp3": "sound", "ogg": "sound", "wav": "sound", "part": "json", "fnt": "font", "pkm": "pkm", "ttf": "ttf","plf":"plf","ani":"json","sk":"arraybuffer"};
 		/**资源解析函数对应表，用来扩展更多类型的资源加载解析。*/
 		public static var parserMap:Object = /*[STATIC SAFE]*/ {};
 		/** 资源分组对应表。*/
@@ -340,8 +340,10 @@ package laya.net {
 							var tPic:Object = pics[obj.frame.idx ? obj.frame.idx : 0];//是否释放
 							var url:String = URL.formatURL(directory + name);
 							tPic.scaleRate = scaleRate;
-							cacheRes(url, Texture.create(tPic, obj.frame.x, obj.frame.y, obj.frame.w, obj.frame.h, obj.spriteSourceSize.x, obj.spriteSourceSize.y, obj.sourceSize.w, obj.sourceSize.h));
-							loadedMap[url].url = url;
+							var tTexture:Texture;
+							tTexture = Texture.create(tPic, obj.frame.x, obj.frame.y, obj.frame.w, obj.frame.h, obj.spriteSourceSize.x, obj.spriteSourceSize.y, obj.sourceSize.w, obj.sourceSize.h);
+							cacheRes(url, tTexture);
+							tTexture.url = url;
 							map.push(url);
 						}
 					}else{

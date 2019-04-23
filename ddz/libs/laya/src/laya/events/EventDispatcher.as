@@ -108,7 +108,7 @@ package laya.events {
 			if (!this._events || !this._events[type]) return this;
 			
 			var listeners:Object = this._events[type];
-			if (listener != null) {
+			if (listeners != null) {
 				if (listeners.run) {
 					if ((!caller || listeners.caller === caller) && listeners.method === listener && (!onceOnly || listeners.once)) {
 						delete this._events[type];

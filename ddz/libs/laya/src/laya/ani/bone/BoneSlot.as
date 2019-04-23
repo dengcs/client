@@ -36,6 +36,8 @@ package laya.ani.bone {
 		
 		/** 显示皮肤的索引 */
 		public var displayIndex:int = -1;
+		/** @private */
+		public var originalIndex:int = -1;
 		
 		/** 用户自定义的皮肤 */
 		private var _diyTexture:Texture;
@@ -101,7 +103,7 @@ package laya.ani.bone {
 		{
 			if (!currSlotData) return;
 			_replaceDic[tarIndex] = newIndex;
-			if (displayIndex == tarIndex)
+			if (originalIndex == tarIndex)
 			{
 				showDisplayByIndex(tarIndex);
 			}
@@ -112,6 +114,7 @@ package laya.ani.bone {
 		 * @param	index
 		 */
 		public function showDisplayByIndex(index:int):void {
+			this.originalIndex = index;
 			if (_replaceDic[index]!=null) index = _replaceDic[index];
 			if (currSlotData && index > -1 && index < currSlotData.displayArr.length) {
 				displayIndex = index;

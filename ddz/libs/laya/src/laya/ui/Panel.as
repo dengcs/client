@@ -87,9 +87,7 @@ package laya.ui {
 		
 		/**@inheritDoc */
 		override public function removeChildren(beginIndex:int = 0, endIndex:int = 0x7fffffff):Node {
-			for (var i:int = _content.numChildren - 1; i > -1; i--) {
-				_content.removeChildAt(i);
-			}
+			_content.removeChildren(beginIndex, endIndex);
 			_setScrollChanged();
 			return this;
 		}

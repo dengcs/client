@@ -70,6 +70,7 @@ package laya.webgl.resource {
 		override public function destroy():void {
 			_ctx && _ctx.destroy();
 			_ctx = null;
+			super.destroy();	//由于resource的dispose被郭磊改成了destroy，这里会重载父类的destroy，所以必须调用这个，否则会有泄露。
 		}
 		
 		public function get context():Context {

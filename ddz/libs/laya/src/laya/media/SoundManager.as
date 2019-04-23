@@ -204,7 +204,12 @@ package laya.media {
 				{
 					if (_musicChannel&&!_musicChannel.isStopped)
 					{
-						_musicChannel.pause();
+						if (Render.isConchApp) {
+							__JS__("if (SoundManager._musicChannel._audio) SoundManager._musicChannel._audio.muted = true;");
+						}
+						else {
+							_musicChannel.pause();
+						}
 					}else
 					{
 						_musicChannel = null;
@@ -220,7 +225,12 @@ package laya.media {
 				if (_tMusic) {
 					if (_musicChannel)
 					{
-						_musicChannel.resume();
+						if (Render.isConchApp) {
+							__JS__("if (SoundManager._musicChannel._audio) SoundManager._musicChannel._audio.muted = false;");
+						}
+						else {
+							_musicChannel.resume();
+						}
 					}
 				}
 			}
@@ -283,7 +293,10 @@ package laya.media {
 			if (!tSound) {
 				tSound = new soundClass();
 				tSound.load(url);
-				Loader.cacheRes(url, tSound);
+				if (!Browser.onMiniGame)
+				{
+					Loader.cacheRes(url, tSound);
+				}	
 			}
 			var channel:SoundChannel;
 			channel = tSound.play(startTime, loops);

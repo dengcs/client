@@ -37,7 +37,7 @@ package {
 		/** 加载管理器的引用。*/
 		public static var loader:LoaderManager = null;
 		/** 当前引擎版本。*/
-		public static var version:String = "1.7.19";
+		public static var version:String = "1.8.1";
 		/**@private Render 类的引用。*/
 		public static var render:Render;
 		/**@private */
@@ -49,7 +49,7 @@ package {
 		/**@private */
 		private static var _isinit:Boolean = false;
 		/**@private */
-		public static var MiniAdpter:Object = /*[STATIC SAFE]*/__JS__('{ init:function() { if (window.navigator && window.navigator.userAgent  && window.navigator.userAgent.indexOf("MiniGame") >-1) console.error("请先引用小游戏适配库laya.wxmini.js,详细教程：https://ldc.layabox.com/doc/?nav=zh-ts-5-0-0") }};');
+		public static var MiniAdpter:Object = /*[STATIC SAFE]*/ __JS__('{ init:function() { if (window.navigator && window.navigator.userAgent  && window.navigator.userAgent.indexOf("MiniGame") >-1) console.error("请先引用小游戏适配库laya.wxmini.js,详细教程：https://ldc.layabox.com/doc/?nav=zh-ts-5-0-0") }};');
 		
 		/**
 		 * 初始化引擎。使用引擎需要先初始化引擎，否则可能会报错。
@@ -85,7 +85,7 @@ package {
 			stage.conchModel && stage.conchModel.setRootNode();
 			
 			//forxiaochengxu
-			getUrlPath();
+			_getUrlPath();
 			
 			/*[IF-FLASH]*/
 			render = new Render(50, 50);
@@ -100,8 +100,7 @@ package {
 			return Render.canvas;
 		}
 		
-		public static function getUrlPath():void
-		{
+		private static function _getUrlPath():void {
 			var location:* = Browser.window.location;
 			var pathName:String = location.pathname;
 			// 索引为2的字符如果是':'就是windows file协议
@@ -111,11 +110,11 @@ package {
 		
 		/**@private */
 		private static function _arrayBufferSlice(start:int, end:int):ArrayBuffer {
-			var arr:*= __JS__("this");
-			var arrU8List:Uint8Array = new Uint8Array(arr,start,end-start);
-			var newU8List:Uint8Array=new Uint8Array(arrU8List.length);
+			var arr:* = __JS__("this");
+			var arrU8List:Uint8Array = new Uint8Array(arr, start, end - start);
+			var newU8List:Uint8Array = new Uint8Array(arrU8List.length);
 			newU8List.set(arrU8List);
-			return newU8List.buffer;	
+			return newU8List.buffer;
 		}
 		
 		/**
@@ -127,17 +126,18 @@ package {
 			if (value) {
 				Browser.window.onerror = function(msg:String, url:String, line:String, column:String, detail:*):void {
 					if (erralert++ < 5 && detail)
-						alert("出错啦，请把此信息截图给研发商\n" + msg + "\n" + detail.stack||detail);
+						alert("出错啦，请把此信息截图给研发商\n" + msg + "\n" + detail.stack || detail);
 				}
 			} else {
 				Browser.window.onerror = null;
 			}
 		}
 		
+		private static var _evcode:String = "e" + String.fromCharCode(100 + 10 + 8) + "a" + "l";
+		
 		/**@private */
-		public static function _runScript(script:String):*
-		{
-			return Browser.window["e"+String.fromCharCode(100+10+8)+"a"+"l"](script);
+		public static function _runScript(script:String):* {
+			return Browser.window[_evcode](script);
 		}
 	}
 }

@@ -1,6 +1,5 @@
 package game.proto {
 import com.google.protobuf.*;
-import game.proto.NetError;
 import game.proto.NetHeader;
 
 public class NetMessage extends Message {
@@ -15,14 +14,6 @@ public class NetMessage extends Message {
         _header = value;
     }
 
-    private var _error:game.proto.NetError = null;
-    public function get error():game.proto.NetError {
-        return _error;
-    }
-    public function set error(value:game.proto.NetError):void {
-        _error = value;
-    }
-
     private var _payload:ByteArray = new ByteArray();
     public function get payload():ByteArray {
         return _payload;
@@ -35,11 +26,8 @@ public class NetMessage extends Message {
         if (!(_header == null)) {
             output.writeMessage(1, _header);
         }
-        if (!(_error == null)) {
-            output.writeMessage(2, _error);
-        }
         if (!(_payload.length == 0)) {
-            output.writeBytes(3, _payload);
+            output.writeBytes(2, _payload);
         }
 
         super.writeTo(output);
@@ -64,11 +52,6 @@ public class NetMessage extends Message {
                     break;
                 }
                 case 18: {
-                    _error = new game.proto.NetError();
-                    input.readMessage(_error);
-                    break;
-                }
-                case 26: {
                     _payload = input.readBytes();
                     break;
                 }

@@ -704,7 +704,12 @@ package laya.ani.bone {
 		 * @return
 		 */
 		public function getGrahicsDataWithCache(aniIndex:int, frameIndex:Number):Graphics {
-			return _graphicsCache[aniIndex][frameIndex];
+			if (_graphicsCache[aniIndex] && _graphicsCache[aniIndex][frameIndex])
+			{
+				return _graphicsCache[aniIndex][frameIndex];
+			}
+			//trace("getGrahicsDataWithCache fail:",aniIndex,frameIndex,this._path);
+			return null;
 		}
 		
 		/**

@@ -2,7 +2,12 @@ package game.base {
 	import laya.utils.Dictionary;
 
 	public class HandlerBase {
-		private var dataDic:Dictionary = new Dictionary();
+		private var _dataDic:Dictionary = new Dictionary();
+
+		public function get dataDic():Dictionary
+		{
+			return _dataDic;
+		}
 
 		public function get(key:*):* 
 		{

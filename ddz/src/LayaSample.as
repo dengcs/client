@@ -10,6 +10,7 @@
 	
 	import game.net.NetSocket;
 	import game.manager.ViewManager;
+	import game.manager.UIManager;
 	public class LayaSample {
 
 		public function LayaSample() {
@@ -36,7 +37,9 @@
 		
 		private function onLoaded():void {			
 			var viewMgr:ViewManager = ViewManager.getInstance();
+			var uiMgr:UIManager		= UIManager.getInstance();
 			Laya.stage.addChild(viewMgr);
+			Laya.stage.addChild(uiMgr);
 		}
 		
 

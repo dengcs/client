@@ -45,19 +45,19 @@ package game.manager
 			this.addChild(mainView);
 			this.addChild(gameView);
 
-			mainView.on(GameEvent.OPEN_GAME_VIEW, this, onOpenGameView);
-			gameView.on(GameEvent.OPEN_MAIN_VIEW, this, onOpenMainView);
+			mainView.on(GameEvent.OPEN_GAME_VIEW, this, onShowGameView);
+			gameView.on(GameEvent.OPEN_MAIN_VIEW, this, onShowMainView);
 
 			mainView.show();
 		}
 
-		private function onOpenGameView():void		
+		public function onShowGameView():void		
 		{
 			gameView.show();
 			mainView.hide();
 		}
 
-		private function onOpenMainView():void		
+		public function onShowMainView():void		
 		{
 			mainView.show();
 			gameView.hide();

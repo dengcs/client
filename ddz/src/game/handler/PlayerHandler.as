@@ -33,7 +33,6 @@ package game.handler
 			msgManager.registerMessage("query_players_resp", new Handler(this, handler_query_players_resp));
 			msgManager.registerMessage("create_player_resp", new Handler(this, handler_create_player_resp));
 			msgManager.registerMessage("player_login_resp", new Handler(this, handler_player_login_resp));
-			msgManager.registerMessage("player_kick_notify", new Handler(this, handler_player_kick_notify));
 		}
 
 		private function handler_query_players_resp(ntMessage:NetMessage):void
@@ -74,13 +73,6 @@ package game.handler
 		private function handler_player_login_resp(ntMessage:NetMessage):void
 		{
 			var resp_data:player_login_resp = new player_login_resp();
-			resp_data.readFrom(new CodedInputStream(ntMessage.payload));
-			trace(resp_data)
-		}
-
-		private function handler_player_kick_notify(ntMessage:NetMessage):void
-		{
-			var resp_data:player_kick_notify = new player_kick_notify();
 			resp_data.readFrom(new CodedInputStream(ntMessage.payload));
 			trace(resp_data)
 		}

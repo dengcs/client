@@ -1,21 +1,21 @@
 package game.proto {
 import com.google.protobuf.*;
 
-public class game_quit__notify extends Message {
-    public function game_quit__notify() {
+public class kick_notify extends Message {
+    public function kick_notify() {
     }
 
-    private var _uid:String = "";
-    public function get uid():String {
-        return _uid;
+    private var _reason:int = 0;
+    public function get reason():int {
+        return _reason;
     }
-    public function set uid(value:String):void {
-        _uid = value || "";
+    public function set reason(value:int):void {
+        _reason = value;
     }
 
     override public function writeTo(output:CodedOutputStream):void {
-        if (!(_uid.length == 0)) {
-            output.writeString(1, _uid);
+        if (!(_reason == 0)) {
+            output.writeUInt32(1, _reason);
         }
 
         super.writeTo(output);
@@ -34,8 +34,8 @@ public class game_quit__notify extends Message {
                     }
                     break;
                 }
-                case 10: {
-                    _uid = input.readString();
+                case 8: {
+                    _reason = input.readUInt32();
                     break;
                 }
             }

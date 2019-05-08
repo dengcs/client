@@ -4,7 +4,6 @@ package view.game.super
 	import laya.events.Event;
 	import common.GameEvent;
 	import game.proto.game_update;
-	import game.net.NetClient;
 	import common.GameConstants;
 	import common.GameFunctions;
 	import laya.ui.Box;

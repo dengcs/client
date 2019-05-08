@@ -75,6 +75,13 @@ package game.handler
 			var resp_data:player_login_resp = new player_login_resp();
 			resp_data.readFrom(new CodedInputStream(ntMessage.payload));
 			trace(resp_data)
+
+			if(resp_data.ret == 0)
+			{
+				var loginMsg:game_login = new game_login();
+				loginMsg.pid = resp_data.pid
+				NetClient.send("game_login", loginMsg);
+			}
 		}
 	}
 
